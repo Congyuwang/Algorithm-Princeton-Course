@@ -66,6 +66,7 @@ public class Percolation {
             // top case: mark the root of a top open site as full
             if (dimensionN == 1) {
                 isPercolated = true;
+                isRootFull[0] = true;
             } else if (row == 1) {
                 int root = uf.find(rowColToN(row, col));
                 isRootFull[root] = true;
