@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/princeton.algorithm.iml" filepath="$PROJECT_DIR$/.idea/princeton.algorithm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unionfind/unionfind.iml" filepath="$PROJECT_DIR$/unionfind/unionfind.iml" />
+    </modules>
+  </component>
+</project>
