@@ -27,11 +27,9 @@ public class PercolationStats {
             StdRandom.shuffle(randomSample);
             for (int value : randomSample) {
                 percolation.open(value / n + 1, value % n + 1);
-                thresholds[i] += 1;
-                if (percolation.percolates()) {
-                    break;
-                }
+                if (percolation.percolates()) break;
             }
+            thresholds[i] = percolation.numberOfOpenSites();
         }
 
         meanStored = StdStats.mean(thresholds) / randomSample.length;
