@@ -3,6 +3,19 @@ import edu.princeton.cs.algs4.StdIn;
 
 public class Percolation {
 
+    /**
+     * The {@code Percolation} class represent a percolation data type.
+     * It supports the creation of a blocked percolation,
+     * openings of percolation sites by <em>open</em>, checking the state of a site
+     * (whether a site is open or closed) by <em>isOpen</em>, and also
+     * checking whether a site is full or not (whether it is connected from the top)
+     * by <em>isFull</em>.
+     * The class also has method <em>numberOfOpenSites</em> which returns the
+     * number of open sites, and <em>percolates</em> which returns
+     * whether the percolation percolates or not.
+     *
+     * The class is based on the classic algorithm {@code WeightedQuickUnionUF}.
+     */
     private final int dimensionN;
     private final boolean[][] isOpenTable;
     private final boolean[] isRootFull;
@@ -11,7 +24,10 @@ public class Percolation {
     private final WeightedQuickUnionUF uf;
     private int openSite;
 
-    // creates n-by-n grid, with all sites initially blocked
+    /**
+     * Creates n-by-n grid, with all sites initially blocked
+     * @param n the size of the grid (n-by-n).
+     */
     public Percolation(int n) {
         if (n < 1) {
             throw new IllegalArgumentException("N must be positive");
@@ -42,6 +58,11 @@ public class Percolation {
             boolean empty = isRootEmpty[root1] || isRootEmpty[root2];
             boolean full = isRootFull[root1] || isRootFull[root2];
             ufs.union(root1, root2);
+
+            /*
+             the percolation percolates either one of the two trees to be combined
+             is full from above and either one of the two is empty from below.
+            */
             if (full) {
                 isRootFull[root1] = true;
                 isRootFull[root2] = true;
@@ -54,7 +75,12 @@ public class Percolation {
         }
     }
 
-    // opens the site (row, col) if it is not open already
+    /**
+     * Open the site {@code (row, col)}.
+     *
+     * @param row the row number of the site to open (between {@code 1} and {@code n}).
+     * @param col the column number of the site to open (between {@code 1} and {@code n}).
+     */
     public void open(int row, int col) {
         if (rowColException(row, col)) {
             throw new IllegalArgumentException("row and col numbers should be between 1 to n!");
@@ -63,7 +89,7 @@ public class Percolation {
             openSite++;
             isOpenTable[row - 1][col - 1] = true;
 
-            // top case: mark the root of a top open site as full
+            // the percolation percolates if a root is both full from above and empty from below.
             if (dimensionN == 1) {
                 isPercolated = true;
                 isRootFull[0] = true;
@@ -84,7 +110,13 @@ public class Percolation {
         }
     }
 
-    // is the site (row, col) open?
+    /**
+     * Returns if a certain site is already open
+     *
+     * @param row the row number of the site (between {@code 1} and {@code n}).
+     * @param col the column number of the site (between {@code 1} and {@code n}).
+     * @return if the site is open (boolean).
+     */
     public boolean isOpen(int row, int col) {
         if (rowColException(row, col)) {
             throw new IllegalArgumentException("row and col numbers should be between 1 to n!");
@@ -92,7 +124,13 @@ public class Percolation {
         return isOpenTable[row - 1][col - 1];
     }
 
-    // is the site (row, col) full?
+    /**
+     * Returns if the site is full from above
+     *
+     * @param row the row number of the site (between {@code 1} and {@code n}).
+     * @param col the column number of the site (between {@code 1} and {@code n}).
+     * @return if the site is full (connected from above).
+     */
     public boolean isFull(int row, int col) {
         if (rowColException(row, col)) {
             throw new IllegalArgumentException("row and col numbers should be between 1 to n!");
@@ -101,17 +139,38 @@ public class Percolation {
         return isRootFull[root];
     }
 
-    // returns the number of open sites
+    /**
+     * Returns the number of open sites in the percolation.
+     *
+     * @return the number of open sites.
+     */
     public int numberOfOpenSites() {
         return openSite;
     }
 
-    // does the system percolate?
+    /**
+     * Returns the current state of percolation.
+     * @return whether the percolation percolates.
+     */
     public boolean percolates() {
         return isPercolated;
     }
 
-    // test client (optional)
+    /**
+     * Takes firstly the size of the percolation,
+     * and then the number of {@code open} operations to be conducted.
+     * Then it takes in the position of sites to be opened one by one.
+     * Afterwards, it prints the percolation as 0 and 1.
+     *
+     * The next step is <it>input check full</it>,
+     * it takes the position of a site and checks whether it is full,
+     * and it prints the <it>full states</it> of the percolation.
+     *
+     * The last two output are the number of open sites,
+     * and the state of percolation.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         int n = StdIn.readInt();
         int k = StdIn.readInt();
