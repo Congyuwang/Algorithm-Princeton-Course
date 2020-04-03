@@ -11,8 +11,12 @@ public class StackTest {
         while (scanner.hasNext()) {
             String item = scanner.next();
             if (item.equals("-")) {
-                System.out.printf("arrayStack: %s\n", arrayStack.pop());
-                System.out.printf("linkedStack: %s\n", linkedStack.pop());
+                try {
+                    System.out.printf("arrayStack: %s\n", arrayStack.pop());
+                    System.out.printf("linkedStack: %s\n", linkedStack.pop());
+                } catch (Exception e) {
+                    e.getStackTrace();
+                }
             } else {
                 arrayStack.push(item);
                 linkedStack.push(item);
