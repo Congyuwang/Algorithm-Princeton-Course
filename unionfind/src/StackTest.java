@@ -15,7 +15,7 @@ public class StackTest {
                     System.out.printf("arrayStack: %s\n", arrayStack.pop());
                     System.out.printf("linkedStack: %s\n", linkedStack.pop());
                 } catch (Exception e) {
-                    e.getStackTrace();
+                    System.out.printf("Error: %s\n", e.getMessage());
                 }
             } else {
                 arrayStack.push(item);
