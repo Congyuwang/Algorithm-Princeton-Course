@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import princeton.algorithm.unionfind.WeightedQuickUnionUF;
 
-class Main {
+class UnionFindTest {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(new FileInputStream(new File("data/tinyUF.txt")));
         int objectNumber = scanner.nextInt();
