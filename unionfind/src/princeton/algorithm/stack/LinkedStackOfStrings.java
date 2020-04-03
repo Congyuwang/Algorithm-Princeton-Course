@@ -24,6 +24,9 @@ public class LinkedStackOfStrings {
     }
 
     public String pop() {
+        if (isEmpty()) {
+            return null;
+        }
         String item = first.item;
         first = first.next;
         return item;
