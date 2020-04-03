@@ -27,7 +27,11 @@ public class ArrayStackOfStrings {
             return null;
         }
         String item = s[--N];
+
+        // Avoids Loitering
         s[N] = null;
+
+        // Avoids thrashing problem
         if (N == s.length / 4) {
             resize(s.length / 2);
         }
