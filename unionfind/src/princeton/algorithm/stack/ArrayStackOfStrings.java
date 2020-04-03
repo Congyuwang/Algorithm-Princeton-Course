@@ -1,7 +1,5 @@
 package princeton.algorithm.stack;
 
-import java.util.Arrays;
-
 /**
  * This is an implementation of array stack of strings
  */
@@ -22,9 +20,9 @@ public class ArrayStackOfStrings {
         return N == 0;
     }
 
-    public String pop() {
+    public String pop() throws Exception {
         if (isEmpty()) {
-            return null;
+            throw new Exception("StackUnderFlow!");
         }
         String item = s[--N];
 

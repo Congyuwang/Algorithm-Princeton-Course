@@ -23,9 +23,9 @@ public class LinkedStackOfStrings {
         first.next = oldFirst;
     }
 
-    public String pop() {
+    public String pop() throws Exception {
         if (isEmpty()) {
-            return null;
+            throw new Exception("StackUnderFlow!");
         }
         String item = first.item;
         first = first.next;
