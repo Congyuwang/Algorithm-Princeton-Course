@@ -17,7 +17,7 @@ public class ThreeSum {
      *
      * @param ints The input array.
      */
-    ThreeSum(int[] ints) throws Exception {
+    ThreeSum(int[] ints) {
         int[] inputArray = new int[ints.length];
         solution = new ArrayList<>();
         System.arraycopy(ints, 0, inputArray, 0, ints.length);
@@ -120,13 +120,9 @@ public class ThreeSum {
         for (int j = 0; j < inputLength; j++) {
             inputs[j] = scanner.nextInt();
         }
-        try {
-            ThreeSum threeSum = new ThreeSum(inputs);
-            threeSum.printSolutionSet();
-            System.out.println("Total Count: " + threeSum.getCount());
-            System.out.println(Arrays.deepToString(threeSum.getSolutionSet().toArray()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ThreeSum threeSum = new ThreeSum(inputs);
+        threeSum.printSolutionSet();
+        System.out.println("Total Count: " + threeSum.getCount());
+        System.out.println(Arrays.deepToString(threeSum.getSolutionSet().toArray()));
     }
 }
