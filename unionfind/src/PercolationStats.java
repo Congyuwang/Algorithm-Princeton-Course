@@ -16,24 +16,19 @@ public class PercolationStats {
         confidenceInterval = 1.96;
         this.trials = trials;
         int[] thresholds = new int[trials];
-        int[] randomSample = new int[n * n];
-
-        for (int i = 0; i < randomSample.length; i++) {
-            randomSample[i] = i;
-        }
+        int sampleLength = n * n;
 
         for (int i = 0; i < trials; i++) {
             Percolation percolation = new Percolation(n);
-            StdRandom.shuffle(randomSample);
-            for (int value : randomSample) {
+            do {
+                int value = StdRandom.uniform(sampleLength);
                 percolation.open(value / n + 1, value % n + 1);
-                if (percolation.percolates()) break;
-            }
+            } while (!percolation.percolates());
             thresholds[i] = percolation.numberOfOpenSites();
         }
 
-        meanStored = StdStats.mean(thresholds) / randomSample.length;
-        stdStored = StdStats.stddev(thresholds) / randomSample.length;
+        meanStored = StdStats.mean(thresholds) / sampleLength;
+        stdStored = StdStats.stddev(thresholds) / sampleLength;
     }
 
     // sample mean of percolation threshold
