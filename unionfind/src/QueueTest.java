@@ -2,7 +2,7 @@ import princeton.algorithm.queue.LinkedQueueOfStrings;
 import princeton.algorithm.queue.ArrayQueueOfStrings;
 import java.util.Scanner;
 
-public class NodeTest {
+public class QueueTest {
     public static void main(String[] args) {
         LinkedQueueOfStrings linkedStack  = new LinkedQueueOfStrings();
         ArrayQueueOfStrings arrayStack = new ArrayQueueOfStrings();

@@ -1,7 +1,5 @@
 package princeton.algorithm.queue;
 
-import java.util.Arrays;
-
 public class ArrayQueueOfStrings {
     // count represents the total number of items
     // head represents the position of the first item
@@ -12,16 +10,15 @@ public class ArrayQueueOfStrings {
     String[] s = new String[1];
 
     public void enqueue(String item) {
+        // reset tail pointer if tail exceeds index limit
         if (tail == s.length) {
             tail = 0;
         }
         s[tail++] = item;
-        count++;
-        if (count == s.length) {
+        // resize array if the size limit is met
+        if (++count == s.length) {
             resize(s.length * 2);
         }
-        System.out.printf("head: %d, tail: %d, count: %d\n", head, tail, count);
-        System.out.println(Arrays.toString(s));
     }
 
     public String dequeue() throws Exception {
@@ -33,12 +30,10 @@ public class ArrayQueueOfStrings {
         }
         String item = s[head];
         s[head++] = null;
-        count--;
-        if (count == s.length / 4) {
+        // resize the array if it is too empty
+        if (--count == s.length / 4) {
             resize(s.length / 2);
         }
-        System.out.printf("head: %d, tail: %d, count: %d\n", head, tail, count);
-        System.out.println(Arrays.toString(s));
         return item;
     }
 
