@@ -7,7 +7,7 @@ public class ArrayStackOfStrings {
 
     // n represent the next item
     int N = 0;
-    String[] s = new String[4];
+    String[] s = new String[1];
 
     public void push(String item) {
         if (N == s.length) {
