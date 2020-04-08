@@ -51,7 +51,7 @@ public class IteratorTest {
                     arrayStack.push(intItem);
                     linkedStack.push(intItem);
                 } catch (NumberFormatException e) {
-                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }
