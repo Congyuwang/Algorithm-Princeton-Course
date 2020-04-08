@@ -1,6 +1,13 @@
 package princeton.algorithm.stack;
 
-public class ArrayStack<Item> {
+import java.util.Iterator;
+
+/**
+ * The ArrayStack class implements an iterable LIFO stack data structure.
+ *
+ * @param <Item> The type of objects in the queue
+ */
+public class ArrayStack<Item> implements Iterable<Item> {
 
     // n represent the next item
     int N = 0;
@@ -37,5 +44,26 @@ public class ArrayStack<Item> {
         Item[] copy = (Item[]) new Object[capacity];
         System.arraycopy(s, 0, copy, 0, N);
         s = copy;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new ArrayStackIterator();
+    }
+
+    private class ArrayStackIterator implements Iterator<Item> {
+
+        // i point to
+        private int i = N;
+
+        @Override
+        public boolean hasNext() {
+            return i > 0;
+        }
+
+        @Override
+        public Item next() {
+            return s[--i];
+        }
     }
 }

@@ -1,6 +1,13 @@
 package princeton.algorithm.queue;
 
-public class LinkedQueue<Item> {
+import java.util.Iterator;
+
+/**
+ * The LinkedQueue class implements an iterable FIFO queue data structure.
+ *
+ * @param <Item> The type of objects in the queue
+ */
+public class LinkedQueue<Item> implements Iterable<Item> {
 
     Node first = null;
     Node last = null;
@@ -35,5 +42,27 @@ public class LinkedQueue<Item> {
 
     public boolean isEmpty() {
         return first == null;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new LinkedQueueIterator();
+    }
+
+    private class LinkedQueueIterator implements Iterator<Item> {
+
+        private Node current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item currentItem = current.item;
+            current = current.next;
+            return currentItem;
+        }
     }
 }

@@ -1,6 +1,13 @@
 package princeton.algorithm.stack;
 
-public class LinkedStack<Item> {
+import java.util.Iterator;
+
+/**
+ * The LinkedStack class implements an iterable LIFO stack data structure.
+ *
+ * @param <Item> The type of objects in the stack
+ */
+public class LinkedStack<Item> implements Iterable<Item> {
     private Node first = null;
 
     private class Node {
@@ -26,5 +33,27 @@ public class LinkedStack<Item> {
         Item item = first.item;
         first = first.next;
         return item;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new LinkedStackIterator();
+    }
+
+    private class LinkedStackIterator implements Iterator<Item> {
+
+        private Node current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item currentItem = current.item;
+            current = current.next;
+            return currentItem;
+        }
     }
 }
