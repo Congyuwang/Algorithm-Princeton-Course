@@ -1,4 +1,3 @@
-package princeton.algorithm.unionfind;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
