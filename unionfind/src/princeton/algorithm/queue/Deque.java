@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * The Deque class is an iterable linked list data structre that
+ * allows addFirst, addLast, removeFirst, and removeLast methods.
+ */
 public class Deque<Item> implements Iterable<Item> {
 
     private Node first = null;
@@ -134,52 +138,40 @@ public class Deque<Item> implements Iterable<Item> {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String item = scanner.next();
-            switch (item) {
-                case "-f":
-                    try {
+            try {
+                switch (item) {
+                    case "-f":
                         System.out.printf("Deque: %s\n", deque.removeFirst());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "-l":
-                    try {
+                        break;
+                    case "-l":
                         System.out.printf("Deque: %s\n", deque.removeLast());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case ">>":
-                    System.out.println("Deque:");
-                    for (int i : deque) {
-                        System.out.print(i + " ");
-                    }
-                    System.out.println();
-                    break;
-                case "f":
-                    try {
+                        break;
+                    case ">>":
+                        System.out.println("Deque:");
+                        for (int i : deque) {
+                            System.out.print(i + " ");
+                        }
+                        System.out.println();
+                        break;
+                    case "f":
                         int intItem = Integer.parseInt(scanner.next());
                         deque.addFirst(intItem);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "l":
-                    try {
-                        int intItem = Integer.parseInt(scanner.next());
-                        deque.addLast(intItem);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "s":
-                    System.out.printf("Size: %d\n", deque.size());
-                    break;
-                case "e":
-                    System.out.printf("isEmpty: %b\n", deque.isEmpty());
-                    break;
-                default:
-                    break;
+                        break;
+                    case "l":
+                        int intItem2 = Integer.parseInt(scanner.next());
+                        deque.addLast(intItem2);
+                        break;
+                    case "s":
+                        System.out.printf("Size: %d\n", deque.size());
+                        break;
+                    case "e":
+                        System.out.printf("isEmpty: %b\n", deque.isEmpty());
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         scanner.close();
