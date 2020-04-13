@@ -123,5 +123,6 @@ public class ThreeSum {
         threeSum.printSolutionSet();
         System.out.println("Total Count: " + threeSum.getCount());
         System.out.println(Arrays.deepToString(threeSum.getSolutionSet().toArray()));
+        scanner.close();
     }
 }

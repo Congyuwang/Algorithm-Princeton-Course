@@ -55,5 +55,6 @@ public class IteratorTest {
                 }
             }
         }
+        scanner.close();
     }
 }

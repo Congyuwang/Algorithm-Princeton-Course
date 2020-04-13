@@ -35,5 +35,6 @@ public class QueueTest {
                 }
             }
         }
+        scanner.close();
     }
 }

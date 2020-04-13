@@ -16,9 +16,11 @@ class UnionFindTest {
                 uf.union(p, q);
             }
         }
+        scanner.close();
         scanner = new Scanner(System.in);
         int p = scanner.nextInt();
         int q = scanner.nextInt();
         System.out.print(uf.connected(p, q));
+        scanner.close();
     }
 }
