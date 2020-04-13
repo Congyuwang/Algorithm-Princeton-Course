@@ -1,6 +1,7 @@
 package princeton.algorithm.queue;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The ArrayQueue class implements an iterable FIFO queue data structure.
@@ -35,7 +36,7 @@ public class ArrayQueue<Item> implements Iterable<Item> {
 
     public Item dequeue() throws Exception {
         if (isEmpty()) {
-            throw new Exception("StackUnderFlow!");
+            throw new NoSuchElementException("StackUnderFlow!");
         }
         if (head == s.length) {
             head = 0;

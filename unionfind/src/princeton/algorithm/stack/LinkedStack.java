@@ -1,6 +1,7 @@
 package princeton.algorithm.stack;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The LinkedStack class implements an iterable LIFO stack data structure.
@@ -31,7 +32,7 @@ public class LinkedStack<Item> implements Iterable<Item> {
 
     public Item pop() throws Exception {
         if (isEmpty()) {
-            throw new Exception("StackUnderFlow!");
+            throw new NoSuchElementException("StackUnderFlow!");
         }
         Item item = first.item;
         first = first.next;

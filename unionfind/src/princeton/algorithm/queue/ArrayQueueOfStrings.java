@@ -1,5 +1,7 @@
 package princeton.algorithm.queue;
 
+import java.util.NoSuchElementException;
+
 public class ArrayQueueOfStrings {
     // count represents the total number of items
     // head represents the position of the first item
@@ -26,7 +28,7 @@ public class ArrayQueueOfStrings {
 
     public String dequeue() throws Exception {
         if (isEmpty()) {
-            throw new Exception("StackUnderFlow!");
+            throw new NoSuchElementException("StackUnderFlow!");
         }
         if (head == s.length) {
             head = 0;

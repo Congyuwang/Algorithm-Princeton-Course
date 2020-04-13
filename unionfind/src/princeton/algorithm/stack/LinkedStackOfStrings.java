@@ -1,5 +1,7 @@
 package princeton.algorithm.stack;
 
+import java.util.NoSuchElementException;
+
 /**
  * This is an implementation of linked stack of strings
  */
@@ -28,7 +30,7 @@ public class LinkedStackOfStrings {
 
     public String pop() throws Exception {
         if (isEmpty()) {
-            throw new Exception("StackUnderFlow!");
+            throw new NoSuchElementException("StackUnderFlow!");
         }
         String item = first.item;
         first = first.next;

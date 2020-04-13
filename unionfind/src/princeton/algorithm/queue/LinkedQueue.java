@@ -1,6 +1,7 @@
 package princeton.algorithm.queue;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The LinkedQueue class implements an iterable FIFO queue data structure.
@@ -20,7 +21,7 @@ public class LinkedQueue<Item> implements Iterable<Item> {
     // remove the first item
     public Item dequeue() throws Exception {
         if (isEmpty()) {
-            throw new Exception("QueueUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         Item item = first.item;
         first = first.next;

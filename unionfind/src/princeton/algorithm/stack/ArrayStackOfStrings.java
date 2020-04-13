@@ -1,5 +1,7 @@
 package princeton.algorithm.stack;
 
+import java.util.NoSuchElementException;
+
 /**
  * This is an implementation of array stack of strings
  */
@@ -25,7 +27,7 @@ public class ArrayStackOfStrings {
 
     public String pop() throws Exception {
         if (isEmpty()) {
-            throw new Exception("StackUnderFlow!");
+            throw new NoSuchElementException("StackUnderFlow!");
         }
         String item = s[--N];
 

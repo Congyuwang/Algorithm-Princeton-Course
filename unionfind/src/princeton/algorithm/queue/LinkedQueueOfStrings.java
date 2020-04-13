@@ -1,5 +1,7 @@
 package princeton.algorithm.queue;
 
+import java.util.NoSuchElementException;
+
 public class LinkedQueueOfStrings {
 
     private Node first = null;
@@ -13,7 +15,7 @@ public class LinkedQueueOfStrings {
     // remove the first item
     public String dequeue() throws Exception {
         if (isEmpty()) {
-            throw new Exception("QueueUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         String item = first.item;
         first = first.next;
