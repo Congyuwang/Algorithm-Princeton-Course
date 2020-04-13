@@ -10,6 +10,9 @@ public class ArrayQueueOfStrings {
     String[] s = new String[1];
 
     public void enqueue(String item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         // reset tail pointer if tail exceeds index limit
         if (tail == s.length) {
             tail = 0;

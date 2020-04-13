@@ -20,6 +20,9 @@ public class LinkedStack<Item> implements Iterable<Item> {
     }
 
     public void push(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         Node oldFirst = first;
         first = new Node();
         first.item = item;

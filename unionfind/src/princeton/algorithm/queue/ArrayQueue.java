@@ -19,6 +19,9 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     Item[] s = (Item[]) new Object[1];
 
     public void enqueue(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         // reset tail pointer if tail exceeds index limit
         if (tail == s.length) {
             tail = 0;

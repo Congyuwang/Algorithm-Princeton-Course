@@ -17,6 +17,9 @@ public class LinkedStackOfStrings {
     }
 
     public void push(String item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         Node oldFirst = first;
         first = new Node();
         first.item = item;

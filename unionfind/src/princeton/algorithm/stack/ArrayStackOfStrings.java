@@ -10,6 +10,9 @@ public class ArrayStackOfStrings {
     String[] s = new String[1];
 
     public void push(String item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         if (N == s.length) {
             resize(2 * s.length);
         }

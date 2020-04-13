@@ -22,6 +22,9 @@ public class LinkedQueueOfStrings {
 
     // insert after the last item
     public void enqueue(String item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         Node oldLast = last;
         last = new Node();
         last.item = item;

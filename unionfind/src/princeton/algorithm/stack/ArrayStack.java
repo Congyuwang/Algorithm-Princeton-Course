@@ -14,6 +14,9 @@ public class ArrayStack<Item> implements Iterable<Item> {
     Item[] s = (Item[]) new Object[1];
 
     public void push(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
         if (N == s.length) {
             resize(2 * s.length);
         }
