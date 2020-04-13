@@ -9,8 +9,8 @@ import java.util.Iterator;
  */
 public class LinkedQueue<Item> implements Iterable<Item> {
 
-    Node first = null;
-    Node last = null;
+    private Node first = null;
+    private Node last = null;
 
     private class Node {
         Item item;

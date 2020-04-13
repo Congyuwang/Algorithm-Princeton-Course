@@ -2,8 +2,8 @@ package princeton.algorithm.queue;
 
 public class LinkedQueueOfStrings {
 
-    Node first = null;
-    Node last = null;
+    private Node first = null;
+    private Node last = null;
 
     private class Node {
         String item;
