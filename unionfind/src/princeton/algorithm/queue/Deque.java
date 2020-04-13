@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * The Deque class is an iterable linked list data structre that
+ * The Deque class is an iterable linked list data structure that
  * allows addFirst, addLast, removeFirst, and removeLast methods.
  */
 public class Deque<Item> implements Iterable<Item> {
