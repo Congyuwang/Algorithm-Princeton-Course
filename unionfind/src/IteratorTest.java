@@ -1,4 +1,5 @@
 import princeton.algorithm.queue.Queue;
+import princeton.algorithm.queue.RandomizedQueue;
 import princeton.algorithm.stack.Stack;
 import princeton.algorithm.queue.ArrayQueue;
 import princeton.algorithm.queue.LinkedQueue;
@@ -12,6 +13,7 @@ public class IteratorTest {
         Queue<Integer> linkedQueue  = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
         Queue<Integer> twoStackQueue = new TwoStackQueue<>();
+        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
         Stack<Integer> linkedStack = new LinkedStack<>();
         Stack<Integer> arrayStack = new ArrayStack<>();
         Scanner scanner = new Scanner(System.in);
@@ -22,6 +24,7 @@ public class IteratorTest {
                     System.out.printf("linkedQueue: %s\n", linkedQueue.dequeue());
                     System.out.printf("arrayQueue: %s\n", arrayQueue.dequeue());
                     System.out.printf("twoStackQueue: %s\n", twoStackQueue.dequeue());
+                    System.out.printf("randomizedQueue: %s\n", randomizedQueue.dequeue());
                     System.out.printf("linkedStack: %d\n", linkedStack.pop());
                     System.out.printf("arrayStack: %d\n", arrayStack.pop());
                 } catch (Exception e) {
@@ -43,6 +46,11 @@ public class IteratorTest {
                     System.out.print(i + " ");
                 }
                 System.out.println();
+                System.out.println("randomizedQueue:");
+                for (int i : randomizedQueue) {
+                    System.out.print(i + " ");
+                }
+                System.out.println();
                 System.out.println("linkedStack (LIFO):");
                 for (int i : linkedStack) {
                     System.out.print(i + " ");
@@ -59,6 +67,7 @@ public class IteratorTest {
                     linkedQueue.enqueue(intItem);
                     arrayQueue.enqueue(intItem);
                     twoStackQueue.enqueue(intItem);
+                    randomizedQueue.enqueue(intItem);
                     arrayStack.push(intItem);
                     linkedStack.push(intItem);
                 } catch (NumberFormatException e) {
