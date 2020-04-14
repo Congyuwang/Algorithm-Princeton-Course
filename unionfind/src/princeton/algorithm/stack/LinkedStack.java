@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  */
 public class LinkedStack<Item> implements Stack<Item> {
     private Node first = null;
+    private int size = 0;
 
     private class Node {
         Item item;
@@ -30,6 +31,7 @@ public class LinkedStack<Item> implements Stack<Item> {
         first = new Node();
         first.item = item;
         first.next = oldFirst;
+        size++;
     }
 
     @Override
@@ -39,6 +41,7 @@ public class LinkedStack<Item> implements Stack<Item> {
         }
         Item item = first.item;
         first = first.next;
+        size--;
         return item;
     }
 
@@ -62,5 +65,10 @@ public class LinkedStack<Item> implements Stack<Item> {
             current = current.next;
             return currentItem;
         }
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 }

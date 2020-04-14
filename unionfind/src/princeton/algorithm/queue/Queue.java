@@ -12,4 +12,6 @@ public interface Queue<Item> extends Iterable<Item> {
 
     boolean isEmpty();
 
+    int size();
+
 }

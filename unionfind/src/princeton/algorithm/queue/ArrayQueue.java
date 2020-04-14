@@ -96,4 +96,9 @@ public class ArrayQueue<Item> implements Queue<Item> {
             return s[i++];
         }
     }
+
+    @Override
+    public int size() {
+        return count;
+    }
 }

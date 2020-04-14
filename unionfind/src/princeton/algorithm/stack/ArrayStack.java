@@ -13,6 +13,7 @@ public class ArrayStack<Item> implements Stack<Item> {
     // n represent the next item
     int N = 0;
     Item[] s = (Item[]) new Object[1];
+    int size = 0;
 
     @Override
     public void push(Item item) {
@@ -23,6 +24,7 @@ public class ArrayStack<Item> implements Stack<Item> {
             resize(2 * s.length);
         }
         s[N++] = item;
+        size++;
     }
 
     @Override
@@ -44,6 +46,7 @@ public class ArrayStack<Item> implements Stack<Item> {
         if (N == s.length / 4) {
             resize(s.length / 2);
         }
+        size--;
         return item;
     }
 
@@ -72,5 +75,10 @@ public class ArrayStack<Item> implements Stack<Item> {
         public Item next() {
             return s[--i];
         }
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 }

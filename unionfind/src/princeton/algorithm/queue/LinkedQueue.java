@@ -12,6 +12,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
 
     private Node first = null;
     private Node last = null;
+    private int size = 0;
 
     private class Node {
         Item item;
@@ -26,6 +27,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
         }
         Item item = first.item;
         first = first.next;
+        size--;
         return item;
     }
 
@@ -44,6 +46,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
         } else {
             oldLast.next = last;
         }
+        size++;
     }
 
     @Override
@@ -71,5 +74,10 @@ public class LinkedQueue<Item> implements Queue<Item> {
             current = current.next;
             return currentItem;
         }
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 }
