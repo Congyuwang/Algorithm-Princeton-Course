@@ -12,6 +12,7 @@ public class ArrayStack<Item> implements Stack<Item> {
 
     // n represent the next item
     int N = 0;
+    @SuppressWarnings("unchecked")
     Item[] s = (Item[]) new Object[1];
     int size = 0;
 
@@ -51,6 +52,7 @@ public class ArrayStack<Item> implements Stack<Item> {
     }
 
     private void resize(int capacity) {
+        @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
         System.arraycopy(s, 0, copy, 0, N);
         s = copy;

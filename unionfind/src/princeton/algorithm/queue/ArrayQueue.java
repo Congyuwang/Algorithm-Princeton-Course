@@ -17,6 +17,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
     int tail = 0;
 
     // cannot implement generic array. Use cast.
+    @SuppressWarnings("unchecked")
     Item[] s = (Item[]) new Object[1];
 
     @Override
@@ -59,6 +60,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
 
     private void resize(int capacity) {
         // cannot implement generic array. Use cast.
+        @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
         if (head > tail) {
             System.arraycopy(s, 0, copy, 0, tail);
