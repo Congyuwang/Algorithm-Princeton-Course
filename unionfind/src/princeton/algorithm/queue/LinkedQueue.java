@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * The LinkedQueue class implements an iterable FIFO queue data structure.
+ * The LinkedQueue class implements an iterable FIFO queue data structure
+ * using LinkedList data structure, which features constant runtime
+ * in the worst for each operations.
  *
  * @param <Item> The type of objects in the queue
  */

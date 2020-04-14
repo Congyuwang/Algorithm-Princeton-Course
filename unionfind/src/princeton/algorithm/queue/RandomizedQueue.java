@@ -1,10 +1,18 @@
 package princeton.algorithm.queue;
 
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * The RandomizedQueue class implements an Iterable data structure that provides
+ * uniformly random access to items. {@code enqueue}, {@code dequeue}, {@code sample}
+ * all takes amortized constant time. The {@code Iterator} takes linear time
+ * to initialize, and each instantiation provides statistically independent
+ * shuffle order.
+ *
+ * @param <Item>
+ */
 public class RandomizedQueue<Item> implements Queue<Item> {
 
     @SuppressWarnings("unchecked")
@@ -13,18 +21,17 @@ public class RandomizedQueue<Item> implements Queue<Item> {
     private int firstVacancy = 0;
     private int size = 0;
 
-
-    // is the randomized queue empty?
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
-    // return the number of items on the randomized queue
+    @Override
     public int size() {
         return size;
     }
 
-    // add the item
+    @Override
     public void enqueue(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
@@ -36,7 +43,12 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         size++;
     }
 
-    // remove and return a random item
+    /**
+     * {@code dequeue()} returns a random item from the Queue and remove it.
+     *
+     * @return a random item from the Queue.
+     */
+    @Override
     public Item dequeue() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
@@ -56,7 +68,12 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         }
     }
 
-    // return a random item (but do not remove it)
+    /**
+     * {@code sample()} returns a random item from the Queue without
+     * removing the item.
+     *
+     * @return a random item from the Queue
+     */
     public Item sample() {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
@@ -147,13 +164,11 @@ public class RandomizedQueue<Item> implements Queue<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
-        int number = StdIn.readInt();
-        StdIn.readLine();
-        for (int i = 0; i < number; i++) {
-            String input = StdIn.readLine();
-            randomizedQueue.enqueue(input);
-        }
-        System.out.println();
+        randomizedQueue.enqueue("a");
+        randomizedQueue.enqueue("b");
+        randomizedQueue.enqueue("c");
+        randomizedQueue.enqueue("d");
+        randomizedQueue.enqueue("e");
         for (String s : randomizedQueue) {
             System.out.print(s + " ");
         }
@@ -162,11 +177,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
             System.out.print(s + " ");
         }
         System.out.println();
-        for (String s : randomizedQueue) {
-            System.out.print(s + " ");
-        }
-        System.out.println();
-        for (int i = 0; i < number; i++) {
+        for (int i = 0; i < 5; i++) {
             System.out.print(randomizedQueue.dequeue() + " ");
         }
     }

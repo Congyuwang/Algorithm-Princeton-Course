@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * The LinkedStack class implements an iterable LIFO stack data structure.
+ * The LinkedStack class implements an iterable LIFO stack data structure
+ * using LinkedList, which features constant time for the worst case.
  *
  * @param <Item> The type of objects in the stack
  */

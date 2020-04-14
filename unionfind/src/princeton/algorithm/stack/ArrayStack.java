@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * The ArrayStack class implements an iterable LIFO stack data structure.
+ * The ArrayStack class implements an iterable LIFO stack data structure using Array
+ * which features constant amortized time for each operations.
  *
  * @param <Item> The type of objects in the queue
  */

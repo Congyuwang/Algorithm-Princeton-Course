@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * The ArrayQueue class implements an iterable FIFO queue data structure.
+ * The ArrayQueue class implements an iterable FIFO queue data structure
+ * using Array data structure, which features constant amortized time
+ * for each operation.
  *
  * @param <Item> The type of objects in the queue
  */
