@@ -2,7 +2,6 @@ package princeton.algorithm.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 /**
  * The Deque class is an iterable linked list data structure that
@@ -135,45 +134,22 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         Deque<Integer> deque = new Deque<>();
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
-            String item = scanner.next();
-            try {
-                switch (item) {
-                    case "-f":
-                        System.out.printf("Deque: %s\n", deque.removeFirst());
-                        break;
-                    case "-l":
-                        System.out.printf("Deque: %s\n", deque.removeLast());
-                        break;
-                    case ">>":
-                        System.out.println("Deque:");
-                        for (int i : deque) {
-                            System.out.print(i + " ");
-                        }
-                        System.out.println();
-                        break;
-                    case "f":
-                        int intItem = Integer.parseInt(scanner.next());
-                        deque.addFirst(intItem);
-                        break;
-                    case "l":
-                        int intItem2 = Integer.parseInt(scanner.next());
-                        deque.addLast(intItem2);
-                        break;
-                    case "s":
-                        System.out.printf("Size: %d\n", deque.size());
-                        break;
-                    case "e":
-                        System.out.printf("isEmpty: %b\n", deque.isEmpty());
-                        break;
-                    default:
-                        break;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        scanner.close();
+        System.out.printf("isEmpty = %b\n", deque.isEmpty());
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+        deque.addLast(10);
+        deque.addLast(20);
+        deque.addLast(30);
+        System.out.printf("isEmpty = %b\n", deque.isEmpty());
+        System.out.printf("Size = %d\n", deque.size());
+        deque.forEach(i -> System.out.printf("%d ", i));
+        System.out.println();
+        System.out.printf("remove First = %d\n", deque.removeFirst());
+        System.out.printf("remove Last = %d\n", deque.removeLast());
+        deque.forEach(i -> System.out.printf("%d ", i));
+        System.out.println();
+        System.out.printf("isEmpty = %b\n", deque.isEmpty());
+        System.out.printf("Size = %d\n", deque.size());
     }
 }
