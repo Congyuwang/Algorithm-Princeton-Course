@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import princeton.algorithm.stack.LinkedStack;
 
-class TwoStackQueue<Item> implements Queue<Item> {
+public class TwoStackQueue<Item> implements Queue<Item> {
 
     private LinkedStack<Item> inStack = new LinkedStack<>();
     private LinkedStack<Item> storeStack = new LinkedStack<>();
