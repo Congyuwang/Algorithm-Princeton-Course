@@ -12,13 +12,13 @@ public class ArrayQueue<Item> implements Queue<Item> {
     // count represents the total number of items
     // head represents the position of the first item
     // tail represents the position of the next item to be filled
-    int count = 0;
-    int head = 0;
-    int tail = 0;
+    private int count = 0;
+    private int head = 0;
+    private int tail = 0;
 
     // cannot implement generic array. Use cast.
     @SuppressWarnings("unchecked")
-    Item[] s = (Item[]) new Object[1];
+    private Item[] s = (Item[]) new Object[1];
 
     @Override
     public void enqueue(Item item) {

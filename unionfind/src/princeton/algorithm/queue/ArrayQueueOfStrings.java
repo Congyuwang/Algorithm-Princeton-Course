@@ -6,10 +6,10 @@ public class ArrayQueueOfStrings {
     // count represents the total number of items
     // head represents the position of the first item
     // tail represents the position of the next item to be filled
-    int count = 0;
-    int head = 0;
-    int tail = 0;
-    String[] s = new String[1];
+    private int count = 0;
+    private int head = 0;
+    private int tail = 0;
+    private String[] s = new String[1];
 
     public void enqueue(String item) {
         if (item == null) {

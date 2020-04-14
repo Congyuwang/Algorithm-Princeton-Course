@@ -11,10 +11,10 @@ import java.util.NoSuchElementException;
 public class ArrayStack<Item> implements Stack<Item> {
 
     // n represent the next item
-    int N = 0;
+    private int N = 0;
     @SuppressWarnings("unchecked")
-    Item[] s = (Item[]) new Object[1];
-    int size = 0;
+    private Item[] s = (Item[]) new Object[1];
+    private int size = 0;
 
     @Override
     public void push(Item item) {
