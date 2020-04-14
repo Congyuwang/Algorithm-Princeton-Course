@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  *
  * @param <Item> The type of objects in the stack
  */
-public class LinkedStack<Item> implements Iterable<Item> {
+public class LinkedStack<Item> implements Stack<Item> {
     private Node first = null;
 
     private class Node {
@@ -16,10 +16,12 @@ public class LinkedStack<Item> implements Iterable<Item> {
         Node next;
     }
 
+    @Override
     public boolean isEmpty() {
         return first == null;
     }
 
+    @Override
     public void push(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
@@ -30,7 +32,8 @@ public class LinkedStack<Item> implements Iterable<Item> {
         first.next = oldFirst;
     }
 
-    public Item pop() throws Exception {
+    @Override
+    public Item pop() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }

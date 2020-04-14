@@ -8,12 +8,13 @@ import java.util.NoSuchElementException;
  *
  * @param <Item> The type of objects in the queue
  */
-public class ArrayStack<Item> implements Iterable<Item> {
+public class ArrayStack<Item> implements Stack<Item> {
 
     // n represent the next item
     int N = 0;
     Item[] s = (Item[]) new Object[1];
 
+    @Override
     public void push(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
@@ -24,11 +25,13 @@ public class ArrayStack<Item> implements Iterable<Item> {
         s[N++] = item;
     }
 
+    @Override
     public boolean isEmpty() {
         return N == 0;
     }
 
-    public Item pop() throws Exception {
+    @Override
+    public Item pop() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
