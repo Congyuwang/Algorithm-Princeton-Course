@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * This class solves three sum problem that involves unique elements.
+ * This class solves three sum problem in Quadratic time.
  */
 public class ThreeSum {
 
