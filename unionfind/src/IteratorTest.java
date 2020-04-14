@@ -13,9 +13,10 @@ public class IteratorTest {
         Queue<Integer> linkedQueue  = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
         Queue<Integer> twoStackQueue = new TwoStackQueue<>();
-        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
+        Queue<Integer> randomizedQueue = new RandomizedQueue<>();
         Stack<Integer> linkedStack = new LinkedStack<>();
         Stack<Integer> arrayStack = new ArrayStack<>();
+
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String item = scanner.next();
