@@ -10,6 +10,7 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     private LinkedStack<Item> storeStack = new LinkedStack<>();
     private int size = 0;
 
+    @Override
     public Item dequeue() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
@@ -37,6 +38,12 @@ public class TwoStackQueue<Item> implements Queue<Item> {
         size++;
     }
 
+    /**
+     * Each pour takes (2 * size of storeStack + size of tempStack) push operations.
+     * In {@code dequeue} and {@code enqueue}, {@code pour} is invoked only when
+     * the size of inStack equals to that of storeStack, which happens as frequently
+     * as the size of the Queue doubles.
+     */
     private void pour() {
         LinkedStack<Item> tempStack = new LinkedStack<>();
         for (Item item : storeStack) {
