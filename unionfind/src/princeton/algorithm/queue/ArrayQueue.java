@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  *
  * @param <Item> The type of objects in the queue
  */
-public class ArrayQueue<Item> implements Iterable<Item> {
+public class ArrayQueue<Item> implements Queue<Item> {
     // count represents the total number of items
     // head represents the position of the first item
     // tail represents the position of the next item to be filled
@@ -19,6 +19,7 @@ public class ArrayQueue<Item> implements Iterable<Item> {
     // cannot implement generic array. Use cast.
     Item[] s = (Item[]) new Object[1];
 
+    @Override
     public void enqueue(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
@@ -34,7 +35,8 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         }
     }
 
-    public Item dequeue() throws Exception {
+    @Override
+    public Item dequeue() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
@@ -50,6 +52,7 @@ public class ArrayQueue<Item> implements Iterable<Item> {
         return item;
     }
 
+    @Override
     public boolean isEmpty() {
         return count == 0;
     }

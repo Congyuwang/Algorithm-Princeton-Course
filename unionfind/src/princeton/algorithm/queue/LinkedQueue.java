@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  *
  * @param <Item> The type of objects in the queue
  */
-public class LinkedQueue<Item> implements Iterable<Item> {
+public class LinkedQueue<Item> implements Queue<Item> {
 
     private Node first = null;
     private Node last = null;
@@ -19,7 +19,8 @@ public class LinkedQueue<Item> implements Iterable<Item> {
     }
 
     // remove the first item
-    public Item dequeue() throws Exception {
+    @Override
+    public Item dequeue() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("QueueUnderFlow!");
         }
@@ -29,6 +30,7 @@ public class LinkedQueue<Item> implements Iterable<Item> {
     }
 
     // insert after the last item
+    @Override
     public void enqueue(Item item) {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
@@ -44,6 +46,7 @@ public class LinkedQueue<Item> implements Iterable<Item> {
         }
     }
 
+    @Override
     public boolean isEmpty() {
         return first == null;
     }
