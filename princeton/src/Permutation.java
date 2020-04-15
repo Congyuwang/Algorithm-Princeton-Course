@@ -1,5 +1,6 @@
 import princeton.algo.queue.RandomizedQueue;
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class Permutation {
 
@@ -54,8 +55,10 @@ class StreamChooseK<Item> {
         if (count < k) {
             collection.enqueue(item);
         } else {
-            collection.enqueue(item);
-            collection.dequeue();
+            if (StdRandom.uniform(k) == 0) {
+                collection.dequeue();
+                collection.enqueue(item);
+            }
         }
         count++;
     }
