@@ -1,4 +1,4 @@
-package princeton.algo.deque;
+package princeton.algo.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
