@@ -1,2 +1,2 @@
-Assignments folder includes shell scripts that packages source
-file for assignment submission, and the assessment output of the submissions.
+Assignments folder includes shell scripts that zip the java scripts
+for assignment submission, and the assessment output of the submissions.
