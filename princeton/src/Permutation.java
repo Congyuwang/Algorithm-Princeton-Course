@@ -52,15 +52,17 @@ class StreamChooseK<Item> {
      * @param item the added item for updating the collection
      */
     void update(Item item) {
-        if (count < k) {
-            collection.enqueue(item);
-        } else {
-            if (StdRandom.uniform(k) == 0) {
-                collection.dequeue();
+        if (k > 0) {
+            if (count < k) {
                 collection.enqueue(item);
+            } else {
+                if (StdRandom.uniform(k) == 0) {
+                    collection.dequeue();
+                    collection.enqueue(item);
+                }
             }
+            count++;
         }
-        count++;
     }
 
     RandomizedQueue<Item> getCollection() {
