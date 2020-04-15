@@ -32,6 +32,7 @@ class StreamChooseK<Item> {
 
     private final int k;
     private int count;
+    private double p = 1.0;
     private RandomizedQueue<Item> collection;
 
     StreamChooseK(int k) {
@@ -40,29 +41,23 @@ class StreamChooseK<Item> {
     }
 
     /**
-     * Ignore an update item with probability 1 / (k+1) results
-     * after the collection is full results in a uniformly chosen
-     * collection.
-     * <p>
-     * Each item, once admitted into RandomizedQueue, will have equal probabilities
-     * of being retained in the final collection regardless of the total updating times
-     * afterwards. So, to obtain uniform distribution, just enqueue an item and than randomly
-     * dequeue one item.
-     * </p>
+     * After the first k items, update the new item after with a diminishing probability.
+     * The k + 1 item is updated with probability k / (1+k).
+     * The k + n item is updated with probability P(n),
+     * which is calculated by P(n) = k * P(n - 1) / (k + P(n - 1))
      * @param item the added item for updating the collection
      */
     void update(Item item) {
-        if (k > 0) {
-            if (count < k) {
+        if (count < k) {
+            collection.enqueue(item);
+        } else {
+            p = k * p / (p + k);
+            if (StdRandom.uniform() < p) {
+                collection.dequeue();
                 collection.enqueue(item);
-            } else {
-                if (StdRandom.uniform(k) == 0) {
-                    collection.dequeue();
-                    collection.enqueue(item);
-                }
             }
-            count++;
         }
+        count++;
     }
 
     RandomizedQueue<Item> getCollection() {
