@@ -161,7 +161,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         return copy;
     }
 
-    // unit testing (required)
+    // unit testing
     public static void main(String[] args) {
         RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
         randomizedQueue.enqueue("a");
