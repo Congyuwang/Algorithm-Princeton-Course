@@ -6,79 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - Permutation",
-            "request": "launch",
-            "mainClass": "Permutation",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - RandomizedQueue",
-            "request": "launch",
-            "mainClass": "princeton.algo.queue.RandomizedQueue",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-IteratorTest<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "IteratorTest",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-Percolation<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "Percolation",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-PercolationStats<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "PercolationStats",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-QueueTest<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "QueueTest",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-StackTest<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "StackTest",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-ThreeSum<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "ThreeSum",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-UnionFindTest<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "UnionFindTest",
-            "projectName": "Algorithm_288b92e6"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-Deque<Algorithm_288b92e6>",
-            "request": "launch",
-            "mainClass": "princeton.algo.queue.Deque",
-            "projectName": "Algorithm_288b92e6"
         }
     ]
 }
