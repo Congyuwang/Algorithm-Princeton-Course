@@ -17,8 +17,6 @@ public class RandomizedQueue<Item> implements Queue<Item> {
 
     @SuppressWarnings("unchecked")
     private Item[] s = (Item[]) new Object[1];
-    private int[] vacancyStack = {0};
-    private int firstVacancy = 0;
     private int size = 0;
 
     @Override
@@ -36,15 +34,15 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (item == null) {
             throw new IllegalArgumentException("null item not allowed!");
         }
-        if (firstVacancy < 0) {
-            grow();
+        if (size == s.length) {
+            grow(s.length << 1);
         }
-        s[vacancyStack[firstVacancy--]] = item;
-        size++;
+        s[size++] = item;
     }
 
     /**
      * {@code dequeue()} returns a random item from the Queue and remove it.
+     * After each removal, fill in the gap using the last item in the Queue.
      *
      * @return a random item from the Queue.
      */
@@ -53,19 +51,14 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
-        if (firstVacancy == vacancyStack.length - 1) {
-            compress();
+        if (size == s.length >> 2) {
+            grow(s.length >> 1);
         }
-        while (true) {
-            int i = StdRandom.uniform(s.length);
-            Item item = s[i];
-            if (item != null) {
-                vacancyStack[++firstVacancy] = i;
-                s[i] = null;
-                size--;
-                return item;
-            }
-        }
+        int i = StdRandom.uniform(size);
+        Item item = s[i];
+        s[i] = s[--size];
+        s[size] = null;
+        return item;
     }
 
     /**
@@ -87,8 +80,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         }
     }
 
-    private void grow() {
-        int capacity = size << 1;
+    private void grow(int capacity) {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
         int[] copyStack = new int[capacity - (capacity >> 2)];
@@ -97,27 +89,6 @@ public class RandomizedQueue<Item> implements Queue<Item> {
             copyStack[i - size] = i;
         }
         s = copy;
-        vacancyStack = copyStack;
-        firstVacancy = capacity - size - 1;
-    }
-
-    private void compress() {
-        int capacity = s.length >> 1;
-        @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) new Object[capacity];
-        int[] copyStack = new int[capacity - (capacity >> 2)];
-        int i = 0;
-        for (Item item : s) {
-            if (item != null) {
-                copy[i++] = item;
-            }
-        }
-        for (i = size; i < capacity; i++) {
-            copyStack[i - size] = i;
-        }
-        s = copy;
-        vacancyStack = copyStack;
-        firstVacancy = capacity - size - 1;
     }
 
     // return an independent iterator over items in random order
