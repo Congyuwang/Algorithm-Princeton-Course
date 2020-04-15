@@ -8,14 +8,14 @@ import edu.princeton.cs.algs4.StdRandom;
  *
  * @param <Item> item type parameter
  */
-class StreamChooseK<Item> {
+public class StreamChooseK<Item> {
 
     private final int k;
     private int count;
     private double p = 1.0;
     private RandomizedQueue<Item> collection;
 
-    StreamChooseK(int k) {
+    public StreamChooseK(int k) {
         this.k = k;
         collection = new RandomizedQueue<>();
     }
@@ -28,7 +28,7 @@ class StreamChooseK<Item> {
      *
      * @param item the added item for updating the collection
      */
-    void update(Item item) {
+    public void update(Item item) {
         if (count < k) {
             collection.enqueue(item);
         } else {
@@ -41,7 +41,7 @@ class StreamChooseK<Item> {
         count++;
     }
 
-    RandomizedQueue<Item> getCollection() {
+    public RandomizedQueue<Item> getCollection() {
         return collection;
     }
 }
