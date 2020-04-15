@@ -135,6 +135,9 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         for (String s : randomizedQueue) {
             System.out.print(s + " ");
         }
+        for (int i = 0; i < 10; i++) {
+            System.out.print(randomizedQueue.sample() + " ");
+        }
         System.out.println();
         for (int i = 0; i < 5; i++) {
             System.out.print(randomizedQueue.dequeue() + " ");
