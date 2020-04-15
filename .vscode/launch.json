@@ -4,6 +4,14 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - IteratorTest",
+            "request": "launch",
+            "mainClass": "IteratorTest",
+            "projectName": "Algorithm_288b92e6"
+        },
         {
             "type": "java",
             "name": "Debug (Launch) - Current File",
