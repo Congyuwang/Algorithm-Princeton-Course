@@ -10,6 +10,7 @@ cp princeton/algo/queue/RandomizedQueue.java princeton/algo/deque/Deque.java Per
 
 cd ~/Desktop/queues
 
+# remove the package statements of these files, and merge StreamChooseK into Permutation.
 echo "$(tail -n +3 Deque.java)" > Deque.java
 echo "$(tail -n +3 RandomizedQueue.java)" > RandomizedQueue.java
 echo "$(tail -n +2 StreamChooseK.java)" > StreamChooseK.java
