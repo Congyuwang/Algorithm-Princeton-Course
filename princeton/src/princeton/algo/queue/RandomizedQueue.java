@@ -109,7 +109,6 @@ public class RandomizedQueue<Item> implements Queue<Item> {
     private Item[] randomizeCondense() {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[size];
-        int p = 0;
         System.arraycopy(s, 0, copy, 0, size);
         // shuffle
         for (int i = size - 1; i > 0; i--) {
