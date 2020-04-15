@@ -1,5 +1,4 @@
 import princeton.algo.queue.RandomizedQueue;
-import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {
@@ -11,12 +10,8 @@ public class Permutation {
         } catch (NumberFormatException e) {
             return;
         }
-        while (StdIn.hasNextLine()) {
-            try {
-                streamChoose.update(StdIn.readString());
-            } catch (NoSuchElementException e) {
-                break;
-            }
+        while (!StdIn.isEmpty()) {
+            streamChoose.update(StdIn.readString());
         }
         RandomizedQueue<String> collection = streamChoose.getCollection();
         for (String s : collection) {
