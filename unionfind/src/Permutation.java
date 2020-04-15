@@ -1,6 +1,6 @@
+import princeton.algorithm.queue.RandomizedQueue;
 import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdIn;
-import princeton.algorithm.queue.RandomizedQueue;
 
 public class Permutation {
 
