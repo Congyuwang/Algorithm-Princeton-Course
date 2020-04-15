@@ -20,4 +20,4 @@ echo "$(sed 's/@SuppressWarnings(\"unchecked\")//' RandomizedQueue.java)" > Rand
 rm StreamChooseK.java
 cd ~/Desktop
 zip -r queues.zip queues
-# rm -rf queues
+rm -rf queues
