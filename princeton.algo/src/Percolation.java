@@ -1,4 +1,4 @@
-import princeton.algorithm.unionfind.WeightedQuickUnionUF;
+import princeton.unionfind.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdIn;
 
 public class Percolation {

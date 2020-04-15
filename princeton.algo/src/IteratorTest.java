@@ -1,11 +1,11 @@
-import princeton.algorithm.queue.Queue;
-import princeton.algorithm.queue.RandomizedQueue;
-import princeton.algorithm.stack.Stack;
-import princeton.algorithm.queue.ArrayQueue;
-import princeton.algorithm.queue.LinkedQueue;
-import princeton.algorithm.queue.TwoStackQueue;
-import princeton.algorithm.stack.ArrayStack;
-import princeton.algorithm.stack.LinkedStack;
+import princeton.queue.Queue;
+import princeton.queue.RandomizedQueue;
+import princeton.stack.Stack;
+import princeton.queue.ArrayQueue;
+import princeton.queue.LinkedQueue;
+import princeton.queue.TwoStackQueue;
+import princeton.stack.ArrayStack;
+import princeton.stack.LinkedStack;
 import java.util.Scanner;
 
 public class IteratorTest {

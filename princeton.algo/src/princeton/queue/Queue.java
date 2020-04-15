@@ -1,4 +1,4 @@
-package princeton.algorithm.queue;
+package princeton.queue;
 
 import java.util.NoSuchElementException;
 

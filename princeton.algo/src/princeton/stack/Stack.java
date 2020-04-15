@@ -1,4 +1,4 @@
-package princeton.algorithm.stack;
+package princeton.stack;
 
 import java.util.NoSuchElementException;
 

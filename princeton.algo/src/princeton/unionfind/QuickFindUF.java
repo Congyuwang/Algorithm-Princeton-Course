@@ -1,4 +1,4 @@
-package princeton.algorithm.unionfind;
+package princeton.unionfind;
 
 public class QuickFindUF {
 

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/princeton.algorithm.iml" filepath="$PROJECT_DIR$/.idea/princeton.algorithm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/unionfind/unionfind.iml" filepath="$PROJECT_DIR$/unionfind/unionfind.iml" />
+      <module fileurl="file://$PROJECT_DIR$/princeton.algo/princeton.algo.iml" filepath="$PROJECT_DIR$/princeton.algo/princeton.algo.iml" />
     </modules>
   </component>
 </project>
