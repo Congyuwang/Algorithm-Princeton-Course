@@ -35,7 +35,7 @@ public class ArrayStack<Item> implements Stack<Item> {
     }
 
     @Override
-    public Item pop() throws NoSuchElementException {
+    public Item pop() {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
@@ -75,7 +75,7 @@ public class ArrayStack<Item> implements Stack<Item> {
         }
 
         @Override
-        public Item next() throws NoSuchElementException {
+        public Item next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }

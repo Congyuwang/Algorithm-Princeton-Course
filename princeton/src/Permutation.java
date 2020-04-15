@@ -34,9 +34,9 @@ public class Permutation {
  */
 class StreamChooseK<Item> {
 
-    private int k;
+    private final int k;
     private int count;
-    RandomizedQueue<Item> collection;
+    private RandomizedQueue<Item> collection;
 
     StreamChooseK(int k) {
         this.k = k;
@@ -56,12 +56,13 @@ class StreamChooseK<Item> {
      * @param item the added item for updating the collection
      */
     void update(Item item) {
-        if (count++ < k) {
+        if (count < k) {
             collection.enqueue(item);
         } else {
             collection.enqueue(item);
             collection.dequeue();
         }
+        count++;
     }
 
     RandomizedQueue<Item> getCollection() {

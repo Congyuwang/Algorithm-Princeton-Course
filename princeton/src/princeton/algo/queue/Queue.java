@@ -20,7 +20,7 @@ public interface Queue<Item> extends Iterable<Item> {
      * @return an item in the Queue
      * @throws NoSuchElementException throws if the Queue is empty.
      */
-    Item dequeue() throws NoSuchElementException;
+    Item dequeue();
 
     /**
      * push an item into the Queue

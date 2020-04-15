@@ -20,5 +20,8 @@ public interface Stack<Item> extends Iterable<Item> {
 
     void push(Item item) throws IllegalArgumentException;
 
-    Item pop() throws NoSuchElementException;
+    /**
+     * @exception NoSuchElementException if there is no more element.
+     */
+    Item pop();
 }

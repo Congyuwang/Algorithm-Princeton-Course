@@ -28,7 +28,7 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     private int size = 0;
 
     @Override
-    public Item dequeue() throws NoSuchElementException {
+    public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }

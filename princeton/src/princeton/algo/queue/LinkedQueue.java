@@ -23,7 +23,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
 
     // remove the first item
     @Override
-    public Item dequeue() throws NoSuchElementException {
+    public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("QueueUnderFlow!");
         }
@@ -71,7 +71,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
         }
 
         @Override
-        public Item next() throws NoSuchElementException {
+        public Item next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }

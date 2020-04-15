@@ -49,7 +49,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
      * @return a random item from the Queue.
      */
     @Override
-    public Item dequeue() throws NoSuchElementException {
+    public Item dequeue() {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
@@ -137,7 +137,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         }
 
         @Override
-        public Item next() throws NoSuchElementException {
+        public Item next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
