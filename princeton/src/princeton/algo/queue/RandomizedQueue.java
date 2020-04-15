@@ -71,23 +71,13 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException("StackUnderFlow!");
         }
-        while (true) {
-            int i = StdRandom.uniform(s.length);
-            Item item = s[i];
-            if (item != null) {
-                return item;
-            }
-        }
+        return s[StdRandom.uniform(size)];
     }
 
     private void grow(int capacity) {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
-        int[] copyStack = new int[capacity - (capacity >> 2)];
         System.arraycopy(s, 0, copy, 0, size);
-        for (int i = size; i < capacity; i++) {
-            copyStack[i - size] = i;
-        }
         s = copy;
     }
 
@@ -120,11 +110,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[size];
         int p = 0;
-        for (Item item : s) {
-            if (item != null) {
-                copy[p++] = item;
-            }
-        }
+        System.arraycopy(s, 0, copy, 0, size);
         // shuffle
         for (int i = size - 1; i > 0; i--) {
             int j = StdRandom.uniform(i + 1);
