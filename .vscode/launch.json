@@ -15,7 +15,7 @@
             "type": "java",
             "name": "CodeLens (Launch) - RandomizedQueue",
             "request": "launch",
-            "mainClass": "princeton.algorithm.queue.RandomizedQueue",
+            "mainClass": "princeton.algo.queue.RandomizedQueue",
             "projectName": "Algorithm_288b92e6"
         },
         {
@@ -77,7 +77,7 @@
             "type": "java",
             "name": "Debug (Launch)-Deque<Algorithm_288b92e6>",
             "request": "launch",
-            "mainClass": "princeton.algorithm.queue.Deque",
+            "mainClass": "princeton.algo.queue.Deque",
             "projectName": "Algorithm_288b92e6"
         }
     ]

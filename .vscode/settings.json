@@ -1,6 +1,5 @@
 {
     "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "unionfind/algs4.jar"
+        "lib/**/*.jar"
     ]
 }
