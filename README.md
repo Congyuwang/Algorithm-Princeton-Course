@@ -4,4 +4,4 @@ This repository contains my solutions to princeton's algorithm open course taugh
 I will try to write codes as clearly as possible.
 All the solutions are correct and earn the bonus points.
 
-The source file folder is in [[princeton/src]].
+The source file folder is in princeton/src.
