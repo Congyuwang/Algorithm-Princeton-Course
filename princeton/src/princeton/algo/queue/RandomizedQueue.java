@@ -128,7 +128,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
 
     private class RandomizedQueueIterator implements Iterator<Item> {
 
-        private Item[] shuffledItem = randomizeCondense();
+        private final Item[] shuffledItem = randomizeCondense();
         int i = shuffledItem.length;
 
         @Override
