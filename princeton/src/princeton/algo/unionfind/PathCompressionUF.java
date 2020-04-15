@@ -1,4 +1,4 @@
-package princeton.unionfind;
+package princeton.algo.unionfind;
 // This algorithm uses N + M lg N
 
 public class PathCompressionUF {

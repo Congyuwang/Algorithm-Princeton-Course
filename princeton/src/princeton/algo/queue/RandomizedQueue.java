@@ -1,4 +1,4 @@
-package princeton.queue;
+package princeton.algo.queue;
 
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;

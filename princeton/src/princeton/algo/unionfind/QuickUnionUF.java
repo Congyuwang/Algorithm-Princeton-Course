@@ -1,4 +1,4 @@
-package princeton.unionfind;
+package princeton.algo.unionfind;
 
 public class QuickUnionUF {
     private int[] id;

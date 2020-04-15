@@ -1,4 +1,4 @@
-import princeton.queue.RandomizedQueue;
+import princeton.algo.queue.RandomizedQueue;
 import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdIn;
 

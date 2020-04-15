@@ -1,8 +1,9 @@
-package princeton.queue;
+package princeton.algo.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import princeton.stack.LinkedStack;
+
+import princeton.algo.stack.LinkedStack;
 
 /**
  * The TwoStackQueue class implements the iterable Queue data structure using
