@@ -104,10 +104,6 @@ public class Deque<Item> implements Iterable<Item> {
         return item;
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException("remove is unsupported!");
-    }
-
     // return an iterator over items in order from front to back
     @Override
     public Iterator<Item> iterator() {
