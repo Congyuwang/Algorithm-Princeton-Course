@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Permutation",
+            "request": "launch",
+            "mainClass": "Permutation",
+            "projectName": "Algorithm_288b92e6"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - RandomizedQueue",
             "request": "launch",
             "mainClass": "princeton.algorithm.queue.RandomizedQueue",
