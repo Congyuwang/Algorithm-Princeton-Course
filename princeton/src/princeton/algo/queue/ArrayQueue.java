@@ -92,7 +92,10 @@ public class ArrayQueue<Item> implements Queue<Item> {
         }
 
         @Override
-        public Item next() {
+        public Item next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             j--;
             if (i == s.length) {
                 i = 0;

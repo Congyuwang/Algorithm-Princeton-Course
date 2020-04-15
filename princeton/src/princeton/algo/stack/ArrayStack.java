@@ -75,7 +75,10 @@ public class ArrayStack<Item> implements Stack<Item> {
         }
 
         @Override
-        public Item next() {
+        public Item next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             return s[--i];
         }
     }

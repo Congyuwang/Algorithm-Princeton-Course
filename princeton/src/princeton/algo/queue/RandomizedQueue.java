@@ -137,7 +137,10 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         }
 
         @Override
-        public Item next() {
+        public Item next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             return shuffledItem[--i];
         }
     }

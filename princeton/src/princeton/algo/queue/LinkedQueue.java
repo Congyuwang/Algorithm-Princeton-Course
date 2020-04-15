@@ -71,7 +71,10 @@ public class LinkedQueue<Item> implements Queue<Item> {
         }
 
         @Override
-        public Item next() {
+        public Item next() throws NoSuchElementException {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             Item currentItem = current.item;
             current = current.next;
             return currentItem;
