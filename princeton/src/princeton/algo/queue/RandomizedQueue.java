@@ -1,5 +1,6 @@
 package princeton.algo.queue;
 
+import princeton.algo.sort.Shuffle;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -111,37 +112,35 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[size];
         System.arraycopy(s, 0, copy, 0, size);
-        // shuffle
-        for (int i = 1; i < size; i++) {
-            int j = StdRandom.uniform(i + 1);
-            Item temp = copy[j];
-            copy[j] = copy[i];
-            copy[i] = temp;
-        }
+        Shuffle.shuffle(copy);
         return copy;
     }
 
     // unit testing
     public static void main(String[] args) {
-        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
         int RANGE = 10;
         int ROUND = 10000;
+        int[][] uniformChecker = new int[RANGE][RANGE];
+        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
+        // add integers
         for (int i = 0; i < RANGE; i++) {
             randomizedQueue.enqueue(i);
         }
-        int[][] uniformChecker = new int[RANGE][RANGE];
+        // count the appearance of number s at position pos
         for (int round = 0; round < ROUND; round++) {
             int pos = 0;
             for (int s : randomizedQueue) {
                 uniformChecker[pos++][s]++;
             }
         }
+        // print the result
         for (int[] a : uniformChecker) {
             for (int s : a) {
                 System.out.printf("%6d ", s);
             }
             System.out.println();
         }
+        // calculate the Chi-squared statistics
         double squaredSum = 0;
         double expected = (double) ROUND / RANGE;
         for (int i = 0; i < RANGE; i++) {
