@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdRandom;
  * A memory efficient way to choose k items from a stream of inputs, which
  * features constant operation time and constant memory usage proportional to k.
  * It provides a uniform choice function regardless of the input length.
+ * Put input item in {@code void update()} to update the collection.
  *
  * @param <Item> item type parameter
  */
