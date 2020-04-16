@@ -1,3 +1,5 @@
+package tests;
+
 import princeton.algo.queue.Queue;
 import princeton.algo.queue.RandomizedQueue;
 import princeton.algo.stack.Stack;
@@ -8,7 +10,7 @@ import princeton.algo.stack.ArrayStack;
 import princeton.algo.stack.LinkedStack;
 import java.util.Scanner;
 
-public class IteratorTest {
+class IteratorTest {
     public static void main(String[] args) {
         Queue<Integer> linkedQueue  = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
