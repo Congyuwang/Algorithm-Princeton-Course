@@ -3,6 +3,7 @@ package princeton.algo.queue;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 /**
  * The RandomizedQueue class implements an Iterable data structure that provides
@@ -122,25 +123,36 @@ public class RandomizedQueue<Item> implements Queue<Item> {
 
     // unit testing
     public static void main(String[] args) {
-        RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
-        randomizedQueue.enqueue("a");
-        randomizedQueue.enqueue("b");
-        randomizedQueue.enqueue("c");
-        randomizedQueue.enqueue("d");
-        randomizedQueue.enqueue("e");
-        for (String s : randomizedQueue) {
-            System.out.print(s + " ");
+        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
+        int RANGE = 10;
+        int ROUND = 10000;
+        for (int i = 0; i < RANGE; i++) {
+            randomizedQueue.enqueue(i);
         }
-        System.out.println();
-        for (String s : randomizedQueue) {
-            System.out.print(s + " ");
+        int[][] uniformChecker = new int[RANGE][RANGE];
+        for (int round = 0; round < ROUND; round++) {
+            int pos = 0;
+            for (int s : randomizedQueue) {
+                uniformChecker[pos++][s]++;
+            }
         }
-        for (int i = 0; i < 10; i++) {
-            System.out.print(randomizedQueue.sample() + " ");
+        for (int[] a : uniformChecker) {
+            for (int s : a) {
+                System.out.printf("%6d ", s);
+            }
+            System.out.println();
         }
-        System.out.println();
-        for (int i = 0; i < 5; i++) {
-            System.out.print(randomizedQueue.dequeue() + " ");
+        double squaredSum = 0;
+        double expected = (double) ROUND / RANGE;
+        for (int i = 0; i < RANGE; i++) {
+            for (int j = 0; j < RANGE; j++) {
+                squaredSum += Math.pow(uniformChecker[i][j] - expected, 2);
+            }
         }
+        int degreeOfFreedom = (RANGE - 1) * (RANGE - 1);
+        double chiSquared = squaredSum / expected;
+        ChiSquaredDistribution chiSquaredDistribution = new ChiSquaredDistribution(degreeOfFreedom);
+        System.out.printf("Chi5 = %f\n", squaredSum / expected);
+        System.out.printf("p-value = %f\n", chiSquaredDistribution.cumulativeProbability(chiSquared));
     }
 }
