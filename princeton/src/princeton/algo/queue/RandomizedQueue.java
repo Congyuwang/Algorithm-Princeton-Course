@@ -111,7 +111,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         Item[] copy = (Item[]) new Object[size];
         System.arraycopy(s, 0, copy, 0, size);
         // shuffle
-        for (int i = size - 1; i > 0; i--) {
+        for (int i = 1; i < size; i++) {
             int j = StdRandom.uniform(i + 1);
             Item temp = copy[j];
             copy[j] = copy[i];
