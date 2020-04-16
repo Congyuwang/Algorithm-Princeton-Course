@@ -2,6 +2,10 @@ package princeton.algo.sort;
 
 import edu.princeton.cs.algs4.StdRandom;
 
+/**
+ * The Shuffle class shuffles any array shorter than MAX.INTEGER uniformly
+ * in linear time.
+ */
 public class Shuffle {
     public static void shuffle(Object[] a) {
         int size = a.length;
