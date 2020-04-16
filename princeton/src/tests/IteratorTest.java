@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 class IteratorTest {
     public static void main(String[] args) {
-        Queue<Integer> linkedQueue  = new LinkedQueue<>();
+        Queue<Integer> linkedQueue = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
         Queue<Integer> twoStackQueue = new TwoStackQueue<>();
         Queue<Integer> randomizedQueue = new RandomizedQueue<>();
