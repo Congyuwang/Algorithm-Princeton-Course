@@ -4,7 +4,6 @@ import princeton.algo.sort.Shuffle;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-// import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 
 /**
  * The RandomizedQueue class implements an Iterable data structure that provides
