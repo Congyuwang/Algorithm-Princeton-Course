@@ -14,6 +14,7 @@ cd ~/Desktop/queues
 echo "$(tail -n +3 Deque.java)" > Deque.java
 echo "$(tail -n +4 RandomizedQueue.java)" > RandomizedQueue.java
 echo "$(tail -n +2 StreamChooseK.java)" > StreamChooseK.java
+echo "$(sed 's/public class StreamChooseK/class StreamChooseK/g' StreamChooseK.java)" > StreamChooseK.java
 echo "$(sed '1 r StreamChooseK.java' Permutation.java)" > Permutation.java
 echo "$(sed 's/implements Queue/implements Iterable/g' RandomizedQueue.java)" > RandomizedQueue.java
 echo "$(sed 's/@Override//' RandomizedQueue.java)" > RandomizedQueue.java
