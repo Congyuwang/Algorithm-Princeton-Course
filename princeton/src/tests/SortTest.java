@@ -21,9 +21,6 @@ class SortTest {
         }
         System.arraycopy(test1, 0, test1copy1, 0, LENGTH);
         System.arraycopy(test2, 0, test2copy1, 0, LENGTH);
-        for (int i = 0; i < LENGTH; i++) {
-            test1[i] = random.nextDouble();
-        }
 
         // test1: Selection sort
         System.out.println("Test1: Selection sort:");
