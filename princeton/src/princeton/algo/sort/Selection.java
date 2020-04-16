@@ -13,7 +13,7 @@ public class Selection {
         }
     }
 
-    private static <T extends Comparable<T>> boolean less(Comparable<T> v, T w) {
+    private static <T extends Comparable<T>> boolean less(T v, T w) {
         return v.compareTo(w) < 0;
     }
 
@@ -23,11 +23,29 @@ public class Selection {
         a[j] = swap;
     }
 
+    public static <T extends Comparable<T>> boolean isSorted(T[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            if (less(a[i + 1], a[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        Integer[] test = {3, 1, 5, 2, 6, 4, 8, 5, 9, 5, 0, 7};
-        Selection.sort(test);
-        for (int i : test) {
+        Double[] test = new Double[100];
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < 100; i++) {
+            test[i] = random.nextDouble();
+        }
+        for (double i : test) {
             System.out.println(i);
         }
+        System.out.printf("is sorted: %b\n", isSorted(test));
+        Selection.sort(test);
+        for (double i : test) {
+            System.out.println(i);
+        }
+        System.out.printf("is sorted: %b\n", isSorted(test));
     }
 }
