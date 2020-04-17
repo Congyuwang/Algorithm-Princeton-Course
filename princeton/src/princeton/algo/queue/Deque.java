@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  * The Deque class is an iterable linked list data structure that
  * allows addFirst, addLast, removeFirst, and removeLast methods.
  */
-public class Deque<Item> implements Iterable<Item> {
+public class Deque<Item> implements Queue<Item> {
 
     private Node first = null;
     private Node last = null;
@@ -128,6 +128,16 @@ public class Deque<Item> implements Iterable<Item> {
             current = current.next;
             return currentItem;
         }
+    }
+
+    @Override
+    public Item dequeue() {
+        return removeFirst();
+    }
+
+    @Override
+    public void enqueue(Item item) throws IllegalArgumentException {
+        addLast(item);
     }
 
     // unit testing
