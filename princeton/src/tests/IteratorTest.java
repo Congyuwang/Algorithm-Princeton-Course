@@ -1,14 +1,7 @@
 package tests;
 
-import princeton.algo.queue.Queue;
-import princeton.algo.stack.Stack;
-import princeton.algo.queue.LinkedQueue;
-import princeton.algo.queue.ArrayQueue;
-import princeton.algo.queue.TwoStackQueue;
-import princeton.algo.queue.Deque;
-import princeton.algo.queue.RandomizedQueue;
-import princeton.algo.stack.ArrayStack;
-import princeton.algo.stack.LinkedStack;
+import princeton.algo.queue.*;
+import princeton.algo.stack.*;
 import java.util.Scanner;
 
 class IteratorTest {
