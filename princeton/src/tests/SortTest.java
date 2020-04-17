@@ -29,7 +29,6 @@ class SortTest {
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, T[] test) {
-        // Caveat: be careful about the clone() here
         T[] testCopy = test.clone();
         System.out.printf("    %s sort: ", algorithm);
         Stopwatch timer = new Stopwatch();
