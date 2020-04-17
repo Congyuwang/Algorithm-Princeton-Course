@@ -75,7 +75,7 @@ public class Deque<Item> implements Queue<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         Item item = first.item;
         first = first.next;

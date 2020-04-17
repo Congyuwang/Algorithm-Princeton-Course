@@ -41,7 +41,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
     @Override
     public Item dequeue() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         if (head == s.length) {
             head = 0;

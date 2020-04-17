@@ -50,7 +50,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
     @Override
     public Item dequeue() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         if (size == s.length >> 2) {
             grow(s.length >> 1);
@@ -70,7 +70,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
      */
     public Item sample() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         return s[StdRandom.uniform(size)];
     }

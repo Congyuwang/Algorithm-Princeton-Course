@@ -30,7 +30,7 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     @Override
     public Item dequeue() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("QueueUnderFlow!");
         }
         if (inStack.size() == storeStack.size()) {
             pour();
