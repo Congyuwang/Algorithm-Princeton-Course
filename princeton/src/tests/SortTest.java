@@ -1,8 +1,6 @@
 package tests;
 
-import princeton.algo.sort.Insertion;
-import princeton.algo.sort.Selection;
-import princeton.algo.sort.Util;
+import princeton.algo.sort.*;
 import java.util.Random;
 import edu.princeton.cs.algs4.Stopwatch;
 
@@ -21,16 +19,18 @@ class SortTest {
         System.out.println("Test1 (random order):");
         test("selection", test1);
         test("insertion", test1);
+        test("shell", test1);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("Test2 (partially sorted):");
         test("selection", test2);
         test("insertion", test2);
+        test("shell", test2);
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, T[] test) {
         T[] testCopy = test.clone();
-        System.out.printf("    %s sort: ", algorithm);
+        System.out.printf("%15s sort: ", algorithm);
         Stopwatch timer = new Stopwatch();
         switch (algorithm) {
             case "selection":
@@ -38,6 +38,9 @@ class SortTest {
                 break;
             case "insertion":
                 Insertion.sort(testCopy);
+                break;
+            case "shell":
+                Shell.sort(testCopy);
                 break;
             default:
                 break;
