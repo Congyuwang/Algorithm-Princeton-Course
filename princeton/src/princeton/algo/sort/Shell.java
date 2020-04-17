@@ -1,7 +1,8 @@
 package princeton.algo.sort;
 
 /**
- * This is based on Sedgewick 1985. The algorithm has worst time O(N^(4/3))
+ * This shell sort algorithm is based on Sedgewick 1985.
+ * The algorithm has worst time O(N^(4/3)).
  */
 public class Shell {
     public static <T extends Comparable<? super T>> void sort(T[] a) {
