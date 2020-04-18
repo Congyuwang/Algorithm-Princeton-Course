@@ -3,6 +3,10 @@ package interview;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Dutch national flag problem solution.
+ * The algorithm opens the buckets n times.
+ */
 public class DutchFlag {
 
     /**
@@ -14,18 +18,9 @@ public class DutchFlag {
     public static int[] sortPebbles(PebbleColor[] c) {
         assert(c.length > 2);
 
-        /**
-         * Count the times of swapping and the number of times opening the buckets.
-         * swapCount++ each time swap() is called.
-         * openBucketCount++ each time c[] is used.
-         */
         int swapCount = 0;
         int openBucketCount = 0;
 
-        /**
-         * Initialize the three pointers. p1 points to the first bucket, p points to the
-         * current bucket, and p2 points to the last bucket.
-         */
         int p1 = 0;
         int p = 0;
         int p2 = c.length;
