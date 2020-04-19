@@ -38,7 +38,7 @@ class RandomizedQueueTest {
         int degreeOfFreedom = (RANGE - 1) * (RANGE - 1);
         double chiSquared = squaredSum / expected;
         ChiSquaredDistribution chiSquaredDistribution = new ChiSquaredDistribution(degreeOfFreedom);
-        System.out.printf("Chi5 = %f\n", squaredSum / expected);
+        System.out.printf("Chi(%d) = %f\n", degreeOfFreedom, squaredSum / expected);
         System.out.printf("p-value = %f\n", chiSquaredDistribution.cumulativeProbability(chiSquared));
     }
 }
