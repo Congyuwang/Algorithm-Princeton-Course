@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/princeton/princeton.iml" filepath="$PROJECT_DIR$/princeton/princeton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/princeton.iml" filepath="$PROJECT_DIR$/princeton.iml" />
     </modules>
   </component>
 </project>
