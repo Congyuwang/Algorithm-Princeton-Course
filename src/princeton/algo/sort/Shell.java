@@ -13,7 +13,7 @@ public class Shell {
         while (h(k) < a.length) {
             k++;
         }
-        while (k > 0) {
+        while (k >= 0) {
             int gap = h(k--);
             // step-gap shell sort
             for (int i = gap; i < a.length; i++) {
