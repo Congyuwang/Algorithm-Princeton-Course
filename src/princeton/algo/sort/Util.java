@@ -66,7 +66,7 @@ public class Util {
      * @return {@code true} if no later element is smaller than previous one
      */
     public static <T extends Comparable<? super T>> boolean isSorted(T[] a, int i0, int i1) {
-        if (i0 < 0 || i1 > a.length || i1 > i0) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
             throw new IllegalArgumentException("index out of range!");
         }
         for (int i = i0; i < i1 - 1; i++) {
@@ -89,7 +89,7 @@ public class Util {
      * @return {@code true} if no later element is smaller than previous one
      */
     public static <T> boolean isSorted(T[] a, int i0, int i1, Comparator<? super T> comparator) {
-        if (i0 < 0 || i1 > a.length || i1 > i0) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
             throw new IllegalArgumentException("index out of range!");
         }
         for (int i = i0; i < i1 - 1; i++) {
