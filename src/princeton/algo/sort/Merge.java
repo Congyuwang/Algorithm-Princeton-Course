@@ -12,21 +12,22 @@ public class Merge {
         @SuppressWarnings("unchecked")
         T[] aux = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length);
         System.arraycopy(a, 0, aux, 0, a.length);
-        sort(a, aux, 0, a.length);
+        sort(aux, a, 0, a.length);
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, T[] aux, int lo, int hi) {
         if (hi <= lo + CUTOFF) {
-            Insertion.sort(a, lo, hi);
+            Insertion.sort(aux, lo, hi);
             return;
         }
         int mid = (lo + hi) >>> 1;
         sort(aux, a, lo, mid);
         sort(aux, a, mid, hi);
-        if (!Util.less(aux[mid], aux[mid - 1])) {
-            return;
+        if (Util.less(a[mid], a[mid - 1])) {
+            merge(a, aux, lo, mid, hi);
+        } else {
+            System.arraycopy(a, lo, aux, lo, hi - lo);
         }
-        merge(a, aux, lo, mid, hi);
     }
 
     private static <T extends Comparable<? super T>> void merge(T[] a, T[] aux, int lo, int mid, int hi) {
