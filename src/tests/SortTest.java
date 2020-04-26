@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.Stopwatch;
 
 class SortTest {
     public static void main(String[] args) {
-        int LENGTH = 50000;
+        int LENGTH = 40000;
         Random random = new Random();
         Double[] test1 = new Double[LENGTH];
         Double[] test2 = new Double[LENGTH];
@@ -21,6 +21,7 @@ class SortTest {
         test("insertion", test1);
         test("shell", test1);
         test("merge", test1);
+        test("mergeBU", test1);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("Test2 (partially sorted):");
@@ -28,6 +29,7 @@ class SortTest {
         test("insertion", test2);
         test("shell", test2);
         test("merge", test2);
+        test("mergeBU", test2);
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, T[] test) {
@@ -47,11 +49,13 @@ class SortTest {
             case "merge":
                 Merge.sort(testCopy);
                 break;
+            case "mergeBU":
+                MergeBU.sort(testCopy);
+                break;
             default:
                 break;
         }
-        assert(Util.isSorted(testCopy));
         System.out.printf("elapsed time = %.4f", timer.elapsedTime());
-        System.out.println();
+        System.out.printf(", IsSorted: %b\n", Util.isSorted(testCopy));
     }
 }
