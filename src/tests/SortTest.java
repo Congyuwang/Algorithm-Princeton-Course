@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.Stopwatch;
 
 class SortTest {
     public static void main(String[] args) {
-        int LENGTH = 20000;
+        int LENGTH = 50000;
         Random random = new Random();
         Double[] test1 = new Double[LENGTH];
         Double[] test2 = new Double[LENGTH];
