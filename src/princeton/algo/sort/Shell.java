@@ -5,6 +5,9 @@ package princeton.algo.sort;
  * The algorithm has worst time O(N^(4/3)).
  */
 public class Shell {
+
+    private Shell() {};
+
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         int k = 0;
         while (h(k) < a.length) {

@@ -6,6 +6,9 @@ package princeton.algo.sort;
  * Insertion.sort is linear time if array is partially sorted.
  */
 public class Insertion {
+
+    private Insertion() {};
+
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         for (int i = 1; i < a.length; i++) {
             for (int j = i; j > 0; j--) {

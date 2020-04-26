@@ -7,6 +7,9 @@ import edu.princeton.cs.algs4.StdRandom;
  * in linear time.
  */
 public class Shuffle {
+
+    private Shuffle() {};
+
     public static void shuffle(Object[] a) {
         int size = a.length;
         for (int i = 1; i < size; i++) {

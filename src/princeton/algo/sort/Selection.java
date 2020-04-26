@@ -6,6 +6,9 @@ package princeton.algo.sort;
  * It uses ~N^2 / 2 compares.
  */
 public class Selection {
+
+    private Selection() {};
+
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         for (int i = 0; i < a.length - 1; i++) {
             int min = i;
