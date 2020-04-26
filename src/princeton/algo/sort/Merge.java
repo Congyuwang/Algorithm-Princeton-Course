@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 
 public class Merge {
 
+    private static final int CUTOFF = 7;
+
     private Merge() {};
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
@@ -13,12 +15,16 @@ public class Merge {
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, T[] aux, int lo, int hi) {
-        if (hi == lo + 1) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
             return;
         }
         int mid = (lo + hi) >>> 1;
         sort(a, aux, lo, mid);
         sort(a, aux, mid, hi);
+        if (!Util.less(a[mid], a[mid - 1])) {
+            return;
+        }
         merge(a, aux, lo, mid, hi);
     }
 

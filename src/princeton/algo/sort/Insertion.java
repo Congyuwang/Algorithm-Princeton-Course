@@ -10,8 +10,15 @@ public class Insertion {
     private Insertion() {};
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
-        for (int i = 1; i < a.length; i++) {
-            for (int j = i; j > 0; j--) {
+        sort(a, 0, a.length);
+    }
+
+    public static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
+        if (lo < 0 || hi > a.length || lo >= hi) {
+            throw new IllegalArgumentException("illegal index");
+        }
+        for (int i = lo; i < hi; i++) {
+            for (int j = i; j > lo; j--) {
                 if (Util.less(a[j], a[j - 1])) {
                     Util.exch(a, j, j - 1);
                 } else {
