@@ -20,12 +20,14 @@ class SortTest {
         test("selection", test1);
         test("insertion", test1);
         test("shell", test1);
+        test("merge", test1);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("Test2 (partially sorted):");
         test("selection", test2);
         test("insertion", test2);
         test("shell", test2);
+        test("merge", test2);
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, T[] test) {
@@ -41,6 +43,9 @@ class SortTest {
                 break;
             case "shell":
                 Shell.sort(testCopy);
+                break;
+            case "merge":
+                Merge.sort(testCopy);
                 break;
             default:
                 break;
