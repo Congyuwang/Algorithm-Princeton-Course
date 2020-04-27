@@ -3,10 +3,11 @@ package princeton.algo.sort;
 /**
  * This shell sort algorithm is based on Sedgewick 1985.
  * The algorithm has worst time O(N^(4/3)).
+ * Shell sort is not stable.
  */
 public class Shell {
 
-    private Shell() {};
+    private Shell() {}
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         int k = 0;

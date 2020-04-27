@@ -4,10 +4,11 @@ package princeton.algo.sort;
  * The selection sort algorithm sorts arrays with type T which is
  * <i>mutually</i> comparable.
  * It uses ~N^2 / 2 compares.
+ * The sorting algorithm is not stable.
  */
 public class Selection {
 
-    private Selection() {};
+    private Selection() {}
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         for (int i = 0; i < a.length - 1; i++) {

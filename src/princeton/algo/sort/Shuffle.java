@@ -8,7 +8,7 @@ import edu.princeton.cs.algs4.StdRandom;
  */
 public class Shuffle {
 
-    private Shuffle() {};
+    private Shuffle() {}
 
     public static void shuffle(Object[] a) {
         int size = a.length;

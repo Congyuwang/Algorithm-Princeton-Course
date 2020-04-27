@@ -4,10 +4,11 @@ package princeton.algo.sort;
  * Insertion.sort sorts array of mutually comparable type T.
  * The algorithm takes ~N^2/2 in worst case, and ~N^2/4 on average.
  * Insertion.sort is linear time if array is partially sorted.
+ * The algorithm is stable.
  */
 public class Insertion {
 
-    private Insertion() {};
+    private Insertion() {}
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         sort(a, 0, a.length);
