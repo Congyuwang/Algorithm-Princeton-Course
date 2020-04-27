@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
  * This merge sort algorithm uses recursive function.
  * The algorithm uses insertion sort for arrays with length shorter than 8.
  * It stores results in two alternating arrays a and b.
+ * It also checks whether merging is necessary.
  */
 public class Merge {
 

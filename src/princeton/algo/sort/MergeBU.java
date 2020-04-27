@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 /**
  * This bottom up merge sort algorithm uses Insertion sort of length 8
  * at first stage. It stores results in two alternating arrays a and b.
- * The algorithm is stable.
+ * The algorithm is stable. It also checks whether merging is necessary.
  */
 public class MergeBU {
 
