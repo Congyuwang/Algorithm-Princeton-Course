@@ -2,8 +2,6 @@ package princeton.algo.sort;
 
 import java.lang.reflect.Array;
 
-import edu.princeton.cs.algs4.Stopwatch;
-
 public class MergeBU {
 
     private static final int CUTOFF = 7;
