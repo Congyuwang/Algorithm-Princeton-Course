@@ -45,10 +45,10 @@ public class Merge {
                 dest[k] = src[j++];
             } else if (j == hi) {
                 dest[k] = src[i++];
-            } else if (Util.less(src[i], src[j])) {
-                dest[k] = src[i++];
-            } else {
+            } else if (Util.less(src[j], src[i])) {
                 dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
             }
         }
         assert Util.isSorted(dest, lo, hi);
