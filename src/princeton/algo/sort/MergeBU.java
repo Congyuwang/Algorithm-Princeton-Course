@@ -2,16 +2,21 @@ package princeton.algo.sort;
 
 import java.lang.reflect.Array;
 
+/**
+ * This bottom up merge sort algorithm uses Insertion sort of length 8
+ * at first stage. It stores results in two alternating arrays a and b.
+ * The algorithm is stable.
+ */
 public class MergeBU {
 
-    private static final int CUTOFF = 7;
+    private static final int CUTOFF = 8;
 
     private MergeBU() {}
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         int length = a.length;
         @SuppressWarnings("unchecked")
-        T[] aux = (T[]) Array.newInstance(a.getClass().getComponentType(), length);
+        T[] b = (T[]) Array.newInstance(a.getClass().getComponentType(), length);
 
         for (int lo = 0; lo < length; lo += CUTOFF) {
             Insertion.sort(a, lo, Math.min(length, lo + CUTOFF));
@@ -20,16 +25,16 @@ public class MergeBU {
         int round = 0;
         for (int size = CUTOFF; size < length; size <<= 1) {
             T[] temp = a;
-            a = aux;
-            aux = temp;
-            mergeTo(aux, a, size);
+            a = b;
+            b = temp;
+            mergeTo(b, a, size);
             round++;
         }
 
         assert Util.isSorted(a);
 
         if (round % 2 == 1) {
-            System.arraycopy(a, 0, aux, 0, length);
+            System.arraycopy(a, 0, b, 0, length);
         }
     }
 
