@@ -6,7 +6,7 @@ public class Merge {
 
     private static final int CUTOFF = 7;
 
-    private Merge() {};
+    private Merge() {}
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         @SuppressWarnings("unchecked")
@@ -15,35 +15,36 @@ public class Merge {
         sort(aux, a, 0, a.length);
     }
 
-    private static <T extends Comparable<? super T>> void sort(T[] a, T[] aux, int lo, int hi) {
+    private static <T extends Comparable<? super T>> void sort(T[] aux, T[] a, int lo, int hi) {
         if (hi <= lo + CUTOFF) {
-            Insertion.sort(aux, lo, hi);
+            Insertion.sort(a, lo, hi);
             return;
         }
         int mid = (lo + hi) >>> 1;
-        sort(aux, a, lo, mid);
-        sort(aux, a, mid, hi);
-        if (Util.less(a[mid], a[mid - 1])) {
-            merge(a, aux, lo, mid, hi);
+        sort(a, aux, lo, mid); assert Util.isSorted(aux, lo, mid);
+        sort(a, aux, mid, hi); assert Util.isSorted(aux, mid, hi);
+        if (Util.less(aux[mid], aux[mid - 1])) {
+            merge(aux, a, lo, mid, hi);
         } else {
-            System.arraycopy(a, lo, aux, lo, hi - lo);
-        }
-    }
-
-    private static <T extends Comparable<? super T>> void merge(T[] a, T[] aux, int lo, int mid, int hi) {
-        assert Util.isSorted(a, lo, mid);
-        assert Util.isSorted(a, mid, hi);
-        for (int k = lo, i = lo, j = mid; k < hi; k++) {
-            if (i == mid) {
-                aux[k] = a[j++];
-            } else if (j == hi) {
-                aux[k] = a[i++];
-            } else if (Util.less(a[i], a[j])) {
-                aux[k] = a[i++];
-            } else {
-                aux[k] = a[j++];
-            }
+            System.arraycopy(aux, lo, a, lo, hi - lo);
         }
         assert Util.isSorted(a, lo, hi);
+    }
+
+    public static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (Util.less(src[i], src[j])) {
+                dest[k] = src[i++];
+            } else {
+                dest[k] = src[j++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
     }
 }
