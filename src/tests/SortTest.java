@@ -1,14 +1,9 @@
 package tests;
 
 import princeton.algo.sort.*;
-
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
-import java.util.stream.Stream;
-
 import org.apache.commons.math3.distribution.TDistribution;
-
 import edu.princeton.cs.algs4.Stopwatch;
 
 class SortTest {
@@ -81,6 +76,7 @@ class SortTest {
                 break;
         }
         Double time = timer.elapsedTime();
+        assert Util.isSorted(testCopy);
         if (ifPrint) {
             System.out.printf("%15s sort: ", algorithm);
             System.out.printf("     elapsed time = %.5f", time);
@@ -147,13 +143,11 @@ class SortTest {
         double variance = 0.0;
         double upper;
         double lower;
-        int hi = 'z';
-        int lo = 'a';
         for (int i = 0; i < times; i++) {
             for (int j = 0; j < arrayLength; j++) {
                 char[] chars = new char[stringLength];
                 for (int k = 0; k < stringLength; k++) {
-                    chars[k] = (char) (random.nextInt(hi - lo) + lo);
+                    chars[k] = (char) (random.nextInt('z' - 'a') + 'a');
                 }
                 test[j] = String.valueOf(chars);
             }
