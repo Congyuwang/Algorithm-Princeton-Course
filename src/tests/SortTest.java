@@ -14,39 +14,55 @@ class SortTest {
         Double[] test2 = new Double[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
             test2[i] = random.nextDouble() + i * 0.2;
-            byte[] bytes = new byte[20];
-            random.nextBytes(bytes);
         }
 
         // test1: Selection sort
-        System.out.println("Test1 (random order):");
-        randomDoubleTest("selection", LENGTH, 10);
-        randomDoubleTest("insertion", LENGTH, 10);
-        randomDoubleTest("shell", LENGTH, 10);
+        System.out.println("\nTest1 (random order):");
+        randomDoubleTest("selection", LENGTH, 100);
+        randomDoubleTest("reference_selection", LENGTH, 100);
+        randomDoubleTest("insertion", LENGTH, 100);
+        randomDoubleTest("reference_insertion", LENGTH, 100);
+        randomDoubleTest("shell", LENGTH, 100);
+        randomDoubleTest("reference_shell", LENGTH, 100);
         randomDoubleTest("merge", LENGTH, 100);
+        randomDoubleTest("reference_merge", LENGTH, 100);
         randomDoubleTest("mergeBU", LENGTH, 100);
+        randomDoubleTest("reference_mergeBU", LENGTH, 100);
 
         // test2: Insertion sort (partially sorted)
-        System.out.println("Test2 (partially sorted):");
-        test("selection", test2, 10);
+        System.out.println("\nTest2 (partially sorted):");
+        test("selection", test2, 100);
+        test("reference_selection", test2, 100);
         test("insertion", test2);
+        test("reference_insertion", test2);
         test("shell", test2, 100);
+        test("reference_shell", test2, 100);
         test("merge", test2, 100);
+        test("reference_merge", test2, 100);
         test("mergeBU", test2, 100);
+        test("reference_mergeBU", test2, 100);
 
         // test3: Sort Strings
-        System.out.println("Test3 (sort strings):");
-        randomStringTest("selection", 20, LENGTH, 10);
-        randomStringTest("insertion", 20, LENGTH, 10);
-        randomStringTest("shell", 20, LENGTH, 10);
+        System.out.println("\nTest3 (sort strings):");
+        randomStringTest("selection", 20, LENGTH, 100);
+        randomStringTest("reference_selection", 20, LENGTH, 100);
+        randomStringTest("insertion", 20, LENGTH, 100);
+        randomStringTest("reference_insertion", 20, LENGTH, 100);
+        randomStringTest("shell", 20, LENGTH, 100);
+        randomStringTest("reference_shell", 20, LENGTH, 100);
         randomStringTest("merge", 20, LENGTH, 100);
+        randomStringTest("reference_merge", 20, LENGTH, 100);
         randomStringTest("mergeBU", 20, LENGTH, 100);
+        randomStringTest("reference_mergeBU", 20, LENGTH, 100);
 
         // test3: Sort lots of Strings
-        System.out.println("Test4 (sort lots of Strings):");
-        randomStringTest("shell", 20, BIG_LENGTH, 10);
+        System.out.println("\nTest4 (sort lots of Strings):");
+        randomStringTest("shell", 20, BIG_LENGTH, 100);
+        randomStringTest("reference_shell", 20, BIG_LENGTH, 100);
         randomStringTest("merge", 20, BIG_LENGTH, 100);
+        randomStringTest("reference_merge", 20, BIG_LENGTH, 100);
         randomStringTest("mergeBU", 20, BIG_LENGTH, 100);
+        randomStringTest("reference_mergeBU", 20, BIG_LENGTH, 100);
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test) {
@@ -72,13 +88,28 @@ class SortTest {
             case "mergeBU":
                 MergeBU.sort(testCopy);
                 break;
+            case "reference_selection":
+                edu.princeton.cs.algs4.Selection.sort(testCopy);
+                break;
+            case "reference_insertion":
+                edu.princeton.cs.algs4.Insertion.sort(testCopy);
+                break;
+            case "reference_shell":
+                edu.princeton.cs.algs4.Shell.sort(testCopy);
+                break;
+            case "reference_merge":
+                edu.princeton.cs.algs4.Merge.sort(testCopy);
+                break;
+            case "reference_mergeBU":
+                edu.princeton.cs.algs4.MergeBU.sort(testCopy);
+                break;
             default:
                 break;
         }
         Double time = timer.elapsedTime();
         assert Util.isSorted(testCopy);
         if (ifPrint) {
-            System.out.printf("%15s sort: ", algorithm);
+            System.out.printf("%20s sort: ", algorithm);
             System.out.printf("     elapsed time = %.5f", time);
             System.out.printf(", IsSorted: %b\n", Util.isSorted(testCopy));
         }
@@ -102,7 +133,7 @@ class SortTest {
         }
         upper = mean + Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
         lower = mean - Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
-        System.out.printf("%15s sort: ", algorithm);
+        System.out.printf("%20s sort: ", algorithm);
         System.out.printf("mean elapsed time = %.5f,", mean);
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
     }
@@ -129,7 +160,7 @@ class SortTest {
         }
         upper = mean + Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
         lower = mean - Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
-        System.out.printf("%15s sort: ", algorithm);
+        System.out.printf("%20s sort: ", algorithm);
         System.out.printf("mean elapsed time = %.5f,", mean);
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
     }
@@ -160,7 +191,7 @@ class SortTest {
         }
         upper = mean + Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
         lower = mean - Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
-        System.out.printf("%15s sort: ", algorithm);
+        System.out.printf("%20s sort: ", algorithm);
         System.out.printf("mean elapsed time = %.5f,", mean);
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
     }
