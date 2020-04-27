@@ -51,10 +51,12 @@ class SortTest {
         test("mergeBU", test3);
 
         // test3: Sort lots of Strings
-        System.out.println("Test4 (sort lots of strings):");
-        test("shell", test4);
-        test("merge", test4);
-        test("mergeBU", test4);
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Test4 (sort lots of strings):");
+            test("shell", test4);
+            test("merge", test4);
+            test("mergeBU", test4);
+        }
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, T[] test) {
