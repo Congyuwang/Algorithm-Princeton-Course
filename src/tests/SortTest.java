@@ -1,8 +1,12 @@
 package tests;
 
 import princeton.algo.sort.*;
+
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
+import java.util.stream.Stream;
+
 import org.apache.commons.math3.distribution.TDistribution;
 
 import edu.princeton.cs.algs4.Stopwatch;
@@ -12,21 +16,11 @@ class SortTest {
         int LENGTH = 10_000;
         int BIG_LENGTH = 100_000;
         Random random = new Random();
-        Double[] test1 = new Double[LENGTH];
         Double[] test2 = new Double[LENGTH];
-        String[] test3 = new String[LENGTH];
-        String[] test4 = new String[BIG_LENGTH];
         for (int i = 0; i < LENGTH; i++) {
-            test1[i] = random.nextDouble();
             test2[i] = random.nextDouble() + i * 0.2;
             byte[] bytes = new byte[20];
             random.nextBytes(bytes);
-            test3[i] = String.valueOf(bytes);
-        }
-        for (int i = 0; i < BIG_LENGTH; i++) {
-            byte[] bytes = new byte[20];
-            random.nextBytes(bytes);
-            test4[i] = String.valueOf(bytes);
         }
 
         // test1: Selection sort
@@ -100,8 +94,8 @@ class SortTest {
         Stack<Double> time = new Stack<>();
         double mean = 0.0;
         double variance = 0.0;
-        double upper = 0.0;
-        double lower = 0.0;
+        double upper;
+        double lower;
         for (int i = 0; i < times; i++) {
             Double t = test(algorithm, test, false);
             mean += t / times;
@@ -117,15 +111,15 @@ class SortTest {
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
     }
 
-    private static <T extends Comparable<? super T>> void randomDoubleTest(String algorithm, int arrayLength, int times) {
+    private static void randomDoubleTest(String algorithm, int arrayLength, int times) {
         Double[] test = new Double[arrayLength];
         Random random = new Random();
         TDistribution tDistribution = new TDistribution(times - 1);
         Stack<Double> time = new Stack<>();
         double mean = 0.0;
         double variance = 0.0;
-        double upper = 0.0;
-        double lower = 0.0;
+        double upper;
+        double lower;
         for (int i = 0; i < times; i++) {
             for (int j = 0; j < arrayLength; j++) {
                 test[j] = random.nextDouble();
@@ -144,20 +138,24 @@ class SortTest {
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
     }
 
-    private static <T extends Comparable<? super T>> void randomStringTest(String algorithm, int stringLength, int arrayLength, int times) {
+    private static void randomStringTest(String algorithm, int stringLength, int arrayLength, int times) {
         String[] test = new String[arrayLength];
         Random random = new Random();
         TDistribution tDistribution = new TDistribution(times - 1);
         Stack<Double> time = new Stack<>();
         double mean = 0.0;
         double variance = 0.0;
-        double upper = 0.0;
-        double lower = 0.0;
+        double upper;
+        double lower;
+        int hi = 'z';
+        int lo = 'a';
         for (int i = 0; i < times; i++) {
             for (int j = 0; j < arrayLength; j++) {
-                byte[] bytes = new byte[stringLength];
-                random.nextBytes(bytes);
-                test[j] = String.valueOf(bytes);
+                char[] chars = new char[stringLength];
+                for (int k = 0; k < stringLength; k++) {
+                    chars[k] = (char) (random.nextInt(hi - lo) + lo);
+                }
+                test[j] = String.valueOf(chars);
             }
             Double t = test(algorithm, test, false);
             mean += t / times;
