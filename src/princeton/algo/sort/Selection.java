@@ -3,8 +3,8 @@ package princeton.algo.sort;
 /**
  * The selection sort algorithm sorts arrays with type T which is
  * <i>mutually</i> comparable.
- * It uses ~N^2 / 2 compares.
- * The sorting algorithm is not stable.
+ * It uses ~N^2 / 2 compares for randomly shuffled input.
+ * Selection sort is not stable.
  */
 public class Selection {
 

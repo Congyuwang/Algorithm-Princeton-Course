@@ -1,7 +1,7 @@
 package princeton.algo.sort;
 
 /**
- * This shell sort algorithm is based on Sedgewick 1985.
+ * This shell sort algorithm is based on Sedgewick 1985 increment.
  * The algorithm has worst time O(N^(4/3)).
  * Shell sort is not stable.
  */
