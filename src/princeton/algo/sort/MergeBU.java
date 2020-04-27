@@ -31,9 +31,10 @@ public class MergeBU {
         }
 
         for (int size = CUTOFF; size < length; size <<= 1) {
-            if (round % 2 == 0) {
+            int twiceSize = size * 2;
+            if (round == 0) {
                 int lo;
-                for (lo = 0; lo < length - size; lo += 2 * size) {
+                for (lo = 0; lo < length - size; lo += twiceSize) {
                     int mid = lo + size;
                     int hi = Math.min(length, lo + size * 2);
                     if (Util.less(a[mid], a[mid - 1])) {
@@ -45,9 +46,10 @@ public class MergeBU {
                 if (lo < length) {
                     System.arraycopy(a, lo, aux, lo, length - lo);
                 }
+                round = 1;
             } else {
                 int lo;
-                for (lo = 0; lo < length - size; lo += 2 * size) {
+                for (lo = 0; lo < length - size; lo += twiceSize) {
                     int mid = lo + size;
                     int hi = Math.min(length, lo + size * 2);
                     if (Util.less(aux[mid], aux[mid - 1])) {
@@ -59,8 +61,8 @@ public class MergeBU {
                 if (lo < length) {
                     System.arraycopy(aux, lo, a, lo, length - lo);
                 }
+                round = 0;
             }
-            round++;
         }
     }
 
