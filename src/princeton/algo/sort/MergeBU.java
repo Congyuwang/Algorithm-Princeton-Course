@@ -12,7 +12,6 @@ public class MergeBU {
         int length = a.length;
         @SuppressWarnings("unchecked")
         T[] aux = (T[]) Array.newInstance(a.getClass().getComponentType(), length);
-        System.arraycopy(a, 0, aux, 0, length);
 
         for (int lo = 0; lo < length; lo += CUTOFF) {
             Insertion.sort(a, lo, Math.min(length, lo + CUTOFF));
