@@ -3,6 +3,7 @@ package princeton.algo.queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * The LinkedQueue class implements an iterable FIFO queue data structure
@@ -126,7 +127,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
      * shuffle linked list in N(logN) time.
      */
     public void shuffle() {
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         for (int step = 1; step < size; step <<= 1) {
             int twiceStep = step << 1;
             Node current = first;
@@ -159,7 +160,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
                 }
                 if (execute) {
                     assert lo != null && hi != null && midPrev != null && mid != null;
-                    if (random.nextInt(2) == 0) {
+                    if (random.nextBoolean()){
                         current = exch(loPrev, lo, midPrev, mid, hi);
                         loPrev = midPrev;
                         updateLoPrev = false;
@@ -170,7 +171,7 @@ public class LinkedQueue<Item> implements Queue<Item> {
                 }
                 current = current.next;
             }
-            if (size % twiceStep != 0 && random.nextInt(2) == 0) {
+            if (size % twiceStep != 0 && random.nextBoolean()) {
                 insertTail(loPrev, lo, twiceStep * (size / twiceStep), random);
             }
         }

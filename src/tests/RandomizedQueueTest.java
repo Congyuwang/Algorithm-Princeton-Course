@@ -9,14 +9,23 @@ import princeton.algo.queue.Deque;
 class RandomizedQueueTest {
     public static void main(String[] args) {
         int RANGE = 10;
-        int ROUND = 10000;
+        int LARGE_RANGE = 1000;
+        int ROUND = 10_000;
         test("randomizedQueue", RANGE, ROUND);
         test("deque", RANGE, ROUND);
         test("linkedQueue", RANGE, ROUND);
         test("linkedStack", RANGE, ROUND);
+        test("randomizedQueue", LARGE_RANGE, ROUND, false);
+        test("deque", LARGE_RANGE, ROUND, false);
+        test("linkedQueue", LARGE_RANGE, ROUND, false);
+        test("linkedStack", LARGE_RANGE, ROUND, false);
     }
 
     public static void test(String algorithm, int range, int round) {
+        test(algorithm, range, round, true);
+    }
+
+    public static void test(String algorithm, int range, int round, boolean ifPrint) {
         final int RANGE = range;
         final int ROUND = round;
         final int[][] uniformChecker = new int[RANGE][RANGE];
@@ -84,10 +93,13 @@ class RandomizedQueueTest {
                 break;
         }
         // print the result
-        System.out.println(algorithm+":");
-        for (int[] a : uniformChecker) {
-            for (int s : a) {
-                System.out.printf("%6d ", s);
+        System.out.println(algorithm + ":");
+        if (ifPrint) {
+            for (int[] a : uniformChecker) {
+                for (int s : a) {
+                    System.out.printf("%6d ", s);
+                }
+                System.out.println();
             }
             System.out.println();
         }
@@ -101,10 +113,9 @@ class RandomizedQueueTest {
         }
         int degreeOfFreedom = (RANGE - 1) * (RANGE - 1);
         double chiSquared = squaredSum / expected;
-        System.out.println();
         ChiSquaredDistribution chiSquaredDistribution = new ChiSquaredDistribution(degreeOfFreedom);
         System.out.printf("Chi(%d) = %f\n", degreeOfFreedom, squaredSum / expected);
-        System.out.printf("p-value = %f\n", chiSquaredDistribution.cumulativeProbability(chiSquared));
+        System.out.printf("p-value = %f\n", 1 - chiSquaredDistribution.cumulativeProbability(chiSquared));
         System.out.println();
     }
 }
