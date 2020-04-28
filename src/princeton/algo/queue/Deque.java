@@ -2,6 +2,7 @@ package princeton.algo.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 /**
  * The Deque class is an iterable linked list data structure that
@@ -16,7 +17,7 @@ public class Deque<Item> implements Queue<Item> {
     private class Node {
         Item item;
         Node next;
-        Node previous;
+        Node prev;
     }
 
     public Deque() {
@@ -44,13 +45,13 @@ public class Deque<Item> implements Queue<Item> {
         Node oldFirst = first;
         first = new Node();
         if (!isEmpty()) {
-            oldFirst.previous = first;
+            oldFirst.prev = first;
         } else {
             last = first;
         }
         first.item = item;
         first.next = oldFirst;
-        first.previous = null;
+        first.prev = null;
         size++;
     }
 
@@ -67,7 +68,7 @@ public class Deque<Item> implements Queue<Item> {
             first = last;
         }
         last.item = item;
-        last.previous = oldLast;
+        last.prev = oldLast;
         last.next = null;
         size++;
     }
@@ -82,7 +83,7 @@ public class Deque<Item> implements Queue<Item> {
         if (first == null) {
             last = null;
         } else {
-            first.previous = null;
+            first.prev = null;
         }
         size--;
         return item;
@@ -94,7 +95,7 @@ public class Deque<Item> implements Queue<Item> {
             throw new NoSuchElementException("StackUnderFlow!");
         }
         Item item = last.item;
-        last = last.previous;
+        last = last.prev;
         if (last == null) {
             first = null;
         } else {
@@ -169,9 +170,76 @@ public class Deque<Item> implements Queue<Item> {
         Node node = new Node();
         node.item = item;
         node.next = prev.next;
-        node.previous = prev;
+        node.prev = prev;
         prev.next = node;
-        node.next.previous = node;
+        node.next.prev = node;
         size++;
+    }
+
+    /**
+     * shuffle linked list in N(logN) time.
+     */
+    public void shuffle() {
+        Random random = new Random();
+        for (int step = 1; step < size; step <<= 1) {
+            int twiceStep = step * 2;
+            Node current = first;
+            Node lo = null;
+            Node mid = null;
+            Node hi = null;
+            for (int p = 0; p < size; p++) {
+                boolean execute = false;
+                if (p % twiceStep == 0) {
+                    lo = current;
+                }
+                if (p % twiceStep == step) {
+                    mid = current;
+                }
+                if (p % twiceStep == twiceStep - 1) {
+                    execute = true;
+                    hi = current;
+                }
+                if (execute && random.nextInt(2) == 0) {
+                    exch(lo, mid, hi);
+                    execute = false;
+                }
+                current = current.next;
+            }
+            if (size % twiceStep != 0 && random.nextInt(2) == 0) {
+                insertTail(lo, twiceStep * (size / twiceStep), random);
+            }
+        }
+    }
+
+    /**
+     * exchange sub linked lists [lo - mid.prev] [mid - hi] to [mid - hi] [lo -
+     * mid.prev]. The operation takes constant time
+     */
+    private void exch(Node lo, Node mid, Node hi) {
+        mid.prev.next = hi.next;
+        mid.prev = lo.prev;
+        hi.next = lo;
+        lo.prev = hi;
+    }
+
+    /**
+     * Randomly insert tail of shuffle into head, where tail is the link after Node
+     * tail (included). Takes linear time in worst case.
+     *
+     * @param tail       the first Node of the tail link [tail - last]
+     * @param headLength the length of [first - tail.prev]
+     * @param random     the random generator
+     */
+    private void insertTail(Node tail, int headLength, Random random) {
+        int randRange = headLength + 1;
+        int position = random.nextInt(randRange);
+        if (position == headLength) {
+            return;
+        }
+        Node current = first;
+        for (int i = 0; i < position; i++) {
+            current = current.next;
+        }
+        exch(current, tail, last);
     }
 }
