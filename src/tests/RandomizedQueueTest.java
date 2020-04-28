@@ -29,33 +29,15 @@ class RandomizedQueueTest {
         final int RANGE = range;
         final int ROUND = round;
         final int[][] uniformChecker = new int[RANGE][RANGE];
-        RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
-        Deque<Integer> deque = new Deque<>();
-        LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
-        LinkedStack<Integer> linkedStack = new LinkedStack<>();
-        // add integers
-        for (int i = 0; i < RANGE; i++) {
-            switch (algorithm) {
-                case "randomizedQueue":
-                    randomizedQueue.enqueue(i);
-                    break;
-                case "deque":
-                    deque.enqueue(i);
-                    break;
-                case "linkedQueue":
-                    linkedQueue.enqueue(i);
-                    break;
-                case "linkedStack":
-                    linkedStack.push(i);
-                    break;
-                default:
-                    break;
-            }
-        }
         // count the appearance of number s at position pos
         switch (algorithm) {
             case "randomizedQueue":
                 for (int r = 0; r < ROUND; r++) {
+                    RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        randomizedQueue.enqueue(i);
+                    }
                     int pos = 0;
                     for (int s : randomizedQueue) {
                         uniformChecker[pos++][s]++;
@@ -64,6 +46,11 @@ class RandomizedQueueTest {
                 break;
             case "deque":
                 for (int r = 0; r < ROUND; r++) {
+                    Deque<Integer> deque = new Deque<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        deque.enqueue(i);
+                    }
                     int pos = 0;
                     deque.shuffle();
                     for (int s : deque) {
@@ -73,6 +60,11 @@ class RandomizedQueueTest {
                 break;
             case "linkedQueue":
                 for (int r = 0; r < ROUND; r++) {
+                    LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        linkedQueue.enqueue(i);
+                    }
                     int pos = 0;
                     linkedQueue.shuffle();
                     for (int s : linkedQueue) {
@@ -82,6 +74,11 @@ class RandomizedQueueTest {
                 break;
             case "linkedStack":
                 for (int r = 0; r < ROUND; r++) {
+                    LinkedStack<Integer> linkedStack = new LinkedStack<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        linkedStack.push(i);
+                    }
                     int pos = 0;
                     linkedStack.shuffle();
                     for (int s : linkedStack) {
