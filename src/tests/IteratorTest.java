@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 class IteratorTest {
     public static void main(String[] args) {
-        Queue<Integer> linkedQueue = new LinkedQueue<>();
+        LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
         Queue<Integer> twoStackQueue = new TwoStackQueue<>();
-        Queue<Integer> deque = new Deque<>();
+        Deque<Integer> deque = new Deque<>();
         Queue<Integer> randomizedQueue = new RandomizedQueue<>();
-        Stack<Integer> linkedStack = new LinkedStack<>();
+        LinkedStack<Integer> linkedStack = new LinkedStack<>();
         Stack<Integer> arrayStack = new ArrayStack<>();
 
         Scanner scanner = new Scanner(System.in);
@@ -54,10 +54,6 @@ class IteratorTest {
                         System.out.printf("arrayStack Error: %s\n", e.getMessage());
                 }
             } else if (item.equals(">>")) {
-                System.out.println("linkedQueue (FIFO):");
-                for (int i : linkedQueue) {
-                    System.out.print(i + " ");
-                }
                 System.out.println();
                 System.out.println("arrayQueue (FIFO):");
                 for (int i : arrayQueue) {
@@ -66,6 +62,11 @@ class IteratorTest {
                 System.out.println();
                 System.out.println("twoStackQueue (FIFO):");
                 for (int i : twoStackQueue) {
+                    System.out.print(i + " ");
+                }
+                System.out.println();
+                System.out.println("linkedQueue (FIFO):");
+                for (int i : linkedQueue) {
                     System.out.print(i + " ");
                 }
                 System.out.println();
@@ -89,6 +90,11 @@ class IteratorTest {
                     System.out.print(i + " ");
                 }
                 System.out.println();
+            } else if (item.equals("-s")) {
+                linkedQueue.shuffle();
+                linkedStack.shuffle();
+                deque.shuffle();
+                System.out.println("Shuffled!");
             } else {
                 try {
                     int intItem = Integer.parseInt(item);
