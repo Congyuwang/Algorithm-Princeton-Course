@@ -182,12 +182,13 @@ public class Deque<Item> implements Queue<Item> {
     public void shuffle() {
         Random random = new Random();
         for (int step = 1; step < size; step <<= 1) {
-            int twiceStep = step * 2;
+            int twiceStep = step << 1;
             Node current = first;
             Node lo = null;
             Node mid = null;
             Node hi = null;
             for (int p = 0; p < size; p++) {
+                assert current != null;
                 boolean execute = false;
                 if (p % twiceStep == 0) {
                     lo = current;
@@ -199,8 +200,13 @@ public class Deque<Item> implements Queue<Item> {
                     execute = true;
                     hi = current;
                 }
-                if (execute && random.nextInt(2) == 0) {
-                    exch(lo, mid, hi);
+                if (execute) {
+                    assert lo != null && hi != null && mid != null;
+                    if (random.nextInt(2) == 0) {
+                        current = exch(lo, mid, hi);
+                        execute = false;
+                        continue;
+                    }
                     execute = false;
                 }
                 current = current.next;
@@ -214,12 +220,27 @@ public class Deque<Item> implements Queue<Item> {
     /**
      * exchange sub linked lists [lo - mid.prev] [mid - hi] to [mid - hi] [lo -
      * mid.prev]. The operation takes constant time
+     * @return the next node of hi
      */
-    private void exch(Node lo, Node mid, Node hi) {
-        mid.prev.next = hi.next;
+    private Node exch(Node lo, Node mid, Node hi) {
+        assert mid.prev != null;
+        Node next = hi.next;
+        Node midPrev = mid.prev;
         mid.prev = lo.prev;
+        if (mid.prev != null) {
+            mid.prev.next = mid;
+        } else {
+            first = mid;
+        }
+        midPrev.next = hi.next;
+        if (midPrev.next != null) {
+            midPrev.next.prev = midPrev;
+        } else {
+            last = midPrev;
+        }
         hi.next = lo;
         lo.prev = hi;
+        return next;
     }
 
     /**
