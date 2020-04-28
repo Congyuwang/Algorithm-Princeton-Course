@@ -140,25 +140,38 @@ public class Deque<Item> implements Queue<Item> {
         addLast(item);
     }
 
-    // unit testing
-    public static void main(String[] args) {
-        Deque<Integer> deque = new Deque<>();
-        System.out.printf("isEmpty = %b\n", deque.isEmpty());
-        deque.addFirst(1);
-        deque.addFirst(2);
-        deque.addFirst(3);
-        deque.addLast(10);
-        deque.addLast(20);
-        deque.addLast(30);
-        System.out.printf("isEmpty = %b\n", deque.isEmpty());
-        System.out.printf("Size = %d\n", deque.size());
-        deque.forEach(i -> System.out.printf("%d ", i));
-        System.out.println();
-        System.out.printf("remove First = %d\n", deque.removeFirst());
-        System.out.printf("remove Last = %d\n", deque.removeLast());
-        deque.forEach(i -> System.out.printf("%d ", i));
-        System.out.println();
-        System.out.printf("isEmpty = %b\n", deque.isEmpty());
-        System.out.printf("Size = %d\n", deque.size());
+    /**
+     * insert an item into the queue.
+     *
+     * @param item the item to be inserted
+     * @param i    position parameter. 0 means add in front, size means add in the
+     *             end.
+     */
+    public void insert(Item item, int i) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
+        if (i < 0 || i > size) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        if (i == size) {
+            addLast(item);
+            return;
+        }
+        if (i == 0) {
+            addFirst(item);
+            return;
+        }
+        Node prev = first;
+        for (int k = 1; k < i; k++) {
+            prev = prev.next;
+        }
+        Node node = new Node();
+        node.item = item;
+        node.next = prev.next;
+        node.previous = prev;
+        prev.next = node;
+        node.next.previous = node;
+        size++;
     }
 }

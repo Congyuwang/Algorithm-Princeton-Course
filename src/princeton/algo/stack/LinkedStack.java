@@ -46,6 +46,35 @@ public class LinkedStack<Item> implements Stack<Item> {
         return item;
     }
 
+    /**
+     * insert an item into the stack.
+     *
+     * @param item the item to be inserted
+     * @param i    position parameter. 0 means add in front, size means add in the
+     *             end.
+     */
+    public void insert(Item item, int i) {
+        if (item == null) {
+            throw new IllegalArgumentException("null item not allowed!");
+        }
+        if (i < 0 || i > size) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        if (i == 0) {
+            push(item);
+            return;
+        }
+        Node prev = first;
+        for (int k = 1; k < i; k++) {
+            prev = prev.next;
+        }
+        Node node = new Node();
+        node.item = item;
+        node.next = prev.next;
+        prev.next = node;
+        size++;
+    }
+
     @Override
     public Iterator<Item> iterator() {
         return new LinkedStackIterator();
