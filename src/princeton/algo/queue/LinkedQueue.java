@@ -2,6 +2,7 @@ package princeton.algo.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 /**
  * The LinkedQueue class implements an iterable FIFO queue data structure
@@ -119,5 +120,112 @@ public class LinkedQueue<Item> implements Queue<Item> {
     @Override
     public int size() {
         return size;
+    }
+
+    /**
+     * shuffle linked list in N(logN) time.
+     */
+    public void shuffle() {
+        Random random = new Random();
+        for (int step = 1; step < size; step <<= 1) {
+            int twiceStep = step << 1;
+            Node current = first;
+            Node loPrev = null;
+            Node lo = null;
+            Node midPrev = null;
+            Node mid = null;
+            Node hi = null;
+            boolean updateLoPrev = false;
+            for (int p = 0; p < size; p++) {
+                assert current != null;
+                boolean execute = false;
+                if (updateLoPrev) {
+                    loPrev = hi;
+                    updateLoPrev = false;
+                }
+                if (p % twiceStep == 0) {
+                    lo = current;
+                }
+                if (p % twiceStep == step - 1) {
+                    midPrev = current;
+                }
+                if (p % twiceStep == step) {
+                    mid = current;
+                }
+                if (p % twiceStep == twiceStep - 1) {
+                    execute = true;
+                    updateLoPrev = true;
+                    hi = current;
+                }
+                if (execute) {
+                    assert lo != null && hi != null && midPrev != null && mid != null;
+                    if (random.nextInt(2) == 0) {
+                        current = exch(loPrev, lo, midPrev, mid, hi);
+                        loPrev = midPrev;
+                        updateLoPrev = false;
+                        execute = false;
+                        continue;
+                    }
+                    execute = false;
+                }
+                current = current.next;
+            }
+            if (size % twiceStep != 0 && random.nextInt(2) == 0) {
+                insertTail(loPrev, lo, twiceStep * (size / twiceStep), random);
+            }
+        }
+    }
+
+    /**
+     * exchange sub linked lists [lo - midPrev] [mid - hi] to [mid - hi] [lo -
+     * midPrev]. The operation takes constant time
+     *
+     * @return the next node of hi
+     */
+    private Node exch(Node loPrev, Node lo, Node midPrev, Node mid, Node hi) {
+        Node next = hi.next;
+        if (loPrev == null) {
+            first = mid;
+        } else {
+            loPrev.next = mid;
+        }
+        if (hi.next == null) {
+            last = midPrev;
+        }
+        midPrev.next = hi.next;
+        hi.next = lo;
+        return next;
+    }
+
+    /**
+     * Randomly insert tail of shuffle into head, where tail is the link after Node
+     * tail (included). Takes linear time in worst case.
+     *
+     * @param tail       the first Node of the tail link [tail - last]
+     * @param headLength the length of [first - tail.prev]
+     * @param random     the random generator
+     */
+    private void insertTail(Node tailPrev, Node tail, int headLength, Random random) {
+        int randRange = headLength + 1;
+        int position = random.nextInt(randRange);
+        if (position == headLength) {
+            return;
+        }
+        Node currentPrev;
+        Node current = first;
+        if (position == 0) {
+            currentPrev = null;
+        } else {
+            currentPrev = first;
+            for (int i = 1; i < position; i++) {
+                currentPrev = currentPrev.next;
+            }
+        }
+        if (currentPrev == null) {
+            current = first;
+        } else {
+            current = currentPrev.next;
+        }
+        exch(currentPrev, current, tailPrev, tail, last);
     }
 }
