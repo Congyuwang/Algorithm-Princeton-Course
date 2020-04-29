@@ -122,6 +122,9 @@ public class LinkedQueue<Item> implements Queue<Item> {
         return size;
     }
 
+    /**
+     * Shuffle the LinkedQueue in N log N time with no extra memory.
+     */
     public void shuffle() {
         LinkedQueue<Item> deque = new LinkedQueue<>();
         deque.first = first;
@@ -152,9 +155,6 @@ public class LinkedQueue<Item> implements Queue<Item> {
         }
         return merge(shuffle(d1, random), shuffle(d2, random), random);
     }
-
-
-
 
     private LinkedQueue<Item> merge(LinkedQueue<Item> d1, LinkedQueue<Item> d2, Random random) {
         LinkedQueue<Item> deque = new LinkedQueue<>();

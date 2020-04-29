@@ -106,6 +106,9 @@ public class LinkedStack<Item> implements Stack<Item> {
         return size;
     }
 
+    /**
+     * Shuffle LinkedStack using N logN time without extra memory.
+     */
     public void shuffle() {
         LinkedStack<Item> stack = new LinkedStack<>();
         stack.first = first;

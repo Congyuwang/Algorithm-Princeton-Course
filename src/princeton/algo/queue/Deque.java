@@ -176,6 +176,9 @@ public class Deque<Item> implements Queue<Item> {
         size++;
     }
 
+    /**
+     * Shuffle Deque using N logN time without extra memory.
+     */
     public void shuffle() {
         Random random = new Random();
         Deque<Item> deque = new Deque<>();
