@@ -64,7 +64,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
         // cannot implement generic array. Use cast.
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
-        if (head > tail) {
+        if (head >= tail) {
             System.arraycopy(s, 0, copy, 0, tail);
             System.arraycopy(s, head, copy, tail, s.length - head);
         } else {
