@@ -3,7 +3,6 @@ package princeton.algo.queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.security.SecureRandom;
 
 /**
  * The Deque class is an iterable linked list data structure that
@@ -77,7 +76,7 @@ public class Deque<Item> implements Queue<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         if (isEmpty()) {
-            throw new NoSuchElementException("QueueUnderFlow!");
+            throw new NoSuchElementException("DequeUnderFlow!");
         }
         Item item = first.item;
         first = first.next;
@@ -93,7 +92,7 @@ public class Deque<Item> implements Queue<Item> {
     // remove and return the item from the back
     public Item removeLast() {
         if (isEmpty()) {
-            throw new NoSuchElementException("StackUnderFlow!");
+            throw new NoSuchElementException("DequeUnderFlow!");
         }
         Item item = last.item;
         last = last.prev;
@@ -143,7 +142,7 @@ public class Deque<Item> implements Queue<Item> {
     }
 
     /**
-     * insert an item into the queue.
+     * insert an item into the deque.
      *
      * @param item the item to be inserted
      * @param i    position parameter. 0 means add in front, size means add in the
@@ -177,91 +176,49 @@ public class Deque<Item> implements Queue<Item> {
         size++;
     }
 
-    /**
-     * shuffle linked list in N(logN) time.
-     */
     public void shuffle() {
-        SecureRandom random = new SecureRandom();
-        for (int step = 1; step < size; step <<= 1) {
-            int twiceStep = step << 1;
-            Node current = first;
-            Node lo = null;
-            Node mid = null;
-            Node hi = null;
-            for (int p = 0; p < size; p++) {
-                assert current != null;
-                boolean execute = false;
-                if (p % twiceStep == 0) {
-                    lo = current;
-                }
-                if (p % twiceStep == step) {
-                    mid = current;
-                }
-                if (p % twiceStep == twiceStep - 1) {
-                    execute = true;
-                    hi = current;
-                }
-                if (execute) {
-                    assert lo != null && hi != null && mid != null;
-                    if (random.nextBoolean()) {
-                        current = exch(lo, mid, hi);
-                        execute = false;
-                        continue;
-                    }
-                    execute = false;
-                }
-                current = current.next;
-            }
-            if (size % twiceStep != 0 && random.nextBoolean()) {
-                insertTail(lo, twiceStep * (size / twiceStep), random);
-            }
-        }
+        Random random = new Random();
+        Deque<Item> deque = new Deque<>();
+        deque.first = first;
+        deque.last = last;
+        deque.size = size;
+        Deque<Item> shuffled = shuffle(deque, random);
+        first = shuffled.first;
+        last = shuffled.last;
     }
 
-    /**
-     * exchange sub linked lists [lo - mid.prev] [mid - hi] to [mid - hi] [lo -
-     * mid.prev]. The operation takes constant time
-     * @return the next node of hi
-     */
-    private Node exch(Node lo, Node mid, Node hi) {
-        assert mid.prev != null;
-        Node next = hi.next;
-        Node midPrev = mid.prev;
-        mid.prev = lo.prev;
-        if (mid.prev != null) {
-            mid.prev.next = mid;
-        } else {
-            first = mid;
+    private Deque<Item> shuffle(Deque<Item> d, Random random) {
+        int dSize = d.size;
+        if (dSize == 1) {
+            return d;
         }
-        midPrev.next = hi.next;
-        if (midPrev.next != null) {
-            midPrev.next.prev = midPrev;
-        } else {
-            last = midPrev;
+        Deque<Item> d1 = new Deque<>();
+        Deque<Item> d2 = new Deque<>();
+        boolean alternate = true;
+        for (int i = 0; i < dSize; i++) {
+            if (alternate) {
+                d1.enqueue(d.dequeue());
+                alternate = false;
+            } else {
+                d2.enqueue(d.dequeue());
+                alternate = true;
+            }
         }
-        hi.next = lo;
-        lo.prev = hi;
-        return next;
+        return merge(shuffle(d1, random), shuffle(d2, random), random);
     }
 
-    /**
-     * Randomly insert tail of shuffle into head, where tail is the link after Node
-     * tail (included). Takes linear time in worst case.
-     *
-     * @param tail       the first Node of the tail link [tail - last]
-     * @param headLength the length of [first - tail.prev]
-     * @param random     the random generator
-     */
-    private void insertTail(Node tail, int headLength, Random random) {
-        int randRange = headLength + 1;
-        int position = random.nextInt(randRange);
-        if (position == headLength) {
-            return;
+    private Deque<Item> merge(Deque<Item> d1, Deque<Item> d2, Random random) {
+        Deque<Item> deque = new Deque<>();
+        while (d1.size() > 0 || d2.size() > 0) {
+            double p = (double) d1.size() / (d1.size() + d2.size());
+            if (p == 0) {
+                deque.enqueue(d2.dequeue());
+            } else if (p == 1 || random.nextDouble() < p) {
+                deque.enqueue(d1.dequeue());
+            } else {
+                deque.enqueue(d2.dequeue());
+            }
         }
-        Node current = first;
-        for (int i = 0; i < position; i++) {
-            current = current.next;
-        }
-        exch(current, tail, last);
+        return deque;
     }
 }

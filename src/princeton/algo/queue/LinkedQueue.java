@@ -3,7 +3,6 @@ package princeton.algo.queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.security.SecureRandom;
 
 /**
  * The LinkedQueue class implements an iterable FIFO queue data structure
@@ -123,110 +122,52 @@ public class LinkedQueue<Item> implements Queue<Item> {
         return size;
     }
 
-    /**
-     * shuffle linked list in N(logN) time.
-     */
     public void shuffle() {
-        SecureRandom random = new SecureRandom();
-        for (int step = 1; step < size; step <<= 1) {
-            int twiceStep = step << 1;
-            Node current = first;
-            Node loPrev = null;
-            Node lo = null;
-            Node midPrev = null;
-            Node mid = null;
-            Node hi = null;
-            boolean updateLoPrev = false;
-            for (int p = 0; p < size; p++) {
-                assert current != null;
-                boolean execute = false;
-                if (updateLoPrev) {
-                    loPrev = hi;
-                    updateLoPrev = false;
-                }
-                if (p % twiceStep == 0) {
-                    lo = current;
-                }
-                if (p % twiceStep == step - 1) {
-                    midPrev = current;
-                }
-                if (p % twiceStep == step) {
-                    mid = current;
-                }
-                if (p % twiceStep == twiceStep - 1) {
-                    execute = true;
-                    updateLoPrev = true;
-                    hi = current;
-                }
-                if (execute) {
-                    assert lo != null && hi != null && midPrev != null && mid != null;
-                    if (random.nextBoolean()){
-                        current = exch(loPrev, lo, midPrev, mid, hi);
-                        loPrev = midPrev;
-                        updateLoPrev = false;
-                        execute = false;
-                        continue;
-                    }
-                    execute = false;
-                }
-                current = current.next;
-            }
-            if (size % twiceStep != 0 && random.nextBoolean()) {
-                insertTail(loPrev, lo, twiceStep * (size / twiceStep), random);
-            }
-        }
+        LinkedQueue<Item> deque = new LinkedQueue<>();
+        deque.first = first;
+        deque.last = last;
+        deque.size = size;
+        Random random = new Random();
+        LinkedQueue<Item> shuffled = shuffle(deque, random);
+        first = shuffled.first;
+        last = shuffled.last;
     }
 
-    /**
-     * exchange sub linked lists [lo - midPrev] [mid - hi] to [mid - hi] [lo -
-     * midPrev]. The operation takes constant time
-     *
-     * @return the next node of hi
-     */
-    private Node exch(Node loPrev, Node lo, Node midPrev, Node mid, Node hi) {
-        Node next = hi.next;
-        if (loPrev == null) {
-            first = mid;
-        } else {
-            loPrev.next = mid;
+    private LinkedQueue<Item> shuffle(LinkedQueue<Item> d, Random random) {
+        int dSize = d.size;
+        if (dSize == 1) {
+            return d;
         }
-        if (hi.next == null) {
-            last = midPrev;
-        }
-        midPrev.next = hi.next;
-        hi.next = lo;
-        return next;
-    }
-
-    /**
-     * Randomly insert tail of shuffle into head, where tail is the link after Node
-     * tail (included). Takes linear time in worst case.
-     *
-     * @param tail       the first Node of the tail link [tail - last]
-     * @param headLength the length of [first - tail.prev]
-     * @param random     the random generator
-     */
-    private void insertTail(Node tailPrev, Node tail, int headLength, Random random) {
-        int randRange = headLength + 1;
-        int position = random.nextInt(randRange);
-        if (position == headLength) {
-            return;
-        }
-        Node currentPrev;
-        Node current = first;
-        if (position == 0) {
-            currentPrev = null;
-        } else {
-            currentPrev = first;
-            for (int i = 1; i < position; i++) {
-                currentPrev = currentPrev.next;
+        LinkedQueue<Item> d1 = new LinkedQueue<>();
+        LinkedQueue<Item> d2 = new LinkedQueue<>();
+        boolean alternate = true;
+        for (int i = 0; i < dSize; i++) {
+            if (alternate) {
+                d1.enqueue(d.dequeue());
+                alternate = false;
+            } else {
+                d2.enqueue(d.dequeue());
+                alternate = true;
             }
         }
-        if (currentPrev == null) {
-            current = first;
-        } else {
-            current = currentPrev.next;
+        return merge(shuffle(d1, random), shuffle(d2, random), random);
+    }
+
+
+
+
+    private LinkedQueue<Item> merge(LinkedQueue<Item> d1, LinkedQueue<Item> d2, Random random) {
+        LinkedQueue<Item> deque = new LinkedQueue<>();
+        while (d1.size() > 0 || d2.size() > 0) {
+            double p = (double) d1.size() / (d1.size() + d2.size());
+            if (p == 0) {
+                deque.enqueue(d2.dequeue());
+            } else if (p == 1 || random.nextDouble() < p) {
+                deque.enqueue(d1.dequeue());
+            } else {
+                deque.enqueue(d2.dequeue());
+            }
         }
-        exch(currentPrev, current, tailPrev, tail, last);
+        return deque;
     }
 }
