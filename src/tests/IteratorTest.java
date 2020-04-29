@@ -1,6 +1,7 @@
 package tests;
 
 import princeton.algo.queue.*;
+import princeton.algo.sort.Shuffle;
 import princeton.algo.stack.*;
 import java.util.Scanner;
 
@@ -91,9 +92,12 @@ class IteratorTest {
                 }
                 System.out.println();
             } else if (item.equals("-s")) {
-                linkedQueue.shuffle();
-                linkedStack.shuffle();
-                deque.shuffle();
+                Shuffle.shuffle(arrayQueue);
+                Shuffle.shuffle(arrayStack);
+                Shuffle.shuffle(linkedQueue);
+                Shuffle.shuffle(linkedStack);
+                Shuffle.shuffle(deque);
+                Shuffle.shuffle(twoStackQueue);
                 System.out.println("Shuffled!");
             } else {
                 try {

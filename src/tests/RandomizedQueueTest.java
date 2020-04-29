@@ -5,6 +5,7 @@ import princeton.algo.queue.LinkedQueue;
 import princeton.algo.stack.LinkedStack;
 import princeton.algo.queue.RandomizedQueue;
 import princeton.algo.queue.Deque;
+import princeton.algo.sort.Shuffle;
 
 class RandomizedQueueTest {
     public static void main(String[] args) {
@@ -15,10 +16,14 @@ class RandomizedQueueTest {
         test("deque", RANGE, ROUND);
         test("linkedQueue", RANGE, ROUND);
         test("linkedStack", RANGE, ROUND);
+        test("shuffleQueue", RANGE, ROUND);
+        test("shuffleStack", RANGE, ROUND);
         test("randomizedQueue", LARGE_RANGE, ROUND, false);
         test("deque", LARGE_RANGE, ROUND, false);
         test("linkedQueue", LARGE_RANGE, ROUND, false);
         test("linkedStack", LARGE_RANGE, ROUND, false);
+        test("shuffleQueue", LARGE_RANGE, ROUND, false);
+        test("shuffleStack", LARGE_RANGE, ROUND, false);
     }
 
     public static void test(String algorithm, int range, int round) {
@@ -81,6 +86,34 @@ class RandomizedQueueTest {
                     }
                     int pos = 0;
                     linkedStack.shuffle();
+                    for (int s : linkedStack) {
+                        uniformChecker[pos++][s]++;
+                    }
+                }
+                break;
+            case "shuffleQueue":
+                for (int r = 0; r < ROUND; r++) {
+                    LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        linkedQueue.enqueue(i);
+                    }
+                    Shuffle.shuffle(linkedQueue);
+                    int pos = 0;
+                    for (int s : linkedQueue) {
+                        uniformChecker[pos++][s]++;
+                    }
+                }
+                break;
+            case "shuffleStack":
+                for (int r = 0; r < ROUND; r++) {
+                    LinkedStack<Integer> linkedStack = new LinkedStack<>();
+                    // add integers
+                    for (int i = 0; i < RANGE; i++) {
+                        linkedStack.push(i);
+                    }
+                    Shuffle.shuffle(linkedStack);
+                    int pos = 0;
                     for (int s : linkedStack) {
                         uniformChecker[pos++][s]++;
                     }
