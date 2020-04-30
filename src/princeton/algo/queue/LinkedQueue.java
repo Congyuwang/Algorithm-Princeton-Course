@@ -56,6 +56,8 @@ public class LinkedQueue<Item> implements Queue<Item> {
      * insert an item into the queue.
      * @param item the item to be inserted
      * @param i position parameter. 0 means add in front, size means add in the end.
+     * @throws NullPointerException if item is null
+     * @throws IllegalArgumentException if the index is out of range (> size or < 0)
      */
     public void insert(Item item, int i) {
         if (item == null) {
