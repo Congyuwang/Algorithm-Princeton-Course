@@ -7,6 +7,7 @@ import princeton.algo.stack.Stack;
 /**
  * The Shuffle class shuffles any array shorter than MAX.INTEGER uniformly in
  * linear time. It also shuffles stack and queue in N log(N).
+ * Note that the shuffle class shuffles data in place!
  */
 public class Shuffle {
 
