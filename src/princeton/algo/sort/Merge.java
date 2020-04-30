@@ -1,6 +1,7 @@
 package princeton.algo.sort;
 
 import java.lang.reflect.Array;
+import java.util.Comparator;
 
 /**
  * This merge sort algorithm uses recursive function.
@@ -21,6 +22,13 @@ public class Merge {
         sort(b, a, 0, a.length);
     }
 
+    public static <T> void sort(T[] a, Comparator<? super T> c) {
+        @SuppressWarnings("unchecked")
+        T[] b = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length);
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length, c);
+    }
+
     private static <T extends Comparable<? super T>> void sort(T[] b, T[] a, int lo, int hi) {
         if (hi <= lo + CUTOFF) {
             Insertion.sort(a, lo, hi);
@@ -35,6 +43,24 @@ public class Merge {
             System.arraycopy(b, lo, a, lo, hi - lo);
         }
         assert Util.isSorted(a, lo, hi);
+    }
+
+    private static <T> void sort(T[] b, T[] a, int lo, int hi, Comparator<? super T> c) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi, c);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid, c);
+        assert Util.isSorted(b, lo, mid, c);
+        sort(a, b, mid, hi, c);
+        assert Util.isSorted(b, mid, hi, c);
+        if (Util.less(b[mid], b[mid - 1], c)) {
+            merge(b, a, lo, mid, hi, c);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi, c);
     }
 
     public static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi) {
@@ -52,5 +78,22 @@ public class Merge {
             }
         }
         assert Util.isSorted(dest, lo, hi);
+    }
+
+    public static <T> void merge(T[] src, T[] dest, int lo, int mid, int hi, Comparator<? super T> c) {
+        assert Util.isSorted(src, lo, mid, c);
+        assert Util.isSorted(src, mid, hi, c);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (Util.less(src[j], src[i], c)) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi, c);
     }
 }

@@ -1,5 +1,7 @@
 package princeton.algo.sort;
 
+import java.util.Comparator;
+
 /**
  * The selection sort algorithm sorts arrays with type T which is
  * <i>mutually</i> comparable.
@@ -15,6 +17,18 @@ public class Selection {
             int min = i;
             for (int j = 1 + i; j < a.length; j++) {
                 if (Util.less(a[j], a[min])) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    public static <T extends Comparable<? super T>> void sort(T[] a, Comparator<? super T> c) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (Util.less(a[j], a[min], c)) {
                     min = j;
                 }
             }
