@@ -6,13 +6,17 @@ import princeton.algo.stack.Stack;
 
 /**
  * The Shuffle class shuffles any array shorter than MAX.INTEGER uniformly in
- * linear time. It also shuffles stack and queue in N log(N).
- * Note that the shuffle class shuffles data in place!
+ * linear time, and shuffles stack and queue in N log(N).
  */
 public class Shuffle {
 
     private Shuffle() {}
 
+    /**
+     * Uniformly shuffle any array in linear time.
+     *
+     * @param a the input array
+     */
     public static void shuffle(Object[] a) {
         Random random = new Random();
         int size = a.length;
@@ -24,6 +28,13 @@ public class Shuffle {
         }
     }
 
+    /**
+     * Uniformly shuffle a Queue in N log N time.
+     *
+     * @param d    the Queue
+     * @param <T>  the type of input queue (which extends {@code Queue} interface)
+     * @param <T2> the component type of the input queue
+     */
     public static <T extends Queue<T2>, T2> void shuffle(T d) {
         int size = d.size();
         Random random = new Random();
@@ -34,6 +45,13 @@ public class Shuffle {
         }
     }
 
+    /**
+     * Uniformly shuffle a Stack in N log N time.
+     *
+     * @param s    the stack
+     * @param <T>  the type of input stack (which extends {@code Stack} interface)
+     * @param <T2> the component type of the input stack
+     */
     public static <T extends Stack<T2>, T2> void shuffle(T s) {
         int size = s.size();
         Random random = new Random();

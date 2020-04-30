@@ -12,6 +12,12 @@ public class Selection {
 
     private Selection() {}
 
+    /**
+     * Selection sort a mutually comparable array.
+     *
+     * @param a   the array to be sorted
+     * @param <T> a mutually comparable type
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         for (int i = 0; i < a.length - 1; i++) {
             int min = i;
@@ -24,6 +30,13 @@ public class Selection {
         }
     }
 
+    /**
+     * Selection sort an array.
+     *
+     * @param a   the array to be sorted
+     * @param c   the comparator of the array component type
+     * @param <T> the type of which the comparator compares
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a, Comparator<? super T> c) {
         for (int i = 0; i < a.length - 1; i++) {
             int min = i;

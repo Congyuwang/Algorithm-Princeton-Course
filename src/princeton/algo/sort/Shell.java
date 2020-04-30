@@ -11,6 +11,12 @@ public class Shell {
 
     private Shell() {}
 
+    /**
+     * Shell sort a mutually comparable array
+     *
+     * @param a   the array to be sorted
+     * @param <T> a mutually comparable type
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         int k = 0;
         while (h(k) < a.length) {
@@ -29,6 +35,13 @@ public class Shell {
         }
     }
 
+    /**
+     * Shell sort an array.
+     *
+     * @param a   the array to be sorted
+     * @param c   the comparator of the array component type
+     * @param <T> the type of which the comparator compares
+     */
     public static <T> void sort(T[] a, Comparator<? super T> c) {
         int k = 0;
         while (h(k) < a.length) {

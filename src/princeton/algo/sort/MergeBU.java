@@ -14,6 +14,13 @@ public class MergeBU {
 
     private MergeBU() {}
 
+    /**
+     * Bottom up merge sort sort a mutually comparable array. Insertion sort when
+     * length is shorter than 8.
+     *
+     * @param a   the array to be sorted
+     * @param <T> a mutually comparable type
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         int length = a.length;
         @SuppressWarnings("unchecked")
@@ -39,6 +46,13 @@ public class MergeBU {
         }
     }
 
+    /**
+     * Bottom up merge sort an array. Insertion sort when length is shorter than 8.
+     *
+     * @param a   the array to be sorted
+     * @param c   the comparator of the array component type
+     * @param <T> the type of which the comparator compares
+     */
     public static <T> void sort(T[] a, Comparator<? super T> c) {
         int length = a.length;
         @SuppressWarnings("unchecked")

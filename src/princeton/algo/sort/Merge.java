@@ -15,6 +15,13 @@ public class Merge {
 
     private Merge() {}
 
+    /**
+     * Merge sort sort a mutually comparable array. Insertion sort when length is
+     * shorter than 8.
+     *
+     * @param a   the array to be sorted
+     * @param <T> a mutually comparable type
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         @SuppressWarnings("unchecked")
         T[] b = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length);
@@ -22,6 +29,13 @@ public class Merge {
         sort(b, a, 0, a.length);
     }
 
+    /**
+     * Merge sort an array. Insertion sort when length is shorter than 8.
+     *
+     * @param a   the array to be sorted
+     * @param c   the comparator of the array component type
+     * @param <T> the type of which the comparator compares
+     */
     public static <T> void sort(T[] a, Comparator<? super T> c) {
         @SuppressWarnings("unchecked")
         T[] b = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length);
@@ -63,7 +77,7 @@ public class Merge {
         assert Util.isSorted(a, lo, hi, c);
     }
 
-    public static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi) {
+    static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi) {
         assert Util.isSorted(src, lo, mid);
         assert Util.isSorted(src, mid, hi);
         for (int k = lo, i = lo, j = mid; k < hi; k++) {
@@ -80,7 +94,7 @@ public class Merge {
         assert Util.isSorted(dest, lo, hi);
     }
 
-    public static <T> void merge(T[] src, T[] dest, int lo, int mid, int hi, Comparator<? super T> c) {
+    static <T> void merge(T[] src, T[] dest, int lo, int mid, int hi, Comparator<? super T> c) {
         assert Util.isSorted(src, lo, mid, c);
         assert Util.isSorted(src, mid, hi, c);
         for (int k = lo, i = lo, j = mid; k < hi; k++) {

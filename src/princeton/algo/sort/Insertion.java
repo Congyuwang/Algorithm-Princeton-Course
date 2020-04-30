@@ -11,18 +11,31 @@ public class Insertion {
 
     private Insertion() {}
 
+    /**
+     * Insertion sort a mutually comparable array
+     *
+     * @param a   the array to be sorted
+     * @param <T> a mutually comparable type
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         sort(a, 0, a.length);
     }
 
+    /**
+     * Insertion sort an array.
+     *
+     * @param a   the array to be sorted
+     * @param c   the comparator of the array component type
+     * @param <T> the type of which the comparator compares
+     */
     public static <T> void sort(T[] a, Comparator<? super T> c) {
         sort(a, 0, a.length, c);
     }
 
-    public static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
-        if (lo < 0 || hi > a.length || lo >= hi) {
-            throw new IllegalArgumentException("illegal index");
-        }
+    static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
+        assert lo >= 0;
+        assert hi <= a.length;
+        assert lo < hi;
         for (int i = lo; i < hi; i++) {
             for (int j = i; j > lo; j--) {
                 if (Util.less(a[j], a[j - 1])) {
@@ -34,10 +47,10 @@ public class Insertion {
         }
     }
 
-    public static <T> void sort(T[] a, int lo, int hi, Comparator<? super T> c) {
-        if (lo < 0 || hi > a.length || lo >= hi) {
-            throw new IllegalArgumentException("illegal index");
-        }
+    static <T> void sort(T[] a, int lo, int hi, Comparator<? super T> c) {
+        assert lo >= 0;
+        assert hi <= a.length;
+        assert lo < hi;
         for (int i = lo; i < hi; i++) {
             for (int j = i; j > lo; j--) {
                 if (Util.less(a[j], a[j - 1], c)) {
