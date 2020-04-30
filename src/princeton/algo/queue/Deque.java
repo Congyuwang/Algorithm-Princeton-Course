@@ -40,7 +40,7 @@ public class Deque<Item> implements Queue<Item> {
      */
     public void addFirst(Item item) {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         Node oldFirst = first;
         first = new Node();
@@ -58,7 +58,7 @@ public class Deque<Item> implements Queue<Item> {
     // add the item to the back
     public void addLast(Item item) {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         Node oldLast = last;
         last = new Node();
@@ -137,7 +137,7 @@ public class Deque<Item> implements Queue<Item> {
     }
 
     @Override
-    public void enqueue(Item item) throws IllegalArgumentException {
+    public void enqueue(Item item) throws NullPointerException {
         addLast(item);
     }
 
@@ -150,7 +150,7 @@ public class Deque<Item> implements Queue<Item> {
      */
     public void insert(Item item, int i) {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         if (i < 0 || i > size) {
             throw new IllegalArgumentException("index out of range!");

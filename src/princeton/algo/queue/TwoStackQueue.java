@@ -42,7 +42,7 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     @Override
     public void enqueue(Item item) throws IllegalArgumentException {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         if (isEmpty()) {
             storeStack.push(item);

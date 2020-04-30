@@ -18,7 +18,12 @@ public interface Stack<Item> extends Iterable<Item> {
 
     int size();
 
-    void push(Item item) throws IllegalArgumentException;
+    /**
+     * push an item into the stack
+     * @param item the item to be pushed
+     * @throws NullPointerException if the parameter is null
+     */
+    void push(Item item) throws NullPointerException;
 
     /**
      * @exception NoSuchElementException if there is no more element.

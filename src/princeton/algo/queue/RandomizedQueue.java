@@ -33,7 +33,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
     @Override
     public void enqueue(Item item) {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         if (size == s.length) {
             grow(s.length << 1);

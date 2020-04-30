@@ -20,7 +20,7 @@ public class ArrayStack<Item> implements Stack<Item> {
     @Override
     public void push(Item item) {
         if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
+            throw new NullPointerException("null item not allowed!");
         }
         if (N == s.length) {
             resize(2 * s.length);
