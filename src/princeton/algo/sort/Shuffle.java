@@ -28,6 +28,7 @@ public class Shuffle {
         Random random = new Random();
         T shuffled = shuffle(d, random);
         for (int i = 0; i < size; i++) {
+            assert shuffled != null;
             d.enqueue(shuffled.dequeue());
         }
     }
@@ -37,6 +38,7 @@ public class Shuffle {
         Random random = new Random();
         T shuffled = shuffle(s, random);
         for (int i = 0; i < size; i++) {
+            assert shuffled != null;
             s.push(shuffled.pop());
         }
     }
