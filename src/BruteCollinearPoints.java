@@ -29,7 +29,6 @@ public class BruteCollinearPoints {
                         double slope2 = points[i1].slopeTo(points[i3]);
                         double slope3 = points[i1].slopeTo(points[i4]);
                         if (slope1 == slope2 && slope1 == slope3) {
-                            System.out.println("i1: " + i1 + " i2: " + i2 + " i3: " + i3 + " i4: " + i4);
                             Point min = points[i1];
                             Point max = points[i1];
                             int temp = min.compareTo(points[i2]);
