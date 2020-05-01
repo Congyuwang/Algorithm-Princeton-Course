@@ -61,7 +61,7 @@ public class FastCollinearPoints {
             lineSegments[i] = current.lineSegment;
             firstLine = current.next;
         }
-        return lineSegments;;
+        return lineSegments;
     }
 
     public static void main(String[] args) {
