@@ -25,9 +25,9 @@ public interface Queue<Item> extends Iterable<Item> {
     /**
      * push an item into the Queue
      * @param item the item to be pushed
-     * @throws NullPointerException throws if the item is null.
+     * @throws IllegalArgumentException throws if the item is null.
      */
-    void enqueue(Item item) throws NullPointerException;
+    void enqueue(Item item) throws IllegalArgumentException;
 
     boolean isEmpty();
 

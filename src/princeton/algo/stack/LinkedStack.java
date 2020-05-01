@@ -27,7 +27,7 @@ public class LinkedStack<Item> implements Stack<Item> {
     @Override
     public void push(Item item) {
         if (item == null) {
-            throw new NullPointerException("null item not allowed!");
+            throw new IllegalArgumentException("null item not allowed!");
         }
         Node oldFirst = first;
         first = new Node();
@@ -53,12 +53,12 @@ public class LinkedStack<Item> implements Stack<Item> {
      * @param item the item to be inserted
      * @param i    position parameter. 0 means add in front, size means add in the
      *             end.
-     * @throws NullPointerException if item is null
+     * @throws IllegalArgumentException if item is null
      * @throws IllegalArgumentException if the index is out of range (> size or < 0)
      */
     public void insert(Item item, int i) {
         if (item == null) {
-            throw new NullPointerException("null item not allowed!");
+            throw new IllegalArgumentException("null item not allowed!");
         }
         if (i < 0 || i > size) {
             throw new IllegalArgumentException("index out of range!");

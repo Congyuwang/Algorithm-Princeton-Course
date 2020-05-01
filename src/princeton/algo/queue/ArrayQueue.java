@@ -25,7 +25,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
     @Override
     public void enqueue(Item item) {
         if (item == null) {
-            throw new NullPointerException("null item not allowed!");
+            throw new IllegalArgumentException("null item not allowed!");
         }
         // reset tail pointer if tail exceeds index limit
         if (tail == s.length) {
