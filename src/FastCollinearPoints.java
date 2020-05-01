@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class FastCollinearPoints {
 
-    private final int TRHESH_HOLD = 4;
+    private static final int TRHESH_HOLD = 4;
 
     private int numberOfSegments;
 
