@@ -17,8 +17,21 @@ public class FastCollinearPoints {
     }
 
     public FastCollinearPoints(Point[] points) {
+        if (points == null) {
+            throw new IllegalArgumentException("null input");
+        }
+        for (Point p : points) {
+            if (p == null) {
+                throw new IllegalArgumentException("null point");
+            }
+        }
         Point[] pointsCopy = points.clone();
         Arrays.sort(pointsCopy);
+        for (int i = 1; i < points.length; i++) {
+            if (pointsCopy[i - 1].compareTo(pointsCopy[i]) == 0) {
+                throw new IllegalArgumentException("repeated points " + pointsCopy[i]);
+            }
+        }
         for (Point p : pointsCopy) {
             Arrays.sort(points);
             Arrays.sort(points, p.slopeOrder());
