@@ -103,10 +103,10 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return new slopeComparator();
+        return new SlopeComparator();
     }
 
-    private class slopeComparator implements Comparator<Point> {
+    private class SlopeComparator implements Comparator<Point> {
 
         @Override
         public int compare(Point o1, Point o2) {

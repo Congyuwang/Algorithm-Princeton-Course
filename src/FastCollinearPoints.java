@@ -55,12 +55,13 @@ public class FastCollinearPoints {
     }
 
     public LineSegment[] segments() {
+        Node current = firstLine;
         LineSegment[] lineSegments = new LineSegment[numberOfSegments];
         for (int i = 0; i < numberOfSegments; i++) {
-            lineSegments[i] = firstLine.lineSegment;
-            firstLine = firstLine.next;
+            lineSegments[i] = current.lineSegment;
+            firstLine = current.next;
         }
-        return lineSegments;
+        return lineSegments;;
     }
 
     public static void main(String[] args) {
