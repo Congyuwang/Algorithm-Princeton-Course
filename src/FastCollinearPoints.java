@@ -16,16 +16,22 @@ public class FastCollinearPoints {
         Node next;
     }
 
-    public FastCollinearPoints(Point[] points) {
-        if (points == null) {
+    /**
+     * The algorithm searches for segments that contain more than four points.
+     *
+     * @param pts the array of points
+     */
+    public FastCollinearPoints(Point[] pts) {
+        if (pts == null) {
             throw new IllegalArgumentException("null input");
         }
+        Point[] points = pts.clone();
         for (Point p : points) {
             if (p == null) {
                 throw new IllegalArgumentException("null point");
             }
         }
-        Point[] pointsCopy = points.clone();
+        Point[] pointsCopy = pts.clone();
         Arrays.sort(pointsCopy);
         for (int i = 1; i < points.length; i++) {
             if (pointsCopy[i - 1].compareTo(pointsCopy[i]) == 0) {
@@ -33,32 +39,42 @@ public class FastCollinearPoints {
             }
         }
         for (Point p : pointsCopy) {
+            if (points.length < 4) {
+                break;
+            }
             Arrays.sort(points);
             Arrays.sort(points, p.slopeOrder());
             int count = 0;
-            int head = 0;
-            double slopeMem = p.slopeTo(points[0]);
-            for (int tail = 1; tail < points.length; tail++) {
-                double thisSlope = p.slopeTo(points[tail]);
+            int first = 1;
+            double slopeMem = p.slopeTo(points[first]);
+            for (int last = 2; last < points.length; last++) {
+                double thisSlope = p.slopeTo(points[last]);
                 if (slopeMem == thisSlope) {
                     count++;
                 } else {
-                    if (count >= TRHESH_HOLD - 2 && p.compareTo(points[head]) <= 0) {
+                    if (count >= TRHESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
                         if (numberOfSegments == 0) {
                             firstLine = new Node();
-                            firstLine.lineSegment = new LineSegment(points[head], points[tail - 1]);
+                            firstLine.lineSegment = new LineSegment(p, points[last - 1]);
                         } else {
                             Node oldFirst = firstLine;
                             firstLine = new Node();
-                            firstLine.lineSegment = new LineSegment(points[head], points[tail - 1]);
+                            firstLine.lineSegment = new LineSegment(p, points[last - 1]);
                             firstLine.next = oldFirst;
                         }
                         numberOfSegments++;
                     }
-                    head = tail;
+                    first = last;
                     count = 0;
                 }
                 slopeMem = thisSlope;
+            }
+            if (count >= TRHESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
+                Node oldFirst = firstLine;
+                firstLine = new Node();
+                firstLine.lineSegment = new LineSegment(p, points[points.length - 1]);
+                firstLine.next = oldFirst;
+                numberOfSegments++;
             }
         }
     }
@@ -93,12 +109,14 @@ public class FastCollinearPoints {
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
+        StdDraw.setPenRadius(0.02);
         for (Point p : points) {
             p.draw();
         }
         StdDraw.show();
 
         // print and draw the line segments
+        StdDraw.setPenRadius(0.005);
         FastCollinearPoints collinear = new FastCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
