@@ -118,7 +118,7 @@ public class Point implements Comparable<Point> {
             if (slope1 == slope2) {
                 return 0;
             }
-            return -1;
+            return 1;
         }
 
     }
@@ -136,11 +136,11 @@ public class Point implements Comparable<Point> {
     }
 
     public static void main(String[] args) {
-        Point p1 = new Point(10, 20);
-        Point p2 = new Point(10000, 10000);
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
-        p1.drawTo(p2);
-        StdDraw.show();
+        Point p = new Point(282, 415);
+        Point q = new Point(144, 421);
+        Point r = new Point(201, 440);
+        System.out.println(p.slopeTo(q));
+        System.out.println(p.slopeTo(r));
+        System.out.println(p.slopeOrder().compare(q, r));
     }
 }
