@@ -1,6 +1,8 @@
 package tests;
 
 import princeton.algo.sort.*;
+
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 import org.apache.commons.math3.distribution.TDistribution;
@@ -28,6 +30,7 @@ class SortTest {
         randomDoubleTest("reference_merge", LENGTH, 100);
         randomDoubleTest("mergeBU", LENGTH, 100);
         randomDoubleTest("reference_mergeBU", LENGTH, 100);
+        randomDoubleTest("timSort", LENGTH, 100);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
@@ -41,6 +44,7 @@ class SortTest {
         test("reference_merge", test2, 100);
         test("mergeBU", test2, 100);
         test("reference_mergeBU", test2, 100);
+        test("timSort", test2, 100);
 
         // test3: Sort Strings
         System.out.println("\nTest3 (sort strings):");
@@ -54,6 +58,7 @@ class SortTest {
         randomStringTest("reference_merge", 20, LENGTH, 100);
         randomStringTest("mergeBU", 20, LENGTH, 100);
         randomStringTest("reference_mergeBU", 20, LENGTH, 100);
+        randomStringTest("timSort", 20, LENGTH, 100);
 
         // test3: Sort lots of Strings
         System.out.println("\nTest4 (sort lots of Strings):");
@@ -63,6 +68,7 @@ class SortTest {
         randomStringTest("reference_merge", 20, BIG_LENGTH, 100);
         randomStringTest("mergeBU", 20, BIG_LENGTH, 100);
         randomStringTest("reference_mergeBU", 20, BIG_LENGTH, 100);
+        randomStringTest("timSort", 20, BIG_LENGTH, 100);
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test) {
@@ -103,6 +109,8 @@ class SortTest {
             case "reference_mergeBU":
                 edu.princeton.cs.algs4.MergeBU.sort(testCopy);
                 break;
+            case "timSort":
+                Arrays.sort(testCopy);
             default:
                 break;
         }

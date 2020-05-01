@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 mkdir ~/Desktop/queues
 
-cd $BASEDIR/../princeton/src
+cd $BASEDIR/../src
 
 cp princeton/algo/queue/RandomizedQueue.java princeton/algo/queue/Deque.java Permutation.java StreamChooseK.java ~/Desktop/queues
 

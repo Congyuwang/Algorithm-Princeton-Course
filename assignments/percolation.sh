@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 mkdir ~/Desktop/percolation
 
-cd $BASEDIR/../princeton/src
+cd $BASEDIR/../src
 
 cp Percolation.java PercolationStats.java ~/Desktop/percolation
 
