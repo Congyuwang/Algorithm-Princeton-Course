@@ -1,9 +1,7 @@
 package princeton.algo.sort.hybrid;
 
 import princeton.algo.sort.Util;
-
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -854,13 +852,5 @@ final public class Grail {
             }
         }
         sortWithDynBuffer(arr, new c());
-    }
-
-    public static void main(String[] args) {
-        // int len = 10;
-        Double[] arr = { -10.0, 1., 2., 3., 4., 5., 6., 7., 5., 4., 2., 3., -10.0, -10.0, -10.0, 0.0, 1.0, 2.0, 3.0, 4.0, -7.5, -6.5, -5.5, -4.5, -3.5};
-        Grail.sortWithBuffer(arr);
-        System.out.println("output = ");
-        System.out.println(Arrays.toString(arr));
     }
 }
