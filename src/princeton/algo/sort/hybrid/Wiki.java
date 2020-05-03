@@ -3,7 +3,7 @@ package princeton.algo.sort.hybrid;
 import java.util.*;
 import java.lang.reflect.Array;
 
-public class WikiSort {
+public class Wiki {
 	// use a small cache to speed up some of the operations
 	// since the cache size is fixed, it's still O(1) memory!
 	// just keep in mind that making it too small ruins the point (nothing will fit
@@ -25,7 +25,7 @@ public class WikiSort {
 	// 0 – if the system simply cannot allocate any extra memory whatsoever, no
 	// memory works just fine
 
-	private WikiSort() {}
+	private Wiki() {}
 
 	public static <T extends Comparable<? super T>> void sort(T[] a) {
 		@SuppressWarnings("unchecked")

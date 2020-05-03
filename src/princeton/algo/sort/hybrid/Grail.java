@@ -12,12 +12,14 @@ import java.util.Comparator;
  * Changed to static methods and added javadoc by Congyuwang.
  *
  * For sorting w/ fixed external buffer (512 items),
- * use GrailSortWithBuffer().
+ * use sortWithBuffer().
  *
  * For sorting w/ dynamic external buffer (sqrt(length)),
- * use GrailSortWithDynBuffer().
+ * use sortWithDynBuffer().
  */
-final public class GrailSort {
+final public class Grail {
+
+    private Grail() {}
 
     private static final int GRAIL_STATIC_BUFFER_LEN = 512;
 
@@ -161,9 +163,6 @@ final public class GrailSort {
         return right;
     }
 
-    /**
-     * TODO: figure out what this function does
-     */
     private static <T> int getKeys(T[] arr, int len, int numKeys, Comparator<? super T> c) {
         int foundKeys = 1;
         int firstKey = 0;
@@ -371,7 +370,7 @@ final public class GrailSort {
         return new GrailState(len2, typeFrag);
     }
 
-    /***** Sort With Extra Buffer *****/
+    //***** Sort With Extra Buffer *****//
 
     // arr[M..0) - free, arr[0, leftEnd)++arr[leftEnd,leftEnd+rightEnd-1)
     // -> arr[M, M + leftEnd + rightEnd)
@@ -440,22 +439,19 @@ final public class GrailSort {
      *                    should go before nblock2 blocks. requires nblock2=0 (no
      *                    irregular blocks). llast>0, nblock2=0 is possible.
      */
-    private static <T> void grailMergeBuffersLeftWithXBuf(T[] arr, int midKey, int pos, int blockCount, int regBlockLen,
+    private static <T> void mergeBuffersLeftWithXBuf(T[] arr, int midKey, int pos, int blockCount, int regBlockLen,
             int aBlockCount, int lastLen, Comparator<? super T> c) {
 
         if (blockCount == 0) {
             int aBlocksLen = aBlockCount * regBlockLen;
-
             mergeLeftWithXBuf(arr, pos, aBlocksLen, lastLen, -regBlockLen, c);
             return;
         }
 
-        int leftOverLen, processIndex;
-        leftOverLen = processIndex = regBlockLen;
-
+        int leftOverLen = regBlockLen;
+        int processIndex = regBlockLen;
         int leftOverFrag = c.compare(arr[0], arr[midKey]) < 0 ? 0 : 1;
         int restToProcess;
-
         for (int keyIndex = 1; keyIndex < blockCount; keyIndex++, processIndex += regBlockLen) {
             restToProcess = processIndex - leftOverLen;
             int nextFrag = c.compare(arr[keyIndex], arr[midKey]) < 0 ? 0 : 1;
@@ -466,7 +462,6 @@ final public class GrailSort {
             } else {
                 GrailState results = smartMergeWithXBuf(arr, pos + restToProcess, leftOverLen, leftOverFrag,
                         regBlockLen, c);
-
                 leftOverLen = results.getLeftOverLen();
                 leftOverFrag = results.getLeftOverFrag();
             }
@@ -476,12 +471,11 @@ final public class GrailSort {
         if (lastLen != 0) {
             if (leftOverFrag != 0) {
                 System.arraycopy(arr, pos + restToProcess, arr, pos + restToProcess - regBlockLen, leftOverLen);
-
                 restToProcess = processIndex;
                 leftOverLen = regBlockLen * aBlockCount;
-            } else
+            } else {
                 leftOverLen += regBlockLen * aBlockCount;
-
+            }
             mergeLeftWithXBuf(arr, pos + restToProcess, leftOverLen, lastLen, -regBlockLen, c);
         } else {
             System.arraycopy(arr, pos + restToProcess, arr, pos + restToProcess - regBlockLen, leftOverLen);
@@ -491,11 +485,11 @@ final public class GrailSort {
     //***** End Sort With Extra Buffer *****//
 
     /**
-     * build blocks of length buildLen input: [-buildLen, -1] elements are buffer
-     * output: first buildLen elements are buffer, blocks 2 * buildLen and last
-     * sub-block sorted.
+     * build blocks of length {@code buildLen}. Input: [-buildLen, -1] elements are
+     * buffer. Output: first buildLen elements are buffer, blocks 2 * buildLen and
+     * last sub-block sorted.
      */
-    private static <T> void grailBuildBlocks(T[] arr, int pos, int len, int buildLen, T[] extBuf,
+    private static <T> void buildBlocks(T[] arr, int pos, int len, int buildLen, T[] extBuf,
                                              int extBufLen, Comparator<? super T> c) {
         int buildBuf = Math.min(buildLen, extBufLen);
 
@@ -503,40 +497,39 @@ final public class GrailSort {
             buildBuf &= buildBuf - 1; // max power or 2 - just in case
         }
 
-        int extraM, part;
-
+        int extraM;
+        int part;
         if (buildBuf != 0) {
             System.arraycopy(arr, pos - buildBuf, extBuf, 0, buildBuf);
-
             for (int M = 1; M < len; M += 2) {
                 extraM = 0;
                 if (c.compare(arr[pos + (M - 1)], arr[pos + M]) > 0) {
                     extraM = 1;
                 }
-
                 arr[pos + M - 3] = arr[pos + M - 1 + extraM];
                 arr[pos + M - 2] = arr[pos + M - extraM];
             }
-            if (len % 2 != 0)
+            if (len % 2 != 0) {
                 arr[pos + len - 3] = arr[pos + len - 1];
+            }
 
             pos -= 2;
 
             for (part = 2; part < buildBuf; part *= 2) {
-                int left = 0, right = len - 2 * part;
+                int left = 0;
+                int right = len - 2 * part;
 
                 while (left <= right) {
                     mergeLeftWithXBuf(arr, pos + left, part, part, -part, c);
                     left += 2 * part;
                 }
-
                 int rest = len - left;
-
                 if (rest > part)
                     mergeLeftWithXBuf(arr, pos + left, part, rest - part, -part, c);
                 else {
-                    while (left < len)
-                        arr[pos + left - part] = arr[pos + left++];
+                    for (; left < len; left++) {
+                        arr[pos + left - part] = arr[pos + left];
+                    }
                 }
                 pos -= part;
             }
@@ -544,156 +537,43 @@ final public class GrailSort {
         } else {
             for (int M = 1; M < len; M += 2) {
                 extraM = 0;
-                if (c.compare(arr[pos + (M - 1)], arr[pos + M]) > 0)
+                if (c.compare(arr[pos + (M - 1)], arr[pos + M]) > 0) {
                     extraM = 1;
-
+                }
                 Util.exch(arr, pos + (M - 3), pos + (M - 1 + extraM));
                 Util.exch(arr, pos + (M - 2), pos + (M - extraM));
             }
-
             if (len % 2 != 0)
                 Util.exch(arr, pos + (len - 1), pos + (len - 3));
-
             pos -= 2;
             part = 2;
         }
-
-        while (part < buildLen) {
-            int left = 0, right = len - 2 * part;
+        for (; part < buildLen; part <<= 1) {
+            int left = 0;
+            int right = len - 2 * part;
 
             while (left <= right) {
                 mergeLeft(arr, pos + left, part, part, -part, c);
                 left += 2 * part;
             }
-
             int rest = len - left;
-
             if (rest > part) {
                 mergeLeft(arr, pos + left, part, rest - part, -part, c);
-            } else
+            } else {
                 rotate(arr, pos + left - part, part, rest);
-
+            }
             pos -= part;
-            part *= 2;
         }
-
         int restToBuild = len % (2 * buildLen);
         int leftOverPos = len - restToBuild;
-
-        if (restToBuild <= buildLen)
+        if (restToBuild <= buildLen) {
             rotate(arr, pos + leftOverPos, restToBuild, buildLen);
-        else
+        } else {
             mergeRight(arr, pos + leftOverPos, buildLen, restToBuild - buildLen, buildLen, c);
-
+        }
         while (leftOverPos > 0) {
             leftOverPos -= 2 * buildLen;
             mergeRight(arr, pos + leftOverPos, buildLen, buildLen, buildLen, c);
-        }
-    }
-
-    /**
-     * keys are on the left of arr. Blocks of length buildLen combined. We'll
-     * combine them into pairs buildLen and keys are powers of 2. (2 * buildLen /
-     * regBlockLen) keys are guaranteed
-     */
-    private static <T> void grailCombineBlocks(T[] arr, int pos, int len, int buildLen, int regBlockLen,
-                                               boolean haveBuf, T[] buffer, Comparator<? super T> c) {
-
-        int combineLen = len / (2 * buildLen);
-        int leftOver = len % (2 * buildLen);
-
-        if (leftOver <= buildLen) {
-            len -= leftOver;
-            leftOver = 0;
-        }
-
-        if (buffer != null)
-            System.arraycopy(arr, pos - regBlockLen, buffer, 0, regBlockLen);
-
-        for (int i = 0; i <= combineLen; i++) {
-            if (i == combineLen && leftOver == 0)
-                break;
-
-            int blockPos = pos + i * 2 * buildLen;
-            int blockCount = (i == combineLen ? leftOver : 2 * buildLen) / regBlockLen;
-
-            binaryInsertSort(arr, blockCount + (i == combineLen ? 1 : 0), c);
-
-            int midkey = buildLen / regBlockLen;
-
-            for (int index = 1; index < blockCount; index++) {
-                int leftIndex = index - 1;
-
-                for (int rightIndex = index; rightIndex < blockCount; rightIndex++) {
-                    int rightComp = c.compare(arr[blockPos + leftIndex * regBlockLen],
-                            arr[blockPos + rightIndex * regBlockLen]);
-
-                    if (rightComp > 0 || (rightComp == 0
-                            && c.compare(arr[leftIndex], arr[rightIndex]) > 0)) {
-                        leftIndex = rightIndex;
-                    }
-                }
-
-                if (leftIndex != index - 1) {
-                    multiSwap(arr, blockPos + (index - 1) * regBlockLen, blockPos + leftIndex * regBlockLen,
-                            regBlockLen);
-                    Util.exch(arr, (index - 1), leftIndex);
-
-                    if (midkey == index - 1 || midkey == leftIndex) {
-                        midkey ^= (index - 1) ^ leftIndex;
-                    }
-                }
-            }
-
-            int aBlockCount, lastLen;
-            aBlockCount = lastLen = 0;
-            if (i == combineLen)
-                lastLen = leftOver % regBlockLen;
-
-            if (lastLen != 0) {
-                while (aBlockCount < blockCount && c.compare(arr[blockPos + blockCount * regBlockLen],
-                        arr[blockPos + (blockCount - aBlockCount - 1) * regBlockLen]) < 0) {
-
-                    aBlockCount++;
-                }
-            }
-
-            if (buffer != null) {
-                grailMergeBuffersLeftWithXBuf(arr, midkey, blockPos, blockCount - aBlockCount,
-                        regBlockLen, aBlockCount, lastLen, c);
-            } else
-                mergeBuffersLeft(arr, midkey, blockPos, blockCount - aBlockCount, regBlockLen,
-                        haveBuf, aBlockCount, lastLen, c);
-        }
-        if (buffer != null) {
-            if (len - 1 + 1 >= 0) System.arraycopy(arr, pos - regBlockLen, arr, pos, len - 1 + 1);
-
-            System.arraycopy(buffer, 0, arr, pos - regBlockLen, regBlockLen);
-        } else if (haveBuf) {
-            while (--len >= 0)
-                Util.exch(arr, pos + len, pos + len - regBlockLen);
-        }
-    }
-
-    private static <T> void grailLazyStableSort(T[] arr, int len, Comparator<? super T> c) {
-        for (int M = 1; M < len; M += 2) {
-            if (c.compare(arr[M - 1], arr[M]) > 0) {
-                Util.exch(arr, (M - 1), M);
-            }
-        }
-
-        for (int part = 2; part < len; part *= 2) {
-            int left = 0, right = len - 2 * part;
-
-            while (left <= right) {
-                mergeWithoutBuffer(arr, left, part, part, c);
-                left += 2 * part;
-            }
-
-            int rest = len - left;
-
-            if (rest > part)
-                mergeWithoutBuffer(arr, left, part, rest - part, c);
         }
     }
 
@@ -712,25 +592,22 @@ final public class GrailSort {
 
         if (blockCount == 0) {
             int aBlocksLen = aBlockCount * blockLen;
-
-            if (haveBuf)
+            if (haveBuf) {
                 mergeLeft(arr, pos, aBlocksLen, lastLen, -blockLen, c);
-            else
+            } else {
                 mergeWithoutBuffer(arr, pos, aBlocksLen, lastLen, c);
-
+            }
             return;
         }
 
-        int leftOverLen, processIndex;
-        leftOverLen = processIndex = blockLen;
-
+        int leftOverLen = blockLen;
+        int processIndex = blockLen;
         int leftOverFrag = c.compare(arr[0], arr[midKey]) < 0 ? 0 : 1;
         int restToProcess;
 
         for (int keyIndex = 1; keyIndex < blockCount; keyIndex++, processIndex += blockLen) {
             restToProcess = processIndex - leftOverLen;
             int nextFrag = c.compare(arr[keyIndex], arr[midKey]) < 0 ? 0 : 1;
-
             if (nextFrag == leftOverFrag) {
                 if (haveBuf) {
                     multiSwap(arr, pos + restToProcess - blockLen, pos + restToProcess, leftOverLen);
@@ -740,80 +617,174 @@ final public class GrailSort {
                 GrailState results;
                 if (haveBuf) {
                     results = smartMergeWithBuffer(arr, pos + restToProcess, leftOverLen, leftOverFrag, blockLen, c);
-
                 } else {
                     results = smartMergeWithoutBuffer(arr, pos + restToProcess, leftOverLen, leftOverFrag, blockLen, c);
-
                 }
                 leftOverLen = results.getLeftOverLen();
                 leftOverFrag = results.getLeftOverFrag();
             }
         }
-
         restToProcess = processIndex - leftOverLen;
-
         if (lastLen != 0) {
             if (leftOverFrag != 0) {
-                if (haveBuf)
+                if (haveBuf) {
                     multiSwap(arr, pos + restToProcess - blockLen, pos + restToProcess, leftOverLen);
-
+                }
                 restToProcess = processIndex;
                 leftOverLen = blockLen * aBlockCount;
-            } else
+            } else {
                 leftOverLen += blockLen * aBlockCount;
-
-            if (haveBuf)
+            }
+            if (haveBuf) {
                 mergeLeft(arr, pos + restToProcess, leftOverLen, lastLen, -blockLen, c);
-            else
+            } else {
                 mergeWithoutBuffer(arr, pos + restToProcess, leftOverLen, lastLen, c);
-        } else {
-            if (haveBuf)
-                multiSwap(arr, pos + restToProcess, pos + (restToProcess - blockLen), leftOverLen);
+            }
+        } else if (haveBuf) {
+            multiSwap(arr, pos + restToProcess, pos + (restToProcess - blockLen), leftOverLen);
         }
     }
 
-    private static <T> void grailCommonSort(T[] arr, int len, T[] buffer, int bufferLen,
-                                            Comparator<? super T> c) {
-        if (len <= 32) {
+    private static <T> void lazyStableSort(T[] arr, int len, Comparator<? super T> c) {
+        for (int M = 1; M < len; M += 2) {
+            if (c.compare(arr[M - 1], arr[M]) > 0) {
+                Util.exch(arr, (M - 1), M);
+            }
+        }
+
+        for (int part = 2; part < len; part *= 2) {
+            int left = 0;
+            int right = len - 2 * part;
+            while (left <= right) {
+                mergeWithoutBuffer(arr, left, part, part, c);
+                left += 2 * part;
+            }
+            int rest = len - left;
+            if (rest > part) {
+                mergeWithoutBuffer(arr, left, part, rest - part, c);
+            }
+        }
+    }
+
+    /**
+     * keys are on the left of arr. Blocks of length buildLen combined. We'll
+     * combine them into pairs buildLen and keys are powers of 2. (2 * buildLen /
+     * regBlockLen) keys are guaranteed
+     */
+    private static <T> void combineBlocks(T[] arr, int pos, int len, int buildLen, int regBlockLen,
+            boolean haveBuf, T[] buffer, Comparator<? super T> c) {
+
+        int combineLen = len / (2 * buildLen);
+        int leftOver = len % (2 * buildLen);
+
+        if (leftOver <= buildLen) {
+            len -= leftOver;
+            leftOver = 0;
+        }
+
+        if (buffer != null) {
+            System.arraycopy(arr, pos - regBlockLen, buffer, 0, regBlockLen);
+        }
+        for (int i = 0; i <= combineLen; i++) {
+            if (i == combineLen && leftOver == 0) {
+                break;
+            }
+            int blockPos = pos + i * 2 * buildLen;
+            int blockCount = (i == combineLen ? leftOver : 2 * buildLen) / regBlockLen;
+
+            binaryInsertSort(arr, blockCount + (i == combineLen ? 1 : 0), c);
+            int midkey = buildLen / regBlockLen;
+            for (int index = 1; index < blockCount; index++) {
+                int leftIndex = index - 1;
+                for (int rightIndex = index; rightIndex < blockCount; rightIndex++) {
+                    int rightComp = c.compare(arr[blockPos + leftIndex * regBlockLen], arr[blockPos + rightIndex * regBlockLen]);
+                    if (rightComp > 0 || (rightComp == 0 && c.compare(arr[leftIndex], arr[rightIndex]) > 0)) {
+                        leftIndex = rightIndex;
+                    }
+                }
+                if (leftIndex != index - 1) {
+                    multiSwap(arr, blockPos + (index - 1) * regBlockLen, blockPos + leftIndex * regBlockLen, regBlockLen);
+                    Util.exch(arr, (index - 1), leftIndex);
+                    if (midkey == index - 1 || midkey == leftIndex) {
+                        midkey ^= (index - 1) ^ leftIndex;
+                    }
+                }
+            }
+            int aBlockCount = 0;
+            int lastLen = 0;
+            if (i == combineLen) {
+                lastLen = leftOver % regBlockLen;
+            }
+            if (lastLen != 0) {
+                while (aBlockCount < blockCount && c.compare(arr[blockPos + blockCount * regBlockLen],
+                        arr[blockPos + (blockCount - aBlockCount - 1) * regBlockLen]) < 0) {
+                    aBlockCount++;
+                }
+            }
+            if (buffer != null) {
+                mergeBuffersLeftWithXBuf(arr, midkey, blockPos, blockCount - aBlockCount, regBlockLen, aBlockCount, lastLen, c);
+            } else
+                mergeBuffersLeft(arr, midkey, blockPos, blockCount - aBlockCount, regBlockLen, haveBuf, aBlockCount, lastLen, c);
+        }
+        if (buffer != null) {
+            for (int p = len; --p >= 0; ) {
+                arr[pos + p] = arr[pos + p - regBlockLen];
+            }
+            System.arraycopy(buffer, 0, arr, pos - regBlockLen, regBlockLen);
+        } else if (haveBuf) {
+            while (--len >= 0) {
+                Util.exch(arr, pos + len, pos + len - regBlockLen);
+            }
+        }
+    }
+
+    // 63 -> 32, 64 -> 64, etc.
+    private static int floorPowerOfTwo(int value) {
+        int x = value;
+        x = x | (x >> 1);
+        x = x | (x >> 2);
+        x = x | (x >> 4);
+        x = x | (x >> 8);
+        x = x | (x >> 16);
+        return x - (x >> 1);
+    }
+
+    private static <T> void grailSort(T[] arr, int len, T[] buffer, int bufferLen, Comparator<? super T> c) {
+        if (len < 32) {
             binaryInsertSort(arr, len, c);
             return;
         }
 
-        int blockLen = (int) Math.sqrt(len);
+        int blockLen = floorPowerOfTwo(len);
         int numKeys = ((len - 1) / blockLen) + 1;
         int keyLength = numKeys + blockLen;
         int keysFound = getKeys(arr, len, keyLength, c);
-
         boolean bufferEnabled = true;
-
         if (keysFound < keyLength) {
             if (keysFound < 4) {
-                grailLazyStableSort(arr, len, c);
+                lazyStableSort(arr, len, c);
                 return;
             }
-
             numKeys = blockLen;
-            while (numKeys > keysFound)
+            while (numKeys > keysFound) {
                 numKeys /= 2;
-
+            }
             bufferEnabled = false;
             blockLen = 0;
         }
 
         int M = blockLen + numKeys;
         int buildLen = bufferEnabled ? blockLen : numKeys;
-
         if (bufferEnabled) {
-            grailBuildBlocks(arr, M, len - M, buildLen, buffer, bufferLen, c);
+            buildBlocks(arr, M, len - M, buildLen, buffer, bufferLen, c);
         } else {
-            grailBuildBlocks(arr, M, len - M, buildLen, null, 0, c);
+            buildBlocks(arr, M, len - M, buildLen, null, 0, c);
         }
 
         // 2 * buildLen are built
         while (len - M > (buildLen *= 2)) {
             int regBlockLen = blockLen;
             boolean buildBufEnabled = bufferEnabled;
-
             if (!bufferEnabled) {
                 if (numKeys > 4 && numKeys / 8 * numKeys >= buildLen) {
                     regBlockLen = numKeys / 2;
@@ -821,7 +792,6 @@ final public class GrailSort {
                 } else {
                     int calcKeys = 1;
                     int i = buildLen * keysFound / 2;
-
                     while (calcKeys < numKeys && i != 0) {
                         calcKeys *= 2;
                         i /= 8;
@@ -829,74 +799,67 @@ final public class GrailSort {
                     regBlockLen = (2 * buildLen) / calcKeys;
                 }
             }
-            grailCombineBlocks(arr, M, len - M, buildLen, regBlockLen, buildBufEnabled,
+            combineBlocks(arr, M, len - M, buildLen, regBlockLen, buildBufEnabled,
                     buildBufEnabled && regBlockLen <= bufferLen ? buffer : null, c);
         }
-
         binaryInsertSort(arr, M, c);
         mergeWithoutBuffer(arr, 0, M, len - M, c);
     }
 
-    public static <T> void grailSortWithoutBuffer(T[] arr, Comparator<? super T> c) {
-        grailCommonSort(arr, arr.length, null, 0, c);
+    public static <T> void sortWithoutBuffer(T[] arr, Comparator<? super T> c) {
+        grailSort(arr, arr.length, null, 0, c);
     }
 
-    public static <T> void grailSortWithBuffer(T[] arr, Comparator<? super T> c) {
+    public static <T> void sortWithBuffer(T[] arr, Comparator<? super T> c) {
         @SuppressWarnings("unchecked")
         T[] ExtBuf = (T[]) Array.newInstance(arr.getClass().getComponentType(), GRAIL_STATIC_BUFFER_LEN);
-        grailCommonSort(arr, arr.length, ExtBuf, GRAIL_STATIC_BUFFER_LEN, c);
+        grailSort(arr, arr.length, ExtBuf, GRAIL_STATIC_BUFFER_LEN, c);
     }
 
-    public static <T> void grailSortWithDynBuffer(T[] arr, Comparator<? super T> c) {
+    public static <T> void sortWithDynBuffer(T[] arr, Comparator<? super T> c) {
         int tempLen = 1;
         while (tempLen * tempLen < arr.length) {
             tempLen *= 2;
         }
         @SuppressWarnings("unchecked")
         T[] ExtBuf = (T[]) Array.newInstance(arr.getClass().getComponentType(), tempLen);
-        grailCommonSort(arr, arr.length, ExtBuf, tempLen, c);
+        grailSort(arr, arr.length, ExtBuf, tempLen, c);
     }
 
-    public static <T extends Comparable<? super T>> void grailSortWithoutBuffer(T[] arr) {
+    public static <T extends Comparable<? super T>> void sortWithoutBuffer(T[] arr) {
         class c implements Comparator<T> {
             @Override
             public int compare(T v, T w) {
                 return v.compareTo(w);
             }
         }
-        grailSortWithoutBuffer(arr, new c());
+        sortWithoutBuffer(arr, new c());
     }
 
-    public static <T extends Comparable<? super T>> void grailSortWithBuffer(T[] arr) {
+    public static <T extends Comparable<? super T>> void sortWithBuffer(T[] arr) {
         class c implements Comparator<T> {
             @Override
             public int compare(T v, T w) {
                 return v.compareTo(w);
             }
         }
-        grailSortWithBuffer(arr, new c());
+        sortWithBuffer(arr, new c());
     }
 
-    public static <T extends Comparable<? super T>> void grailSortWithDynBuffer(T[] arr) {
+    public static <T extends Comparable<? super T>> void sortWithDynBuffer(T[] arr) {
         class c implements Comparator<T> {
             @Override
             public int compare(T v, T w) {
                 return v.compareTo(w);
             }
         }
-        grailSortWithDynBuffer(arr, new c());
+        sortWithDynBuffer(arr, new c());
     }
 
     public static void main(String[] args) {
         // int len = 10;
-        Double[] arr = { -10.0, -10.0, -10.0, -10.0, 0.0, 1.0, 2.0, 3.0, 4.0, -7.5, -6.5, -5.5, -4.5, -3.5};
-        class c implements Comparator<Double> {
-            @Override
-            public int compare(Double x, Double y) {
-                return Double.compare(x, y);
-            }
-        }
-        GrailSort.mergeLeftWithXBuf(arr, 4, 5, 5, -4, new c());
+        Double[] arr = { -10.0, 1., 2., 3., 4., 5., 6., 7., 5., 4., 2., 3., -10.0, -10.0, -10.0, 0.0, 1.0, 2.0, 3.0, 4.0, -7.5, -6.5, -5.5, -4.5, -3.5};
+        Grail.sortWithBuffer(arr);
         System.out.println("output = ");
         System.out.println(Arrays.toString(arr));
     }
