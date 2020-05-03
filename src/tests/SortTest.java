@@ -13,9 +13,9 @@ class SortTest {
         int LENGTH = 10_000;
         int BIG_LENGTH = 100_000;
         Random random = new Random();
-        Double[] test2 = new Double[BIG_LENGTH];
+        Double[] test2 = new Double[LENGTH];
         Double[] test3 = new Double[LENGTH];
-        for (int i = 0; i < BIG_LENGTH; i++) {
+        for (int i = 0; i < LENGTH; i++) {
             test2[i] = random.nextDouble() + i * 0.2;
         }
         for (int i = 0; i < LENGTH; i++) {
@@ -171,7 +171,7 @@ class SortTest {
             throw new InternalError("UnSorted");
         }
         if (ifPrint) {
-            System.out.printf("%20s sort: ", algorithm);
+            System.out.printf("%25s sort: ", algorithm);
             System.out.printf("     elapsed time = %.5f", time);
             System.out.printf(", IsSorted: %b\n", Util.isSorted(testCopy));
         }

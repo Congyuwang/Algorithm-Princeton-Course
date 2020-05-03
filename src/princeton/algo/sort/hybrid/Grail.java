@@ -736,24 +736,16 @@ final public class Grail {
         }
     }
 
-    // 63 -> 32, 64 -> 64, etc.
-    private static int floorPowerOfTwo(int value) {
-        int x = value;
-        x = x | (x >> 1);
-        x = x | (x >> 2);
-        x = x | (x >> 4);
-        x = x | (x >> 8);
-        x = x | (x >> 16);
-        return x - (x >> 1);
-    }
-
     private static <T> void grailSort(T[] arr, int len, T[] buffer, int bufferLen, Comparator<? super T> c) {
-        if (len < 32) {
+        if (len <= 32) {
             binaryInsertSort(arr, len, c);
             return;
         }
 
-        int blockLen = floorPowerOfTwo(len);
+        int blockLen = 1;
+        while (blockLen * blockLen < len) {
+            blockLen *= 2;
+        }
         int numKeys = ((len - 1) / blockLen) + 1;
         int keyLength = numKeys + blockLen;
         int keysFound = getKeys(arr, len, keyLength, c);
