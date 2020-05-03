@@ -39,6 +39,12 @@ public class Wiki {
 		sort(a, new c(), cache);
 	}
 
+	public static <T> void sort(T[] a, Comparator<? super T> c) {
+		@SuppressWarnings("unchecked")
+		T[] cache = (T[]) Array.newInstance(a.getClass().getComponentType(), cache_size);
+		sort(a, c, cache);
+	}
+
 	// toolbox functions used by the sorter
 
 	// find the index of the first value within the range that is equal to
@@ -341,7 +347,7 @@ public class Wiki {
 		}
 	}
 
-	public static <T> void NetSwap(T[] array, int[] order, Range range, Comparator<? super T> comp, int x, int y) {
+	private static <T> void NetSwap(T[] array, int[] order, Range range, Comparator<? super T> comp, int x, int y) {
 		int compare = comp.compare(array[range.start + x], array[range.start + y]);
 		if (compare > 0 || (order[x] > order[y] && compare == 0)) {
 			T swap = array[range.start + x];
@@ -355,7 +361,7 @@ public class Wiki {
 
 	// bottom-up merge sort combined with an in-place merge algorithm for O(1)
 	// memory use
-	public static <T> void sort(T[] array, Comparator<? super T> comp, T[] cache) {
+	private static <T> void sort(T[] array, Comparator<? super T> comp, T[] cache) {
 		assert cache != null;
 		int size = array.length;
 
