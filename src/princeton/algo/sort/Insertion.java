@@ -37,12 +37,8 @@ public class Insertion {
         assert hi <= a.length;
         assert lo < hi;
         for (int i = lo; i < hi; i++) {
-            for (int j = i; j > lo; j--) {
-                if (Util.less(a[j], a[j - 1])) {
-                    Util.exch(a, j, j - 1);
-                } else {
-                    break;
-                }
+            for (int j = i; j > lo && Util.less(a[j], a[j - 1]); j--) {
+                Util.exch(a, j, j - 1);
             }
         }
     }
@@ -52,12 +48,8 @@ public class Insertion {
         assert hi <= a.length;
         assert lo < hi;
         for (int i = lo; i < hi; i++) {
-            for (int j = i; j > lo; j--) {
-                if (Util.less(a[j], a[j - 1], c)) {
-                    Util.exch(a, j, j - 1);
-                } else {
-                    break;
-                }
+            for (int j = i; j > lo && Util.less(a[j], a[j - 1], c); j--) {
+                Util.exch(a, j, j - 1);
             }
         }
     }
