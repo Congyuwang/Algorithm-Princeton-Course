@@ -1,7 +1,8 @@
 package tests;
 
 import princeton.algo.sort.*;
-import princeton.algo.sort.hybrid.*;
+import princeton.algo.sort.hybrid.Grail;
+import princeton.algo.sort.hybrid.Wiki;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
