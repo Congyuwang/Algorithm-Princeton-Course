@@ -3,6 +3,12 @@ package princeton.algo.sort;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 
+import princeton.algo.queue.LinkedQueue;
+import princeton.algo.queue.Queue;
+import princeton.algo.stack.ArrayStack;
+import princeton.algo.stack.LinkedStack;
+import princeton.algo.stack.Stack;
+
 /**
  * This merge sort algorithm uses recursive function.
  * The algorithm uses insertion sort for arrays with length shorter than 8.
@@ -41,6 +47,171 @@ public class Merge {
         T[] b = (T[]) Array.newInstance(a.getClass().getComponentType(), a.length);
         System.arraycopy(a, 0, b, 0, a.length);
         sort(b, a, 0, a.length, c);
+    }
+
+    /**
+     * Merge sort a queue.
+     *
+     * @param b   the Queue to be sorted
+     * @param <T> the type of which the comparator compares
+     */
+    public static <T extends Comparable<? super T>> void sort(Queue<T> b) {
+        assert b != null;
+        int bSize = b.size();
+        if (bSize <= 1) {
+            return;
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            Queue<T> b1 = (Queue<T>) b.getClass().getConstructor().newInstance();
+            @SuppressWarnings("unchecked")
+            Queue<T> b2 = (Queue<T>) b.getClass().getConstructor().newInstance();
+            boolean alternate = true;
+            for (int i = 0; i < bSize; i++) {
+                if (alternate) {
+                    b1.enqueue(b.dequeue());
+                    alternate = false;
+                } else {
+                    b2.enqueue(b.dequeue());
+                    alternate = true;
+                }
+            }
+            sort(b1);
+            sort(b2);
+            T i1 = null;
+            T i2 = null;
+            while (true) {
+                if (!b1.isEmpty() && i1 == null) {
+                    i1 = b1.dequeue();
+                }
+                if (!b2.isEmpty() && i2 == null) {
+                    i2 = b2.dequeue();
+                }
+                if (i1 == null && i2 == null) {
+                    break;
+                }
+                if (i1 == null) {
+                    b.enqueue(i2);
+                    i2 = null;
+                } else if (i2 == null) {
+                    b.enqueue(i1);
+                    i1 = null;
+                } else if (Util.less(i1, i2)) {
+                    b.enqueue(i1);
+                    i1 = null;
+                } else {
+                    b.enqueue(i2);
+                    i2 = null;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Merge sort a queue
+     *
+     * @param b   the Queue to be sorted
+     * @param c   the comparator of the Queue component type
+     * @param <T> the type of which the comparator compares
+     */
+    public static <T> void sort(Queue<T> b, Comparator<? super T> c) {
+        assert b != null;
+        int bSize = b.size();
+        if (bSize <= 1) {
+            return;
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            Queue<T> b1 = (Queue<T>) b.getClass().getConstructor().newInstance();
+            @SuppressWarnings("unchecked")
+            Queue<T> b2 = (Queue<T>) b.getClass().getConstructor().newInstance();
+            boolean alternate = true;
+            for (int i = 0; i < bSize; i++) {
+                if (alternate) {
+                    b1.enqueue(b.dequeue());
+                    alternate = false;
+                } else {
+                    b2.enqueue(b.dequeue());
+                    alternate = true;
+                }
+            }
+            sort(b1, c);
+            sort(b2, c);
+            T i1 = null;
+            T i2 = null;
+            while (true) {
+                if (!b1.isEmpty() && i1 == null) {
+                    i1 = b1.dequeue();
+                }
+                if (!b2.isEmpty() && i2 == null) {
+                    i2 = b2.dequeue();
+                }
+                if (i1 == null && i2 == null) {
+                    break;
+                }
+                if (i1 == null) {
+                    b.enqueue(i2);
+                    i2 = null;
+                } else if (i2 == null) {
+                    b.enqueue(i1);
+                    i1 = null;
+                } else if (Util.less(i1, i2, c)) {
+                    b.enqueue(i1);
+                    i1 = null;
+                } else {
+                    b.enqueue(i2);
+                    i2 = null;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Merge sort a stack
+     *
+     * @param b   the Queue to be sorted
+     * @param <T> the type of which the comparator compares
+     */
+    public static <T extends Comparable<? super T>> void sort(Stack<T> b) {
+        LinkedQueue<T> linkedList = new LinkedQueue<>();
+        LinkedStack<T> linkedStack = new LinkedStack<>();
+        while (!b.isEmpty()) {
+            linkedList.enqueue(b.pop());
+        }
+        sort(linkedList);
+        while (!linkedList.isEmpty()) {
+            linkedStack.push(linkedList.dequeue());
+        }
+        while (!linkedStack.isEmpty()) {
+            b.push(linkedStack.pop());
+        }
+    }
+
+    /**
+     * Merge sort a stack so that the first element to be popped is
+     * the smallest one.
+     *
+     * @param b   the Queue to be sorted
+     * @param c   the comparator of the Queue component type
+     * @param <T> the type of which the comparator compares
+     */
+    public static <T> void sort(Stack<T> b, Comparator<? super T> c) {
+        LinkedQueue<T> linkedList = new LinkedQueue<>();
+        LinkedStack<T> linkedStack = new LinkedStack<>();
+        while (!b.isEmpty()) {
+            linkedList.enqueue(b.pop());
+        }
+        sort(linkedList, c);
+        while (!linkedList.isEmpty()) {
+            linkedStack.push(linkedList.dequeue());
+        }
+        while (!linkedStack.isEmpty()) {
+            b.push(linkedStack.pop());
+        }
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] b, T[] a, int lo, int hi) {
@@ -109,5 +280,17 @@ public class Merge {
             }
         }
         assert Util.isSorted(dest, lo, hi, c);
+    }
+
+    public static void main(String[] args) {
+        Stack<Integer> stack = new ArrayStack<>();
+        stack.push(1);
+        stack.push(3);
+        stack.push(2);
+        stack.push(4);
+        sort(stack);
+        for (int i : stack) {
+            System.out.println(i);
+        }
     }
 }
