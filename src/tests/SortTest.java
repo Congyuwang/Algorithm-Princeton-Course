@@ -6,7 +6,6 @@ import princeton.algo.sort.*;
 import princeton.algo.sort.hybrid.Grail;
 import princeton.algo.sort.hybrid.Wiki;
 import princeton.algo.stack.LinkedStack;
-
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
@@ -69,6 +68,7 @@ class SortTest {
 
         System.out.println("\nTest1.1 (random primitive):");
         test("quickSort", test1, 100);
+        test("reference_quickSort", test1, 100);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
@@ -312,6 +312,9 @@ class SortTest {
                 break;
             case "quickSort":
                 Quick.sort(testCopy);
+                break;
+            case "reference_quickSort":
+                Arrays.sort(testCopy);
                 break;
             default:
                 break;
