@@ -9,7 +9,7 @@ import java.util.Comparator;
  */
 public class Quick {
 
-    private static final int CUTOFF = 32;
+    private static final int CUTOFF = 12;
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         Shuffle.shuffle(a);
@@ -52,7 +52,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        int key = a[lo] + (a[hi - 1] - a[lo]) / 3 + (a[(lo + hi - 1) >>> 1] - a[lo]) / 3;
+        int key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             int cmp = key - a[mid];
             if (cmp > 0) {
@@ -73,6 +73,25 @@ public class Quick {
         a[i1] = temp;
     }
 
+    private static int medianOf3(int a1, int a2, int a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static void sort(float[] a, int lo, int hi) {
         if (lo + 1 >= hi) {
             return;
@@ -80,7 +99,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        float key = (a[lo] + a[hi - 1] + a[(lo + hi - 1) >>> 1]) / 3;
+        float key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             float cmp = key - a[mid];
             if (cmp > 0) {
@@ -101,6 +120,25 @@ public class Quick {
         a[i1] = temp;
     }
 
+    private static float medianOf3(float a1, float a2, float a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static void sort(char[] a, int lo, int hi) {
         if (lo + 1 >= hi) {
             return;
@@ -108,7 +146,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        int key = (a[lo] + a[hi - 1] + a[(lo + hi - 1) >>> 1]) / 3;
+        char key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             int cmp = key - a[mid];
             if (cmp > 0) {
@@ -129,6 +167,25 @@ public class Quick {
         a[i1] = temp;
     }
 
+    private static char medianOf3(char a1, char a2, char a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static void sort(long[] a, int lo, int hi) {
         if (lo + 1 >= hi) {
             return;
@@ -136,7 +193,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        long key = a[lo] + (a[hi - 1] - a[lo]) / 3 + (a[(lo + hi - 1) >>> 1] - a[lo]) / 3;
+        long key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             long cmp = key - a[mid];
             if (cmp > 0) {
@@ -157,6 +214,25 @@ public class Quick {
         a[i1] = temp;
     }
 
+    private static long medianOf3(long a1, long a2, long a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static void sort(short[] a, int lo, int hi) {
         if (lo + 1 >= hi) {
             return;
@@ -164,7 +240,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        int key = (a[lo] + a[hi - 1] + a[(lo + hi - 1) >>> 1]) / 3;
+        short key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             int cmp = key - a[mid];
             if (cmp > 0) {
@@ -185,6 +261,25 @@ public class Quick {
         a[i1] = temp;
     }
 
+    private static short medianOf3(short a1, short a2, short a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static void sort(double[] a, int lo, int hi) {
         if (lo + 1 >= hi) {
             return;
@@ -192,7 +287,7 @@ public class Quick {
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
-        double key = a[lo] / 3 + a[hi - 1] / 3 + a[(lo + hi - 1) >>> 1] / 3;
+        double key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         while (mid < hi) {
             double cmp = key - a[mid];
             if (cmp > 0) {
@@ -211,6 +306,25 @@ public class Quick {
         double temp = a[i0];
         a[i0] = a[i1];
         a[i1] = temp;
+    }
+
+    private static double medianOf3(double a1, double a2, double a3) {
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return a2;
+            }
+            if (a3 > a1) {
+                return a1;
+            }
+        } else {
+            if (a3 > a2) {
+                return a2;
+            }
+            if (a1 > a3) {
+                return a1;
+            }
+        }
+        return a3;
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
