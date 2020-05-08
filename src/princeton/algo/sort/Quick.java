@@ -4,12 +4,12 @@ import java.util.Comparator;
 
 /**
  * A two-pivot quick sort implementation. Use insertion for length shorter than
- * {@code CUTOFF = 8}. This gives better adaptivity and reduces overhead.
+ * {@code CUTOFF = 10}. This gives better adaptivity and reduces overhead.
  * When sorting primitive types, use three-mean key.
  */
 public class Quick {
 
-    private static final int CUTOFF = 12;
+    private static final int CUTOFF = 10;
 
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         Shuffle.shuffle(a);
@@ -81,6 +81,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
@@ -128,6 +129,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
@@ -175,6 +177,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
@@ -222,6 +225,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
@@ -269,6 +273,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
@@ -316,6 +321,7 @@ public class Quick {
             if (a3 > a1) {
                 return a1;
             }
+            return a3;
         } else {
             if (a3 > a2) {
                 return a2;
