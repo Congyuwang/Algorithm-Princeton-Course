@@ -108,6 +108,9 @@ public class Util {
      * @param i2 index 2
      */
     public static <T> void exch(T[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
         T swap = a[i1];
         a[i1] = a[i2];
         a[i2] = swap;

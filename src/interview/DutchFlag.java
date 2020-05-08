@@ -24,25 +24,20 @@ public class DutchFlag {
         int p1 = 0;
         int p = 0;
         int p2 = c.length;
-        PebbleColor currentColor = c[p];
 
         while (p < p2) {
-            switch(currentColor) {
+            openBucketCount++;
+            switch(c[p]) {
                 case R:
-                    swap(c, p, p1++);
+                    swap(c, p++, p1++);
                     swapCount++;
-                    currentColor = c[++p];
-                    openBucketCount++;
                     break;
                 case B:
                     swap(c, p, --p2);
                     swapCount++;
-                    currentColor = c[p];
-                    openBucketCount++;
                     break;
                 case W:
-                    currentColor = c[++p];
-                    openBucketCount++;
+                    p++;
                     break;
                 default:
                     break;
@@ -112,7 +107,7 @@ public class DutchFlag {
     }
 
     public static void main(String[] args) {
-        test(20, true);
+        test(6, true);
         test(20, true);
         for (int i = 1; i < 20; i++) {
             test(1000, false);

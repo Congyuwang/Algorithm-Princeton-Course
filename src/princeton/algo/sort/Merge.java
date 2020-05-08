@@ -5,7 +5,6 @@ import java.util.Comparator;
 
 import princeton.algo.queue.LinkedQueue;
 import princeton.algo.queue.Queue;
-import princeton.algo.stack.ArrayStack;
 import princeton.algo.stack.LinkedStack;
 import princeton.algo.stack.Stack;
 
@@ -280,17 +279,5 @@ public class Merge {
             }
         }
         assert Util.isSorted(dest, lo, hi, c);
-    }
-
-    public static void main(String[] args) {
-        Stack<Integer> stack = new ArrayStack<>();
-        stack.push(1);
-        stack.push(3);
-        stack.push(2);
-        stack.push(4);
-        sort(stack);
-        for (int i : stack) {
-            System.out.println(i);
-        }
     }
 }

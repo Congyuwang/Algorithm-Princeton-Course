@@ -20,11 +20,18 @@ class SortTest {
         Random random = new Random();
         Double[] test2 = new Double[LENGTH];
         Double[] test3 = new Double[LENGTH];
+        Double[] equalKeys = new Double[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
             test2[i] = random.nextDouble() + i * 0.2;
         }
         for (int i = 0; i < LENGTH; i++) {
             test3[i] = random.nextDouble() - i * 0.2;
+        }
+        for (int i = 0; i < LENGTH / 100; i++) {
+            double d = random.nextDouble();
+            for (int j = 0; j < 100; j++) {
+                equalKeys[i] = d;
+            }
         }
         Queue<Double> queueTest = new LinkedQueue<>();
         LinkedStack<Double> stackTest = new LinkedStack<>();
@@ -55,6 +62,7 @@ class SortTest {
         randomDoubleTest("grailSortWithoutBuffer", LENGTH, 100);
         randomDoubleTest("grailSortWithBuffer", LENGTH, 100);
         randomDoubleTest("grailSortWithDynBuffer", LENGTH, 100);
+        randomDoubleTest("quickSort", LENGTH, 100);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
@@ -73,6 +81,7 @@ class SortTest {
         test("grailSortWithoutBuffer", test2, 100);
         test("grailSortWithBuffer", test2, 100);
         test("grailSortWithDynBuffer", test2, 100);
+        test("quickSort", test2, 100);
 
         // test3: Reverse Order
         System.out.println("\nTest3 (reverse order):");
@@ -91,6 +100,26 @@ class SortTest {
         test("grailSortWithoutBuffer", test3, 100);
         test("grailSortWithBuffer", test3, 100);
         test("grailSortWithDynBuffer", test3, 100);
+        test("quickSort", test3, 100);
+
+        // test4: equal Keys
+        System.out.println("\nTest4 (equal keys):");
+        test("selection", test3, 100);
+        test("reference_selection", test3, 100);
+        test("insertion", test3);
+        test("reference_insertion", test3);
+        test("shell", test3, 100);
+        test("reference_shell", test3, 100);
+        test("merge", test3, 100);
+        test("reference_merge", test3, 100);
+        test("mergeBU", test3, 100);
+        test("reference_mergeBU", test3, 100);
+        test("timSort", test3, 100);
+        test("wikiSortWithBuffer", test3, 100);
+        test("grailSortWithoutBuffer", test3, 100);
+        test("grailSortWithBuffer", test3, 100);
+        test("grailSortWithDynBuffer", test3, 100);
+        test("quickSort", test3, 100);
 
         // test4: Sort Strings
         System.out.println("\nTest4 (sort strings):");
@@ -109,6 +138,7 @@ class SortTest {
         randomStringTest("grailSortWithoutBuffer", 20, LENGTH, 100);
         randomStringTest("grailSortWithBuffer", 20, LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, LENGTH, 100);
+        randomStringTest("quickSort", 20, LENGTH, 100);
 
         // test5: Sort lots of Strings
         System.out.println("\nTest5 (sort lots of Strings):");
@@ -123,6 +153,7 @@ class SortTest {
         randomStringTest("grailSortWithoutBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("grailSortWithBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, BIG_LENGTH, 100);
+        randomStringTest("quickSort", 20, BIG_LENGTH, 100);
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test) {
@@ -220,11 +251,14 @@ class SortTest {
             case "grailSortWithDynBuffer":
                 Grail.sortWithDynBuffer(testCopy);
                 break;
+            case "quickSort":
+                Quick.sort(testCopy);
+                break;
             default:
                 break;
         }
         Double time = timer.elapsedTime();
-        if(! Util.isSorted(testCopy)) {
+        if(!Util.isSorted(testCopy)) {
             System.out.println("No! No! No! Not Sorted!");
             throw new InternalError("UnSorted");
         }
