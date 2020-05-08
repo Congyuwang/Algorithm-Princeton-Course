@@ -45,8 +45,8 @@ public class ArrayStack<Item> implements Stack<Item> {
         s[N] = null;
 
         // Avoids thrashing problem
-        if (N == s.length / 4) {
-            resize(s.length / 2);
+        if (N == s.length >>> 2) {
+            resize(s.length >>> 1);
         }
         size--;
         return item;

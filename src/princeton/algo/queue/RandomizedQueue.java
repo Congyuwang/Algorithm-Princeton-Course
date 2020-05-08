@@ -52,8 +52,8 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException("QueueUnderFlow!");
         }
-        if (size == s.length >> 2) {
-            grow(s.length >> 1);
+        if (size == (s.length >>> 2)) {
+            grow(s.length >>> 1);
         }
         int i = StdRandom.uniform(size);
         Item item = s[i];

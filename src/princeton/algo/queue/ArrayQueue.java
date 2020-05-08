@@ -50,7 +50,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
         s[head++] = null;
         // resize the array if it is too empty
         if (--count == s.length / 4 && count > 0) {
-            resize(s.length / 2);
+            resize(s.length >>> 1);
         }
         return item;
     }

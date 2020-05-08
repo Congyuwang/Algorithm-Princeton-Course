@@ -63,8 +63,8 @@ public class Shell {
     // Sedgewick 1985 increment
     private static int h(int k) {
         if (k % 2 == 0) {
-            return 9 * (- (1 << (k / 2)) + (1 << k)) + 1;
+            return 9 * (- (1 << (k >>> 1)) + (1 << k)) + 1;
         }
-        return - 6 * (1 << ((k + 1) / 2)) + 8 * (1 << k) + 1;
+        return - 6 * (1 << ((k + 1) >>> 1)) + 8 * (1 << k) + 1;
     }
 }

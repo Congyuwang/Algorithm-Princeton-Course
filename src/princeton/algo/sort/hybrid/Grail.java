@@ -141,7 +141,7 @@ final public class Grail {
 
         if (isLeft) {
             while (left < right - 1) {
-                int mid = left + ((right - left) >> 1);
+                int mid = (right + left) >>> 1;
                 if (c.compare(arr[pos + mid], key) >= 0) {
                     right = mid;
                 } else {
@@ -150,7 +150,7 @@ final public class Grail {
             }
         } else {
             while (left < right - 1) {
-                int mid = left + ((right - left) >> 1);
+                int mid =  (right + left) >>> 1;
                 if (c.compare(arr[pos + mid], key) > 0) {
                     right = mid;
                 } else {
@@ -776,12 +776,12 @@ final public class Grail {
             int regBlockLen = blockLen;
             boolean buildBufEnabled = bufferEnabled;
             if (!bufferEnabled) {
-                if (numKeys > 4 && numKeys / 8 * numKeys >= buildLen) {
-                    regBlockLen = numKeys / 2;
+                if (numKeys > 4 && (numKeys >>> 3) * numKeys >= buildLen) {
+                    regBlockLen = numKeys >>> 1;
                     buildBufEnabled = true;
                 } else {
                     int calcKeys = 1;
-                    int i = buildLen * keysFound / 2;
+                    int i = buildLen * keysFound >>> 1;
                     while (calcKeys < numKeys && i != 0) {
                         calcKeys *= 2;
                         i /= 8;

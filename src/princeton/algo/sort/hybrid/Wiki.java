@@ -52,7 +52,7 @@ public class Wiki {
 	private static <T> int BinaryFirst(T[] array, T value, Range range, Comparator<? super T> comp) {
 		int start = range.start, end = range.end - 1;
 		while (start < end) {
-			int mid = start + (end - start) / 2;
+			int mid = (start + end) >>> 1;
 			if (comp.compare(array[mid], value) < 0)
 				start = mid + 1;
 			else
@@ -68,7 +68,7 @@ public class Wiki {
 	private static <T> int BinaryLast(T[] array, T value, Range range, Comparator<? super T> comp) {
 		int start = range.start, end = range.end - 1;
 		while (start < end) {
-			int mid = start + (end - start) / 2;
+			int mid = (start + end) >>> 1;
 			if (comp.compare(value, array[mid]) >= 0)
 				start = mid + 1;
 			else
@@ -143,7 +143,7 @@ public class Wiki {
 
 	// reverse a range of values within the array
 	private static <T> void Reverse(T[] array, Range range) {
-		for (int index = range.length() / 2 - 1; index >= 0; index--) {
+		for (int index = (range.length() >>> 1) - 1; index >= 0; index--) {
 			T swap = array[range.start + index];
 			array[range.start + index] = array[range.end - index - 1];
 			array[range.end - index - 1] = swap;
