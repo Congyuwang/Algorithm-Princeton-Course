@@ -18,9 +18,13 @@ class SortTest {
         int LENGTH = 10_000;
         int BIG_LENGTH = 100_000;
         Random random = new Random();
+        double[] test1 = new double[LENGTH];
         Double[] test2 = new Double[LENGTH];
         Double[] test3 = new Double[LENGTH];
         Double[] equalKeys = new Double[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            test1[i] = random.nextDouble();
+        }
         for (int i = 0; i < LENGTH; i++) {
             test2[i] = random.nextDouble() + i * 0.2;
         }
@@ -62,6 +66,9 @@ class SortTest {
         randomDoubleTest("grailSortWithBuffer", LENGTH, 100);
         randomDoubleTest("grailSortWithDynBuffer", LENGTH, 100);
         randomDoubleTest("quickSort", LENGTH, 100);
+
+        System.out.println("\nTest1.1 (random primitive):");
+        test("quickSort", test1, 100);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
@@ -205,6 +212,29 @@ class SortTest {
         return time;
     }
 
+    private static Double test(String algorithm, double[] test, boolean ifPrint) {
+        Stopwatch timer = new Stopwatch();
+        Quick.sort(test);
+        Double time = timer.elapsedTime();
+        double mem = 0.0;
+        boolean first = true;
+        for (double t : test) {
+            if (first) {
+                mem = t;
+                first = false;
+            } else if (t < mem) {
+                System.out.println("No! No! No! Not Sorted!");
+                throw new InternalError("UnSorted");
+            }
+            mem = t;
+        }
+        if (ifPrint) {
+            System.out.printf("%25s sort: ", algorithm);
+            System.out.printf("     elapsed time = %.5f", time);
+        }
+        return time;
+    }
+
     private static <T extends Comparable<? super T>> Double test(String algorithm, princeton.algo.stack.Stack<T> test, boolean ifPrint) {
         Stopwatch timer = new Stopwatch();
         Merge.sort(test);
@@ -300,6 +330,28 @@ class SortTest {
     }
 
     private static <T extends Comparable<? super T>> void test(String algorithm, Queue<T> test, int times) {
+        TDistribution tDistribution = new TDistribution(times - 1);
+        Stack<Double> time = new Stack<>();
+        double mean = 0.0;
+        double variance = 0.0;
+        double upper;
+        double lower;
+        for (int i = 0; i < times; i++) {
+            Double t = test(algorithm, test, false);
+            mean += t / times;
+            time.add(t);
+        }
+        for (double t : time) {
+            variance += Math.pow(t - mean, 2) / (times - 1);
+        }
+        upper = mean + Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
+        lower = mean - Math.sqrt(variance / (times - 1)) * tDistribution.inverseCumulativeProbability(0.975);
+        System.out.printf("%25s sort: ", algorithm);
+        System.out.printf("mean elapsed time = %.5f,", mean);
+        System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
+    }
+
+    private static <T extends Comparable<? super T>> void test(String algorithm, double[] test, int times) {
         TDistribution tDistribution = new TDistribution(times - 1);
         Stack<Double> time = new Stack<>();
         double mean = 0.0;
@@ -432,7 +484,7 @@ class SortTest {
         }
         @Override
         public int compareTo(StableData o) {
-            return Integer.valueOf(key).compareTo(o.key);
+            return key - o.key;
         }
     }
 
