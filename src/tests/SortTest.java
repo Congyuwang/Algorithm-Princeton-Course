@@ -122,7 +122,7 @@ class SortTest {
         test("quickSort", test3, 100);
 
         // test4: Sort Strings
-        System.out.println("\nTest4 (sort strings):");
+        System.out.println("\nTest5 (sort strings):");
         randomStringTest("selection", 20, LENGTH, 100);
         randomStringTest("reference_selection", 20, LENGTH, 100);
         randomStringTest("insertion", 20, LENGTH, 100);
@@ -141,7 +141,7 @@ class SortTest {
         randomStringTest("quickSort", 20, LENGTH, 100);
 
         // test5: Sort lots of Strings
-        System.out.println("\nTest5 (sort lots of Strings):");
+        System.out.println("\nTest6 (sort lots of Strings):");
         randomStringTest("shell", 20, BIG_LENGTH, 100);
         randomStringTest("reference_shell", 20, BIG_LENGTH, 100);
         randomStringTest("merge", 20, BIG_LENGTH, 100);
@@ -154,10 +154,28 @@ class SortTest {
         randomStringTest("grailSortWithBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("quickSort", 20, BIG_LENGTH, 100);
+
+        System.out.println("\nTest Stability:");
+        testStable("selection");
+        testStable("reference_selection");
+        testStable("insertion");
+        testStable("reference_insertion");
+        testStable("shell");
+        testStable("reference_shell");
+        testStable("merge");
+        testStable("reference_merge");
+        testStable("mergeBU");
+        testStable("reference_mergeBU");
+        testStable("timSort");
+        testStable("wikiSortWithBuffer");
+        testStable("grailSortWithoutBuffer");
+        testStable("grailSortWithBuffer");
+        testStable("grailSortWithDynBuffer");
+        testStable("quickSort");
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test) {
-        return test(algorithm, test, true);
+        return test(algorithm, test, true, true);
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, princeton.algo.queue.Queue<T> test, boolean ifPrint) {
@@ -202,8 +220,13 @@ class SortTest {
         return time;
     }
 
-    private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test, boolean ifPrint) {
-        T[] testCopy = test.clone();
+    private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test, boolean ifPrint, boolean useCopy) {
+        T[] testCopy = null;
+        if (useCopy) {
+            testCopy = test.clone();
+        } else {
+            testCopy = test;
+        }
         Stopwatch timer = new Stopwatch();
         switch (algorithm) {
             case "selection":
@@ -322,7 +345,7 @@ class SortTest {
         double upper;
         double lower;
         for (int i = 0; i < times; i++) {
-            Double t = test(algorithm, test, false);
+            Double t = test(algorithm, test, false, true);
             mean += t / times;
             time.add(t);
         }
@@ -349,7 +372,7 @@ class SortTest {
             for (int j = 0; j < arrayLength; j++) {
                 test[j] = random.nextDouble();
             }
-            Double t = test(algorithm, test, false);
+            Double t = test(algorithm, test, false, true);
             mean += t / times;
             time.add(t);
         }
@@ -380,7 +403,7 @@ class SortTest {
                 }
                 test[j] = String.valueOf(chars);
             }
-            Double t = test(algorithm, test, false);
+            Double t = test(algorithm, test, false, true);
             mean += t / times;
             time.add(t);
         }
@@ -392,5 +415,38 @@ class SortTest {
         System.out.printf("%25s sort: ", algorithm);
         System.out.printf("mean elapsed time = %.5f,", mean);
         System.out.printf(" 95%% CI = [%.5f, %.5f]\n", lower, upper);
+    }
+
+    private static class StableData implements Comparable<StableData> {
+        public int key;
+        public double value;
+        StableData(int key, double value) {
+            this.key = key;
+            this.value = value;
+        }
+        @Override
+        public int compareTo(StableData o) {
+            return Integer.valueOf(key).compareTo(o.key);
+        }
+    }
+
+    private static boolean isStable(StableData[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            if (Util.less(a[i + 1].value, a[i].value) && a[i + 1].key == a[i].key) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void testStable(String algorithm) {
+        final int LENGTH = 10_000;
+        Random random = new Random();
+        StableData[] dat = new StableData[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            dat[i] = new StableData(random.nextInt(LENGTH / 100), i);
+        }
+        test(algorithm, dat, false, false);
+        System.out.printf("%25s sort stable?: %b\n", algorithm, isStable(dat));
     }
 }
