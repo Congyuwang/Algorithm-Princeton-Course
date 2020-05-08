@@ -33,17 +33,16 @@ class SortTest {
                 equalKeys[i] = d;
             }
         }
-        Queue<Double> queueTest = new LinkedQueue<>();
-        LinkedStack<Double> stackTest = new LinkedStack<>();
-        for (int i = 0; i < BIG_LENGTH; i++) {
-            queueTest.enqueue(random.nextDouble());
-            stackTest.push(random.nextDouble());
+        Queue<String> queueTest = new LinkedQueue<>();
+        LinkedStack<String> stackTest = new LinkedStack<>();
+        for (int j = 0; j < BIG_LENGTH; j++) {
+            char[] chars = new char[20];
+            for (int k = 0; k < 20; k++) {
+                chars[k] = (char) (random.nextInt('z' - 'a') + 'a');
+            }
+            queueTest.enqueue(String.valueOf(chars));
+            stackTest.push(String.valueOf(chars));
         }
-
-        // merge sort Queue / Stack
-        System.out.println("\nTest0 (merge sort Queue/Stack):");
-        test("merge", queueTest, 100);
-        test("merge", stackTest, 100);
 
         // test1: Selection sort
         System.out.println("\nTest1 (random order):");
@@ -154,6 +153,13 @@ class SortTest {
         randomStringTest("grailSortWithBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("quickSort", 20, BIG_LENGTH, 100);
+
+        // merge sort Queue / Stack
+        System.out.println("\nTest (merge sort Queue):");
+        test("merge", queueTest, 100);
+
+        System.out.println("\nTest (merge sort Stack):");
+        test("merge", stackTest, 100);
 
         System.out.println("\nTest Stability:");
         testStable("selection");
