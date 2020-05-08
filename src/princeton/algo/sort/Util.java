@@ -100,6 +100,78 @@ public class Util {
         return true;
     }
 
+    public static boolean isSorted(int[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSorted(double[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSorted(float[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSorted(short[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSorted(long[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSorted(char[] a, int i0, int i1) {
+        if (i0 < 0 || i1 > a.length || i1 <= i0) {
+            throw new IllegalArgumentException("index out of range!");
+        }
+        for (int i = i0; i < i1 - 1; i++) {
+            if (a[i + 1] < a[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * exchange two elements of array T[] a.
      *
