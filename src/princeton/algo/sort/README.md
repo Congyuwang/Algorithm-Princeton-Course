@@ -9,7 +9,7 @@ Some of their properties are listed below:
 | Selection Sort              | not stable | in place     | O(N^2)             |
 | Insertion Sort              |     stable | in place     | O(N^2)             |
 | Shell Sort (Sedgewick 1985) | not stable | in place     | O(N^(4/3))         |
-| Merge Sort                  |     stable | linear extra | O(N log N)         |
+| Merge Sort                  |     stable | linear extra (inplace for Queue/Stack) | O(N log N)         |
 | Bottom Up Merge Sort        |     stable | linear extra | O(N log N)         |
 | Quick Sort                  | not stable | in place     | N log N on average |
 | Grail Sort                  |     stable | in place     | O(N log N)         |
