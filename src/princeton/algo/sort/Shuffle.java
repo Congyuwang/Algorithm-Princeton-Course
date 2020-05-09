@@ -28,6 +28,72 @@ public class Shuffle {
         }
     }
 
+    public static void shuffle(int[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            int temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    public static void shuffle(double[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            double temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    public static void shuffle(float[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            float temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    public static void shuffle(short[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            short temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    public static void shuffle(long[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            long temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
+    public static void shuffle(char[] a) {
+        Random random = new Random();
+        int size = a.length;
+        for (int i = 1; i < size; i++) {
+            int j = random.nextInt(i + 1);
+            char temp = a[j];
+            a[j] = a[i];
+            a[i] = temp;
+        }
+    }
+
     /**
      * Uniformly shuffle a Queue in N log N time.
      *

@@ -4,8 +4,12 @@ import java.util.Comparator;
 
 /**
  * A two-pivot quick sort implementation. Use insertion for length shorter than
- * {@code CUTOFF = 10}. This gives better adaptivity and reduces overhead.
- * When sorting primitive types, use three-mean key.
+ * {@code CUTOFF = 10}. This gives better adaptivity and reduces overhead. When
+ * sorting primitive types, use three-mean key.
+ * <p>
+ * The Quick class also include the quick select algorithm, which find the nth
+ * smallest element of an array in linear time.
+ * </p>
  */
 public class Quick {
 
@@ -22,27 +26,329 @@ public class Quick {
     }
 
     public static void sort(int[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(float[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(char[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(long[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(short[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(double[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
+    }
+
+    public static <T extends Comparable<? super T>> void select(T[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        select(a, 0, a.length, n);
+    }
+
+    public static <T> void sort(T[] a, int n, Comparator<? super T> c) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        select(a, 0, a.length, n, c);
+    }
+
+    public static int select(int[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    public static float select(float[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    public static char select(char[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    public static long select(long[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    public static short select(short[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    public static double select(double[] a, int n) {
+        if (n >= a.length || n < 0) {
+            throw new IllegalArgumentException("out of rnage");
+        }
+        Shuffle.shuffle(a);
+        return select(a, 0, a.length, n);
+    }
+
+    private static <T extends Comparable<? super T>> T select(T[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        T key = a[lo];
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        while (mid < hi) {
+            int cmp = key.compareTo(a[mid]);
+            if (cmp > 0) {
+                Util.exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                Util.exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static <T> T select(T[] a, int lo, int hi, int n, Comparator<? super T> c) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        T key = a[lo];
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        while (mid < hi) {
+            int cmp = c.compare(key, a[mid]);
+            if (cmp > 0) {
+                Util.exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                Util.exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n, c);
+        } else {
+            return select(a, hi, hiMem, n, c);
+        }
+    }
+
+    private static int select(int[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        int key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            int cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static float select(float[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        float key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            float cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static char select(char[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        int key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            int cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static long select(long[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        long key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            long cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static short select(short[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        short key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            int cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
+    }
+
+    private static double select(double[] a, int lo, int hi, int n) {
+        assert lo <= n;
+        assert n < hi;
+        if (lo + 1 >= hi) {
+            return a[lo];
+        }
+        int loMem = lo;
+        int hiMem = hi;
+        int mid = lo;
+        double key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
+        while (mid < hi) {
+            double cmp = key - a[mid];
+            if (cmp > 0) {
+                exch(a, lo++, mid++);
+            } else if (cmp < 0) {
+                exch(a, --hi, mid);
+            } else {
+                mid++;
+            }
+        }
+        if (lo <= n && n < hi) {
+            return a[n];
+        } else if (n < lo) {
+            return select(a, loMem, lo, n);
+        } else {
+            return select(a, hi, hiMem, n);
+        }
     }
 
     private static void sort(int[] a, int lo, int hi) {
