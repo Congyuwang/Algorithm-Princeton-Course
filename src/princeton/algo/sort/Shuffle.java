@@ -13,7 +13,7 @@ public class Shuffle {
     private Shuffle() {}
 
     /**
-     * Uniformly shuffle any array in linear time.
+     * Uniformly shuffle any Object array in linear time.
      *
      * @param a the input array
      */
@@ -22,75 +22,91 @@ public class Shuffle {
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            Object temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code int} array in linear time.
+     *
+     * @param a the input {@code int} array
+     */
     public static void shuffle(int[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            int temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code double} array in linear time.
+     *
+     * @param a the input {@code double} array
+     */
     public static void shuffle(double[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            double temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code float} array in linear time.
+     *
+     * @param a the input {@code float} array
+     */
     public static void shuffle(float[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            float temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code short} array in linear time.
+     *
+     * @param a the input {@code short} array
+     */
     public static void shuffle(short[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            short temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code long} array in linear time.
+     *
+     * @param a the input {@code long} array
+     */
     public static void shuffle(long[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            long temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 
+    /**
+     * Uniformly shuffle {@code char} array in linear time.
+     *
+     * @param a the input {@code char} array
+     */
     public static void shuffle(char[] a) {
         Random random = new Random();
         int size = a.length;
         for (int i = 1; i < size; i++) {
             int j = random.nextInt(i + 1);
-            char temp = a[j];
-            a[j] = a[i];
-            a[i] = temp;
+            Util.exch(a, i, j);
         }
     }
 

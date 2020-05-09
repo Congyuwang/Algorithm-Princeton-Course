@@ -48,4 +48,106 @@ public class Selection {
             Util.exch(a, i, min);
         }
     }
+
+    /**
+     * Selection sort {@code int} array
+     *
+     * @param a the {@code int} array
+     */
+    public static void sort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    /**
+     * Selection sort {@code short} array
+     *
+     * @param a the {@code short} array
+     */
+    public static void sort(short[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    /**
+     * Selection sort {@code long} array
+     *
+     * @param a the {@code long} array
+     */
+    public static void sort(long[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    /**
+     * Selection sort {@code double} array
+     *
+     * @param a the {@code double} array
+     */
+    public static void sort(double[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    /**
+     * Selection sort {@code float} array
+     *
+     * @param a the {@code float} array
+     */
+    public static void sort(float[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
+
+    /**
+     * Selection sort {@code char} array
+     *
+     * @param a the {@code char} array
+     */
+    public static void sort(char[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int min = i;
+            for (int j = 1 + i; j < a.length; j++) {
+                if (a[j] < a[min]) {
+                    min = j;
+                }
+            }
+            Util.exch(a, i, min);
+        }
+    }
 }

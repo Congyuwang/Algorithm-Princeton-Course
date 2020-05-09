@@ -100,6 +100,10 @@ public class Util {
         return true;
     }
 
+    public static boolean isSorted(int[] a) {
+        return isSorted(a, 0, a.length);
+    }
+
     public static boolean isSorted(int[] a, int i0, int i1) {
         if (i0 < 0 || i1 > a.length || i1 <= i0) {
             throw new IllegalArgumentException("index out of range!");
@@ -110,6 +114,10 @@ public class Util {
             }
         }
         return true;
+    }
+
+    public static boolean isSorted(double[] a) {
+        return isSorted(a, 0, a.length);
     }
 
     public static boolean isSorted(double[] a, int i0, int i1) {
@@ -124,6 +132,10 @@ public class Util {
         return true;
     }
 
+    public static boolean isSorted(float[] a) {
+        return isSorted(a, 0, a.length);
+    }
+
     public static boolean isSorted(float[] a, int i0, int i1) {
         if (i0 < 0 || i1 > a.length || i1 <= i0) {
             throw new IllegalArgumentException("index out of range!");
@@ -134,6 +146,10 @@ public class Util {
             }
         }
         return true;
+    }
+
+    public static boolean isSorted(short[] a) {
+        return isSorted(a, 0, a.length);
     }
 
     public static boolean isSorted(short[] a, int i0, int i1) {
@@ -148,6 +164,10 @@ public class Util {
         return true;
     }
 
+    public static boolean isSorted(long[] a) {
+        return isSorted(a, 0, a.length);
+    }
+
     public static boolean isSorted(long[] a, int i0, int i1) {
         if (i0 < 0 || i1 > a.length || i1 <= i0) {
             throw new IllegalArgumentException("index out of range!");
@@ -158,6 +178,10 @@ public class Util {
             }
         }
         return true;
+    }
+
+    public static boolean isSorted(char[] a) {
+        return isSorted(a, 0, a.length);
     }
 
     public static boolean isSorted(char[] a, int i0, int i1) {
@@ -184,6 +208,69 @@ public class Util {
             return;
         }
         T swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(int[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        int swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(short[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        short swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(double[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        double swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(long[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        long swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(char[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        char swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(float[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        float swap = a[i1];
+        a[i1] = a[i2];
+        a[i2] = swap;
+    }
+
+    public static void exch(boolean[] a, int i1, int i2) {
+        if (i1 == i2) {
+            return;
+        }
+        boolean swap = a[i1];
         a[i1] = a[i2];
         a[i2] = swap;
     }

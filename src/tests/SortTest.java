@@ -17,12 +17,16 @@ class SortTest {
         int LENGTH = 10_000;
         int BIG_LENGTH = 100_000;
         Random random = new Random();
-        double[] test1 = new double[LENGTH];
+        double[] test1_1 = new double[LENGTH];
+        double[] test1_2 = new double[LENGTH];
         Double[] test2 = new Double[LENGTH];
         Double[] test3 = new Double[LENGTH];
         Double[] equalKeys = new Double[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
-            test1[i] = random.nextDouble();
+            test1_1[i] = random.nextDouble();
+        }
+        for (int i = 0; i < LENGTH; i++) {
+            test1_2[i] = random.nextDouble() - i * 0.2;
         }
         for (int i = 0; i < LENGTH; i++) {
             test2[i] = random.nextDouble() + i * 0.2;
@@ -67,8 +71,22 @@ class SortTest {
         randomDoubleTest("quickSort", LENGTH, 100);
 
         System.out.println("\nTest1.1 (random primitive):");
-        test("quickSort", test1, 100);
-        test("reference_quickSort", test1, 100);
+        test("selection", test1_1, 100);
+        test("insertion", test1_1, 100);
+        test("shell", test1_1, 100);
+        test("merge", test1_1, 100);
+        test("mergeBU", test1_1, 100);
+        test("quickSort", test1_1, 100);
+        test("reference_quickSort", test1_1, 100);
+
+        System.out.println("\nTest1.2 (inverted primitive):");
+        test("selection", test1_2, 100);
+        test("insertion", test1_2, 100);
+        test("shell", test1_2, 100);
+        test("merge", test1_2, 100);
+        test("mergeBU", test1_2, 100);
+        test("quickSort", test1_2, 100);
+        test("reference_quickSort", test1_2, 100);
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
@@ -212,21 +230,37 @@ class SortTest {
         return time;
     }
 
-    private static Double test(String algorithm, double[] test, boolean ifPrint) {
+    private static Double test(String algorithm, double[] testCopy, boolean ifPrint) {
         Stopwatch timer = new Stopwatch();
-        Quick.sort(test);
+        switch (algorithm) {
+            case "selection":
+                Selection.sort(testCopy);
+                break;
+            case "insertion":
+                Insertion.sort(testCopy);
+                break;
+            case "shell":
+                Shell.sort(testCopy);
+                break;
+            case "merge":
+                Merge.sort(testCopy);
+                break;
+            case "mergeBU":
+                MergeBU.sort(testCopy);
+                break;
+            case "quickSort":
+                Quick.sort(testCopy);
+                break;
+            case "reference_quickSort":
+                Arrays.sort(testCopy);
+                break;
+            default:
+                break;
+        }
         Double time = timer.elapsedTime();
-        double mem = 0.0;
-        boolean first = true;
-        for (double t : test) {
-            if (first) {
-                mem = t;
-                first = false;
-            } else if (t < mem) {
-                System.out.println("No! No! No! Not Sorted!");
-                throw new InternalError("UnSorted");
-            }
-            mem = t;
+        if (!Util.isSorted(testCopy)) {
+            System.out.println("No! No! No! Not Sorted!");
+            throw new InternalError("UnSorted");
         }
         if (ifPrint) {
             System.out.printf("%25s sort: ", algorithm);
@@ -362,7 +396,8 @@ class SortTest {
         double upper;
         double lower;
         for (int i = 0; i < times; i++) {
-            Double t = test(algorithm, test, false);
+            double[] testCopy = test.clone();
+            Double t = test(algorithm, testCopy, false);
             mean += t / times;
             time.add(t);
         }

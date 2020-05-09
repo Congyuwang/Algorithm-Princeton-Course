@@ -213,6 +213,73 @@ public class Merge {
         }
     }
 
+    /**
+     * Merge sort {@code int} array
+     *
+     * @param a the {@code int} array
+     */
+    public static void sort(int[] a) {
+        int[] b = new int[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+    /**
+     * Merge sort {@code short} array
+     *
+     * @param a the {@code short} array
+     */
+    public static void sort(short[] a) {
+        short[] b = new short[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+    /**
+     * Merge sort {@code long} array
+     *
+     * @param a the {@code long} array
+     */
+    public static void sort(long[] a) {
+        long[] b = new long[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+    /**
+     * Merge sort {@code float} array
+     *
+     * @param a the {@code float} array
+     */
+    public static void sort(float[] a) {
+        float[] b = new float[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+    /**
+     * Merge sort {@code double} array
+     *
+     * @param a the {@code double} array
+     */
+    public static void sort(double[] a) {
+        double[] b = new double[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+    /**
+     * Merge sort {@code char} array
+     *
+     * @param a the {@code char} array
+     */
+    public static void sort(char[] a) {
+        char[] b = new char[a.length];
+        System.arraycopy(a, 0, b, 0, a.length);
+        sort(b, a, 0, a.length);
+    }
+
+
     private static <T extends Comparable<? super T>> void sort(T[] b, T[] a, int lo, int hi) {
         if (hi <= lo + CUTOFF) {
             Insertion.sort(a, lo, hi);
@@ -247,6 +314,114 @@ public class Merge {
         assert Util.isSorted(a, lo, hi, c);
     }
 
+    private static void sort(int[] b, int[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
+    private static void sort(short[] b, short[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
+    private static void sort(long[] b, long[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
+    private static void sort(float[] b, float[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
+    private static void sort(double[] b, double[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
+    private static void sort(char[] b, char[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int mid = (lo + hi) >>> 1;
+        sort(a, b, lo, mid);
+        assert Util.isSorted(b, lo, mid);
+        sort(a, b, mid, hi);
+        assert Util.isSorted(b, mid, hi);
+        if (b[mid] < b[mid - 1]) {
+            merge(b, a, lo, mid, hi);
+        } else {
+            System.arraycopy(b, lo, a, lo, hi - lo);
+        }
+        assert Util.isSorted(a, lo, hi);
+    }
+
     static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi) {
         assert Util.isSorted(src, lo, mid);
         assert Util.isSorted(src, mid, hi);
@@ -279,5 +454,107 @@ public class Merge {
             }
         }
         assert Util.isSorted(dest, lo, hi, c);
+    }
+
+    static void merge(int[] src, int[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
+    }
+
+    static void merge(short[] src, short[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
+    }
+
+    static void merge(long[] src, long[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
+    }
+
+    static void merge(double[] src, double[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
+    }
+
+    static void merge(float[] src, float[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
+    }
+
+    static void merge(char[] src, char[] dest, int lo, int mid, int hi) {
+        assert Util.isSorted(src, lo, mid);
+        assert Util.isSorted(src, mid, hi);
+        for (int k = lo, i = lo, j = mid; k < hi; k++) {
+            if (i == mid) {
+                dest[k] = src[j++];
+            } else if (j == hi) {
+                dest[k] = src[i++];
+            } else if (src[j] < src[i]) {
+                dest[k] = src[j++];
+            } else {
+                dest[k] = src[i++];
+            }
+        }
+        assert Util.isSorted(dest, lo, hi);
     }
 }
