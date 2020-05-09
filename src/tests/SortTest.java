@@ -17,15 +17,15 @@ class SortTest {
         int LENGTH = 10_000;
         int BIG_LENGTH = 100_000;
         Random random = new Random();
-        double[] test1_1 = new double[LENGTH];
-        double[] test1_2 = new double[LENGTH];
+        double[] test1_1 = new double[BIG_LENGTH];
+        double[] test1_2 = new double[BIG_LENGTH];
         Double[] test2 = new Double[LENGTH];
         Double[] test3 = new Double[LENGTH];
         Double[] equalKeys = new Double[LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
+        for (int i = 0; i < BIG_LENGTH; i++) {
             test1_1[i] = random.nextDouble();
         }
-        for (int i = 0; i < LENGTH; i++) {
+        for (int i = 0; i < BIG_LENGTH; i++) {
             test1_2[i] = random.nextDouble() - i * 0.2;
         }
         for (int i = 0; i < LENGTH; i++) {
@@ -70,23 +70,21 @@ class SortTest {
         randomDoubleTest("grailSortWithDynBuffer", LENGTH, 100);
         randomDoubleTest("quickSort", LENGTH, 100);
 
-        System.out.println("\nTest1.1 (random primitive):");
-        test("selection", test1_1, 100);
-        test("insertion", test1_1, 100);
+        System.out.println("\nTest1.1 (random primitive BIG_LENGTH):");
         test("shell", test1_1, 100);
         test("merge", test1_1, 100);
         test("mergeBU", test1_1, 100);
         test("quickSort", test1_1, 100);
         test("reference_quickSort", test1_1, 100);
+        System.out.println("The reference Quick Sort is very fast as it requires no shuffling!");
 
-        System.out.println("\nTest1.2 (inverted primitive):");
-        test("selection", test1_2, 100);
-        test("insertion", test1_2, 100);
+        System.out.println("\nTest1.2 (inverted primitive BIG_LENGTH):");
         test("shell", test1_2, 100);
         test("merge", test1_2, 100);
         test("mergeBU", test1_2, 100);
         test("quickSort", test1_2, 100);
         test("reference_quickSort", test1_2, 100);
+        System.out.println("The reference Quick Sort is very fast as it requires no shuffling!");
 
         // test2: Insertion sort (partially sorted)
         System.out.println("\nTest2 (partially sorted):");
