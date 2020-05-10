@@ -5,7 +5,7 @@ public class BruteCollinearPoints {
 
     private Node firstLine = null;
 
-    private class Node {
+    private static class Node {
         LineSegment lineSegment;
         Node next;
     }
@@ -64,15 +64,10 @@ public class BruteCollinearPoints {
                             if (temp < 0) {
                                 max = points[i4];
                             }
-                            if (numberOfPoints == 0) {
-                                firstLine = new Node();
-                                firstLine.lineSegment = new LineSegment(min, max);
-                            } else {
-                                Node oldFirst = firstLine;
-                                firstLine = new Node();
-                                firstLine.lineSegment = new LineSegment(min, max);
-                                firstLine.next = oldFirst;
-                            }
+                            Node oldFirst = firstLine;
+                            firstLine = new Node();
+                            firstLine.lineSegment = new LineSegment(min, max);
+                            firstLine.next = oldFirst;
                             numberOfSegments++;
                         }
                     }
@@ -96,7 +91,7 @@ public class BruteCollinearPoints {
     }
 
     public static void main(String[] args) {
-        // testnull
+        // test null
         Point[] p = new Point[5];
         p[0] = new Point(0, 0);
         p[1] = new Point(1, 0);
