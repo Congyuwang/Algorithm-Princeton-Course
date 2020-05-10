@@ -1,8 +1,8 @@
 # Sorting algorithms
 
-This package include sorting algorithms as well as shuffling.
+This package includes sorting algorithms as well as shuffling.
 
-Some of their properties are listed below:
+Some of their properties:
 
 | sorting algorithm           | stability  | memory usage | time usage         |
 | --------------------------- | ---------- | ------------ | ----------         |

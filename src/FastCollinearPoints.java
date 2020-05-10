@@ -5,13 +5,13 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class FastCollinearPoints {
 
-    private static final int TRHESH_HOLD = 4;
+    private static final int THRESH_HOLD = 4;
 
     private int numberOfSegments;
 
     private Node firstLine = null;
 
-    private class Node {
+    private static class Node {
         LineSegment lineSegment;
         Node next;
     }
@@ -52,7 +52,7 @@ public class FastCollinearPoints {
                 if (slopeMem == thisSlope) {
                     count++;
                 } else {
-                    if (count >= TRHESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
+                    if (count >= THRESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
                         if (numberOfSegments == 0) {
                             firstLine = new Node();
                             firstLine.lineSegment = new LineSegment(p, points[last - 1]);
@@ -69,7 +69,7 @@ public class FastCollinearPoints {
                 }
                 slopeMem = thisSlope;
             }
-            if (count >= TRHESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
+            if (count >= THRESH_HOLD - 2 && p.compareTo(points[first]) <= 0) {
                 Node oldFirst = firstLine;
                 firstLine = new Node();
                 firstLine.lineSegment = new LineSegment(p, points[points.length - 1]);

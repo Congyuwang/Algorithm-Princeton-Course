@@ -57,14 +57,14 @@ final public class Grail {
     }
 
     /**
-     * Rotate the subarray of {@code arr} of length ({@code lenA} + {@code lenB})
+     * Rotate the sub-array of {@code arr} of length ({@code lenA} + {@code lenB})
      * starting from point {@code pos} for {@code lenA} steps to the left.
      *
      * @param <T>  type T
      * @param arr  input array
      * @param pos  the beginning point of rotation
-     * @param lenA the length of the segement to be rotated to the right
-     * @param lenB the length of the segement to be rotated to the left
+     * @param lenA the length of the segment to be rotated to the right
+     * @param lenB the length of the segment to be rotated to the left
      */
     private static <T> void rotate(T[] arr, int pos, int lenA, int lenB) {
         while (lenA != 0 && lenB != 0) {
@@ -115,7 +115,7 @@ final public class Grail {
      * This binary search function searches the sub-array of {@code arr} starting
      * from position {@code pos} of length {@code len}. It returns the leftmost
      * position <b>in the sub-array</b> ({@code 0} means the {@code arr[pos]}) where
-     * the {@code key} can be inserted (and maintain the order of the subarray), of
+     * the {@code key} can be inserted (and maintain the order of the sub-array), of
      * the rightmost position <b>in the sub-array</b> where the {@code key} can be
      * inserted if {@code isLeft} is set to {@code false}.
      *
@@ -129,7 +129,7 @@ final public class Grail {
      * @param <T>    type for comparator
      * @return returns the leftmost position <b>in the sub-array</b> ({@code 0}
      *         means the {@code arr[pos]}) where the {@code key} can be inserted
-     *         (maintains the order of the subarray), of the rightmost position
+     *         (maintains the order of the sub-array), of the rightmost position
      *         <b>in the sub-array</b> if {@code isLeft} is set to {@code false}.
      */
     private static <T> int binarySearch(T[] arr, int pos, int len, T key, boolean isLeft, Comparator<? super T> c) {
@@ -276,7 +276,7 @@ final public class Grail {
      * the left part.
      *
      * @param pos the point where buffer ends
-     * @param M   buffer size (poitive number)
+     * @param M   buffer size (positive number)
      */
     private static <T> void mergeRight(T[] arr, int pos, int leftLen, int rightLen, int M, Comparator<? super T> c) {
         int mergedPos = leftLen + rightLen + M - 1;
@@ -426,16 +426,16 @@ final public class Grail {
 
     /**
      *
-     * @param arr         arr - starting array. arr[-lblock..-1] - buffer (if
-     *                    havebuf).
-     * @param midKey      key < midkey means stream A
+     * @param arr         arr - starting array. arr[-lBlock..-1] - buffer (if
+     *                    haveBuf).
+     * @param midKey      key < midKey means stream A
      * @param pos         initial position
-     * @param blockCount  length of regular blocks. First nblocks are stable sorted
+     * @param blockCount  length of regular blocks. First nBlocks are stable sorted
      *                    by 1st elements and key-coded
      * @param aBlockCount number of regular blocks from stream A
      * @param lastLen     length of last (irregular) block from stream B, that
-     *                    should go before nblock2 blocks. requires nblock2=0 (no
-     *                    irregular blocks). llast>0, nblock2=0 is possible.
+     *                    should go before nBlock2 blocks. requires nBlock2=0 (no
+     *                    irregular blocks). lLast>0, nBlock2=0 is possible.
      */
     private static <T> void mergeBuffersLeftWithXBuf(T[] arr, int midKey, int pos, int blockCount, int regBlockLen,
             int aBlockCount, int lastLen, Comparator<? super T> c) {
@@ -691,7 +691,7 @@ final public class Grail {
             int blockCount = (i == combineLen ? leftOver : 2 * buildLen) / regBlockLen;
 
             binaryInsertSort(arr, blockCount + (i == combineLen ? 1 : 0), c);
-            int midkey = buildLen / regBlockLen;
+            int midKey = buildLen / regBlockLen;
             for (int index = 1; index < blockCount; index++) {
                 int leftIndex = index - 1;
                 for (int rightIndex = index; rightIndex < blockCount; rightIndex++) {
@@ -703,8 +703,8 @@ final public class Grail {
                 if (leftIndex != index - 1) {
                     multiSwap(arr, blockPos + (index - 1) * regBlockLen, blockPos + leftIndex * regBlockLen, regBlockLen);
                     Util.exch(arr, (index - 1), leftIndex);
-                    if (midkey == index - 1 || midkey == leftIndex) {
-                        midkey ^= (index - 1) ^ leftIndex;
+                    if (midKey == index - 1 || midKey == leftIndex) {
+                        midKey ^= (index - 1) ^ leftIndex;
                     }
                 }
             }
@@ -720,9 +720,9 @@ final public class Grail {
                 }
             }
             if (buffer != null) {
-                mergeBuffersLeftWithXBuf(arr, midkey, blockPos, blockCount - aBlockCount, regBlockLen, aBlockCount, lastLen, c);
+                mergeBuffersLeftWithXBuf(arr, midKey, blockPos, blockCount - aBlockCount, regBlockLen, aBlockCount, lastLen, c);
             } else
-                mergeBuffersLeft(arr, midkey, blockPos, blockCount - aBlockCount, regBlockLen, haveBuf, aBlockCount, lastLen, c);
+                mergeBuffersLeft(arr, midKey, blockPos, blockCount - aBlockCount, regBlockLen, haveBuf, aBlockCount, lastLen, c);
         }
         if (buffer != null) {
             for (int p = len; --p >= 0; ) {
