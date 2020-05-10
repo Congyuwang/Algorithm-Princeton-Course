@@ -67,7 +67,7 @@ public class Quick {
      */
     public static <T extends Comparable<? super T>> void select(T[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         select(a, 0, a.length, n);
@@ -83,7 +83,7 @@ public class Quick {
      */
     public static <T> void sort(T[] a, int n, Comparator<? super T> c) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         select(a, 0, a.length, n, c);
@@ -99,7 +99,7 @@ public class Quick {
      */
     public static int select(int[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
@@ -115,7 +115,7 @@ public class Quick {
      */
     public static float select(float[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
@@ -131,7 +131,7 @@ public class Quick {
      */
     public static char select(char[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
@@ -147,7 +147,7 @@ public class Quick {
      */
     public static long select(long[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
@@ -163,7 +163,7 @@ public class Quick {
      */
     public static short select(short[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
@@ -179,7 +179,7 @@ public class Quick {
      */
     public static double select(double[] a, int n) {
         if (n >= a.length || n < 0) {
-            throw new IllegalArgumentException("out of rnage");
+            throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
