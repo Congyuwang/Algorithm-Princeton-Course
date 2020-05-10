@@ -266,12 +266,4 @@ public class Util {
         a[i2] = swap;
     }
 
-    public static void exch(boolean[] a, int i1, int i2) {
-        if (i1 == i2) {
-            return;
-        }
-        boolean swap = a[i1];
-        a[i1] = a[i2];
-        a[i2] = swap;
-    }
 }

@@ -31,16 +31,14 @@ class RandomizedQueueTest {
     }
 
     public static void test(String algorithm, int range, int round, boolean ifPrint) {
-        final int RANGE = range;
-        final int ROUND = round;
-        final int[][] uniformChecker = new int[RANGE][RANGE];
+        final int[][] uniformChecker = new int[range][range];
         // count the appearance of number s at position pos
         switch (algorithm) {
             case "randomizedQueue":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         randomizedQueue.enqueue(i);
                     }
                     int pos = 0;
@@ -50,10 +48,10 @@ class RandomizedQueueTest {
                 }
                 break;
             case "deque":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     Deque<Integer> deque = new Deque<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         deque.enqueue(i);
                     }
                     int pos = 0;
@@ -64,10 +62,10 @@ class RandomizedQueueTest {
                 }
                 break;
             case "linkedQueue":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         linkedQueue.enqueue(i);
                     }
                     int pos = 0;
@@ -78,10 +76,10 @@ class RandomizedQueueTest {
                 }
                 break;
             case "linkedStack":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     LinkedStack<Integer> linkedStack = new LinkedStack<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         linkedStack.push(i);
                     }
                     int pos = 0;
@@ -92,10 +90,10 @@ class RandomizedQueueTest {
                 }
                 break;
             case "shuffleQueue":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         linkedQueue.enqueue(i);
                     }
                     Shuffle.shuffle(linkedQueue);
@@ -106,10 +104,10 @@ class RandomizedQueueTest {
                 }
                 break;
             case "shuffleStack":
-                for (int r = 0; r < ROUND; r++) {
+                for (int r = 0; r < round; r++) {
                     LinkedStack<Integer> linkedStack = new LinkedStack<>();
                     // add integers
-                    for (int i = 0; i < RANGE; i++) {
+                    for (int i = 0; i < range; i++) {
                         linkedStack.push(i);
                     }
                     Shuffle.shuffle(linkedStack);
@@ -135,13 +133,13 @@ class RandomizedQueueTest {
         }
         // calculate the Chi-squared statistics
         double squaredSum = 0;
-        double expected = (double) ROUND / RANGE;
-        for (int i = 0; i < RANGE; i++) {
-            for (int j = 0; j < RANGE; j++) {
+        double expected = (double) round / range;
+        for (int i = 0; i < range; i++) {
+            for (int j = 0; j < range; j++) {
                 squaredSum += Math.pow(uniformChecker[i][j] - expected, 2);
             }
         }
-        int degreeOfFreedom = (RANGE - 1) * (RANGE - 1);
+        int degreeOfFreedom = (range - 1) * (range - 1);
         double chiSquared = squaredSum / expected;
         ChiSquaredDistribution chiSquaredDistribution = new ChiSquaredDistribution(degreeOfFreedom);
         System.out.printf("Chi(%d) = %f\n", degreeOfFreedom, squaredSum / expected);
