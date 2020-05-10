@@ -17,37 +17,83 @@ public class Quick {
 
     private static final int CUTOFF = 10;
 
+    /**
+     * quick sort the {@code Comparable} array
+     *
+     * @param a the {@code Comparable} array
+     */
     public static <T extends Comparable<? super T>> void sort(T[] a) {
         Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the array with a comparator
+     *
+     * @param a the array to be sorted
+     */
     public static <T> void sort(T[] a, Comparator<? super T> c) {
         Shuffle.shuffle(a);
         sort(a, 0, a.length, c);
     }
 
+    /**
+     * quick sort the {@code int} array
+     *
+     * @param a the {@code int} array
+     */
     public static void sort(int[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the {@code float} array
+     *
+     * @param a the {@code float} array
+     */
     public static void sort(float[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the {@code char} array
+     *
+     * @param a the {@code char} array
+     */
     public static void sort(char[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the {@code long} array
+     *
+     * @param a the {@code long} array
+     */
     public static void sort(long[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the {@code short} array
+     *
+     * @param a the {@code short} array
+     */
     public static void sort(short[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
+    /**
+     * quick sort the {@code double} array
+     *
+     * @param a the {@code double} array
+     */
     public static void sort(double[] a) {
+        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
@@ -95,6 +141,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -110,6 +157,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -125,6 +173,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -140,6 +189,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -155,6 +205,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -170,6 +221,7 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
+        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -438,11 +490,8 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(float[] a, int lo, int hi) {
@@ -478,11 +527,8 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(char[] a, int lo, int hi) {
@@ -561,11 +607,8 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(short[] a, int lo, int hi) {
@@ -644,11 +687,8 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
