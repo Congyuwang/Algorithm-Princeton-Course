@@ -28,32 +28,26 @@ public class Quick {
     }
 
     public static void sort(int[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(float[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(char[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(long[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(short[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
     public static void sort(double[] a) {
-        Shuffle.shuffle(a);
         sort(a, 0, a.length);
     }
 
@@ -101,7 +95,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -117,7 +110,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -133,7 +125,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -149,7 +140,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -165,7 +155,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -181,7 +170,6 @@ public class Quick {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
-        Shuffle.shuffle(a);
         return select(a, 0, a.length, n);
     }
 
@@ -450,8 +438,11 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            return Math.max(a3, a1);
+            if (a1 > a3) {
+                return a1;
+            }
         }
+        return a3;
     }
 
     private static void sort(float[] a, int lo, int hi) {
@@ -487,8 +478,11 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            return Math.max(a3, a1);
+            if (a1 > a3) {
+                return a1;
+            }
         }
+        return a3;
     }
 
     private static void sort(char[] a, int lo, int hi) {
@@ -567,8 +561,11 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            return Math.max(a3, a1);
+            if (a1 > a3) {
+                return a1;
+            }
         }
+        return a3;
     }
 
     private static void sort(short[] a, int lo, int hi) {
@@ -647,8 +644,11 @@ public class Quick {
             if (a3 > a2) {
                 return a2;
             }
-            return Math.max(a3, a1);
+            if (a1 > a3) {
+                return a1;
+            }
         }
+        return a3;
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
