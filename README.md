@@ -35,4 +35,5 @@ The project is structured according to the topics of the lectures.
                                       |-/:           sorting and shuffling
                                       |
                                       |-hybrid:      two hybrid sorting from git (made static methods)
+                                                     grailSort and wikiSort
 ```
