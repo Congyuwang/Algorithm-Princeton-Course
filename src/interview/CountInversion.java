@@ -41,8 +41,8 @@ public class CountInversion {
     public static <T extends Comparable<? super T>> void merge(T[] src, T[] dest, int lo, int mid, int hi, int[] count) {
         assert Util.isSorted(src, lo, mid);
         assert Util.isSorted(src, mid, hi);
+        int firstHalfCount = mid - lo;
         for (int k = lo, i = lo, j = mid; k < hi; k++) {
-            int firstHalfCount = mid - lo;
             if (i == mid) {
                 dest[k] = src[j++];
             } else if (j == hi) {
@@ -59,7 +59,7 @@ public class CountInversion {
     }
 
     public static void main(String[] args) {
-        Integer[] testArray = {1, 3, 2, 5, 4, 7, 6};
+        Integer[] testArray = {1, 3, 9, 5, 4, 7, 6};
         System.out.println(sort(testArray));
     }
 
