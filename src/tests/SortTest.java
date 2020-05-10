@@ -126,22 +126,22 @@ class SortTest {
 
         // test4: equal Keys
         System.out.println("\nTest4 (equal keys):");
-        test("selection", test3, 100);
-        test("reference_selection", test3, 100);
-        test("insertion", test3);
-        test("reference_insertion", test3);
-        test("shell", test3, 100);
-        test("reference_shell", test3, 100);
-        test("merge", test3, 100);
-        test("reference_merge", test3, 100);
-        test("mergeBU", test3, 100);
-        test("reference_mergeBU", test3, 100);
-        test("timSort", test3, 100);
-        test("wikiSortWithBuffer", test3, 100);
-        test("grailSortWithoutBuffer", test3, 100);
-        test("grailSortWithBuffer", test3, 100);
-        test("grailSortWithDynBuffer", test3, 100);
-        test("quickSort", test3, 100);
+        test("selection", equalKeys, 100);
+        test("reference_selection", equalKeys, 100);
+        test("insertion", equalKeys);
+        test("reference_insertion", equalKeys);
+        test("shell", equalKeys, 100);
+        test("reference_shell", equalKeys, 100);
+        test("merge", equalKeys, 100);
+        test("reference_merge", equalKeys, 100);
+        test("mergeBU", equalKeys, 100);
+        test("reference_mergeBU", equalKeys, 100);
+        test("timSort", equalKeys, 100);
+        test("wikiSortWithBuffer", equalKeys, 100);
+        test("grailSortWithoutBuffer", equalKeys, 100);
+        test("grailSortWithBuffer", equalKeys, 100);
+        test("grailSortWithDynBuffer", equalKeys, 100);
+        test("quickSort", equalKeys, 100);
 
         // test4: Sort Strings
         System.out.println("\nTest5 (sort strings):");
@@ -213,9 +213,7 @@ class SortTest {
         Double time = timer.elapsedTime();
         T mem = null;
         for (T t : test) {
-            if (mem == null) {
-                mem = t;
-            } else if (Util.less(t, mem)) {
+            if (mem != null && Util.less(t, mem)) {
                 System.out.println("No! No! No! Not Sorted!");
                 throw new InternalError("UnSorted");
             }
@@ -273,9 +271,7 @@ class SortTest {
         Double time = timer.elapsedTime();
         T mem = null;
         for (T t : test) {
-            if (mem == null) {
-                mem = t;
-            } else if (Util.less(t, mem)) {
+            if (mem != null && Util.less(t, mem)) {
                 System.out.println("No! No! No! Not Sorted!");
                 throw new InternalError("UnSorted");
             }
@@ -289,7 +285,7 @@ class SortTest {
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test, boolean ifPrint, boolean useCopy) {
-        T[] testCopy = null;
+        T[] testCopy;
         if (useCopy) {
             testCopy = test.clone();
         } else {
@@ -328,6 +324,7 @@ class SortTest {
                 edu.princeton.cs.algs4.MergeBU.sort(testCopy);
                 break;
             case "timSort":
+            case "reference_quickSort":
                 Arrays.sort(testCopy);
                 break;
             case "wikiSortWithBuffer":
@@ -344,9 +341,6 @@ class SortTest {
                 break;
             case "quickSort":
                 Quick.sort(testCopy);
-                break;
-            case "reference_quickSort":
-                Arrays.sort(testCopy);
                 break;
             default:
                 break;
@@ -512,8 +506,8 @@ class SortTest {
     }
 
     private static class StableData implements Comparable<StableData> {
-        public int key;
-        public double value;
+        public final int key;
+        public final double value;
         StableData(int key, double value) {
             this.key = key;
             this.value = value;
