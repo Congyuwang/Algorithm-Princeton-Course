@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class ThreeSum {
 
     private int count;
-    private List<List<Integer>> solution;
+    private final List<List<Integer>> solution;
 
     /**
      * Constructor: the constructor includes the main processing unit.

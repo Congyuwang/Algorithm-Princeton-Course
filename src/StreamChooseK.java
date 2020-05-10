@@ -14,7 +14,7 @@ public class StreamChooseK<Item> {
     private final int k;
     private int count;
     private double p = 1.0;
-    private RandomizedQueue<Item> collection;
+    private final RandomizedQueue<Item> collection;
 
     public StreamChooseK(int k) {
         this.k = k;

@@ -2,7 +2,7 @@ package princeton.algo.unionfind;
 
 public class QuickFindUF {
 
-    private int[] id;
+    private final int[] id;
 
     public QuickFindUF(int N) {
         id = new int[N];

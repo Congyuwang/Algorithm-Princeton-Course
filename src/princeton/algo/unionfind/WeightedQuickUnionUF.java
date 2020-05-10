@@ -2,8 +2,8 @@ package princeton.algo.unionfind;
 // This algorithm uses N + M lg* N (almost linear time)
 
 public class WeightedQuickUnionUF {
-    private int[] id;
-    private int[] sz;
+    private final int[] id;
+    private final int[] sz;
 
     public WeightedQuickUnionUF(int N) {
         id = new int[N];

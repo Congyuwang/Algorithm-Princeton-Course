@@ -1071,7 +1071,7 @@ public class Wiki {
 
 	private static class Pull {
 		public int from, to, count;
-		public Range range;
+		public final Range range;
 
 		public Pull() {
 			range = new Range(0, 0);
@@ -1101,9 +1101,12 @@ public class Wiki {
 	// the bottom-up merge sort only operates on values that are powers of two,
 	// so scale down to that power of two, then use a fraction to scale back again
 	private static class Iterator {
-		public int size, power_of_two;
+		public final int size;
+        public final int power_of_two;
 		public int numerator, decimal;
-		public int denominator, decimal_step, numerator_step;
+		public final int denominator;
+        public int decimal_step;
+        public int numerator_step;
 
 		Iterator(int size2, int min_level) {
 			size = size2;

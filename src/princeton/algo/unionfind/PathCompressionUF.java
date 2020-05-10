@@ -2,7 +2,7 @@ package princeton.algo.unionfind;
 // This algorithm uses N + M lg N
 
 public class PathCompressionUF {
-    private int[] id;
+    private final int[] id;
 
     public PathCompressionUF(int N) {
         id = new int[N];

@@ -27,14 +27,11 @@ class TestShuffleArray implements RuntimeTest {
         return t;
     }
 
-    public void setLength(int l) {
-        testLength = l;
-    }
 }
 
 class TestShuffleLink implements RuntimeTest {
 
-    int testLength;
+    final int testLength;
 
     TestShuffleLink(int l) {
         testLength = l;

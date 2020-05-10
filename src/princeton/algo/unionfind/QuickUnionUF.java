@@ -1,8 +1,8 @@
 package princeton.algo.unionfind;
 
 public class QuickUnionUF {
-    private int[] id;
-    private int[] sz;
+    private final int[] id;
+    private final int[] sz;
 
     public QuickUnionUF(int N) {
         id = new int[N];
