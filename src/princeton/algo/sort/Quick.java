@@ -445,19 +445,13 @@ public class Quick {
             if (a2 > a3) {
                 return a2;
             }
-            if (a3 > a1) {
-                return a1;
-            }
-            return a3;
+            return Math.min(a3, a1);
         } else {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(float[] a, int lo, int hi) {
@@ -488,19 +482,13 @@ public class Quick {
             if (a2 > a3) {
                 return a2;
             }
-            if (a3 > a1) {
-                return a1;
-            }
-            return a3;
+            return Math.min(a3, a1);
         } else {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(char[] a, int lo, int hi) {
@@ -574,19 +562,13 @@ public class Quick {
             if (a2 > a3) {
                 return a2;
             }
-            if (a3 > a1) {
-                return a1;
-            }
-            return a3;
+            return Math.min(a3, a1);
         } else {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static void sort(short[] a, int lo, int hi) {
@@ -660,19 +642,13 @@ public class Quick {
             if (a2 > a3) {
                 return a2;
             }
-            if (a3 > a1) {
-                return a1;
-            }
-            return a3;
+            return Math.min(a3, a1);
         } else {
             if (a3 > a2) {
                 return a2;
             }
-            if (a1 > a3) {
-                return a1;
-            }
+            return Math.max(a3, a1);
         }
-        return a3;
     }
 
     private static <T extends Comparable<? super T>> void sort(T[] a, int lo, int hi) {
