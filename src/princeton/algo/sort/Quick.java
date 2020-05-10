@@ -121,7 +121,7 @@ public class Quick {
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
-    public static <T> void sort(T[] a, int n, Comparator<? super T> c) {
+    public static <T> void select(T[] a, int n, Comparator<? super T> c) {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
@@ -231,7 +231,7 @@ public class Quick {
         if (lo + 1 >= hi) {
             return a[lo];
         }
-        T key = a[lo];
+        T key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
@@ -254,13 +254,33 @@ public class Quick {
         }
     }
 
+    private static <T extends Comparable<? super T>> T medianOf3(T a1, T a2, T a3) {
+        if (Util.less(a2, a1)) {
+            if (Util.less(a3, a2)) {
+                return a2;
+            }
+            if (Util.less(a1, a3)) {
+                return a1;
+            }
+            return a3;
+        } else {
+            if (Util.less(a2, a3)) {
+                return a2;
+            }
+            if (Util.less(a3, a1)) {
+                return a1;
+            }
+        }
+        return a3;
+    }
+
     private static <T> T select(T[] a, int lo, int hi, int n, Comparator<? super T> c) {
         assert lo <= n;
         assert n < hi;
         if (lo + 1 >= hi) {
             return a[lo];
         }
-        T key = a[lo];
+        T key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1], c);
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
@@ -281,6 +301,26 @@ public class Quick {
         } else {
             return select(a, hi, hiMem, n, c);
         }
+    }
+
+    private static <T> T medianOf3(T a1, T a2, T a3, Comparator<? super T> c) {
+        if (Util.less(a2, a1, c)) {
+            if (Util.less(a3, a2, c)) {
+                return a2;
+            }
+            if (Util.less(a1, a3, c)) {
+                return a1;
+            }
+            return a3;
+        } else {
+            if (Util.less(a2, a3, c)) {
+                return a2;
+            }
+            if (Util.less(a3, a1, c)) {
+                return a1;
+            }
+        }
+        return a3;
     }
 
     private static int select(int[] a, int lo, int hi, int n) {
@@ -696,7 +736,7 @@ public class Quick {
             Insertion.sort(a, lo, hi);
             return;
         }
-        T key = a[lo];
+        T key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1]);
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
@@ -721,7 +761,7 @@ public class Quick {
             Insertion.sort(a, lo, hi, c);
             return;
         }
-        T key = a[lo];
+        T key = medianOf3(a[lo], a[hi - 1], a[(lo + hi - 1) >>> 1], c);
         int loMem = lo;
         int hiMem = hi;
         int mid = lo;
