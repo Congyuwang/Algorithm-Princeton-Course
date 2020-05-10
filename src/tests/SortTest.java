@@ -37,9 +37,10 @@ class SortTest {
         for (int i = 0; i < LENGTH / 100; i++) {
             double d = random.nextDouble();
             for (int j = 0; j < 100; j++) {
-                equalKeys[i] = d;
+                equalKeys[i * 100 + j] = d;
             }
         }
+        Shuffle.shuffle(equalKeys);
         Queue<String> queueTest = new LinkedQueue<>();
         LinkedStack<String> stackTest = new LinkedStack<>();
         for (int j = 0; j < BIG_LENGTH; j++) {
