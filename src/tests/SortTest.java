@@ -70,6 +70,7 @@ class SortTest {
         randomDoubleTest("grailSortWithBuffer", LENGTH, 100);
         randomDoubleTest("grailSortWithDynBuffer", LENGTH, 100);
         randomDoubleTest("quickSort", LENGTH, 100);
+        randomDoubleTest("princetonQuickSort", LENGTH, 100);
 
         System.out.println("\nTest1.1 (random primitive BIG_LENGTH):");
         test("shell", test1_1, 100);
@@ -105,6 +106,7 @@ class SortTest {
         test("grailSortWithBuffer", test2, 100);
         test("grailSortWithDynBuffer", test2, 100);
         test("quickSort", test2, 100);
+        test("princetonQuickSort", test2, 100);
 
         // test3: Reverse Order
         System.out.println("\nTest3 (reverse order):");
@@ -124,6 +126,7 @@ class SortTest {
         test("grailSortWithBuffer", test3, 100);
         test("grailSortWithDynBuffer", test3, 100);
         test("quickSort", test3, 100);
+        test("princetonQuickSort", test3, 100);
 
         // test4: equal Keys
         System.out.println("\nTest4 (equal keys):");
@@ -143,6 +146,7 @@ class SortTest {
         test("grailSortWithBuffer", equalKeys, 100);
         test("grailSortWithDynBuffer", equalKeys, 100);
         test("quickSort", equalKeys, 100);
+        test("princetonQuickSort", equalKeys, 100);
 
         // test4: Sort Strings
         System.out.println("\nTest5 (sort strings):");
@@ -162,6 +166,7 @@ class SortTest {
         randomStringTest("grailSortWithBuffer", 20, LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, LENGTH, 100);
         randomStringTest("quickSort", 20, LENGTH, 100);
+        randomStringTest("princetonQuickSort", 20, LENGTH, 100);
 
         // test5: Sort lots of Strings
         System.out.println("\nTest6 (sort lots of Strings):");
@@ -177,6 +182,7 @@ class SortTest {
         randomStringTest("grailSortWithBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("grailSortWithDynBuffer", 20, BIG_LENGTH, 100);
         randomStringTest("quickSort", 20, BIG_LENGTH, 100);
+        randomStringTest("princetonQuickSort", 20, BIG_LENGTH, 100);
 
         // merge sort Queue / Stack
         System.out.println("\nTest (merge sort Queue):");
@@ -202,6 +208,7 @@ class SortTest {
         testStable("grailSortWithBuffer");
         testStable("grailSortWithDynBuffer");
         testStable("quickSort");
+        testStable("princetonQuickSort");
     }
 
     private static <T extends Comparable<? super T>> Double test(String algorithm, T[] test) {
@@ -342,6 +349,9 @@ class SortTest {
                 break;
             case "quickSort":
                 Quick.sort(testCopy);
+                break;
+            case "princetonQuickSort":
+                edu.princeton.cs.algs4.Quick.sort(testCopy);
                 break;
             default:
                 break;
