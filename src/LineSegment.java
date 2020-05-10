@@ -1,4 +1,4 @@
-/*************************************************************************
+/**
  *  Compilation:  javac LineSegment.java
  *  Execution:    none
  *  Dependencies: Point.java
@@ -8,7 +8,7 @@
  *
  *  DO NOT MODIFY THIS CODE.
  *
- *************************************************************************/
+ */
 
 public class LineSegment {
     private final Point p;   // one endpoint of this line segment
