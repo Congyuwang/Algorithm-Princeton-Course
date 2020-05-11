@@ -34,7 +34,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
         s[tail++] = item;
         // resize array if the size limit is met
         if (++count == s.length) {
-            resize(s.length * 2);
+            resize(s.length << 1);
         }
     }
 
@@ -49,7 +49,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
         Item item = s[head];
         s[head++] = null;
         // resize the array if it is too empty
-        if (--count == s.length / 4 && count > 0) {
+        if (--count == s.length >>> 2 && count > 0) {
             resize(s.length >>> 1);
         }
         return item;
@@ -65,8 +65,8 @@ public class ArrayQueue<Item> implements Queue<Item> {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[capacity];
         if (head >= tail) {
-            System.arraycopy(s, 0, copy, 0, tail);
-            System.arraycopy(s, head, copy, tail, s.length - head);
+            System.arraycopy(s, head, copy, 0, s.length - head);
+            System.arraycopy(s, 0, copy, s.length - head, tail);
         } else {
             System.arraycopy(s, head, copy, 0, count);
         }
