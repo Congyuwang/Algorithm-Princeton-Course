@@ -168,7 +168,7 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
                 Comparable<? super T> child = (Comparable<? super T>) heap[k];
                 int parent = parent(k);
                 if (child.compareTo(heap[parent]) > 0) {
-                    exch(k, parent);
+                    Util.exch(heap, k, parent);
                     k = parent;
                 } else {
                     break;
@@ -179,7 +179,7 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
                 T child = heap[k];
                 int parent = parent(k);
                 if (comparator.compare(child, heap[parent]) > 0) {
-                    exch(k, parent);
+                    Util.exch(heap, k, parent);
                     k = parent;
                 } else {
                     break;
@@ -189,11 +189,11 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     }
 
     private void moveDown(int k) {
-        moveDown(k, size - 1);
+        moveDown(heap, k, size - 1, comparator);
     }
 
-    // package private
-    void moveDown(int k, int limit) {
+    // package private static
+    static <T> void moveDown(T[] heap, int k, int limit, Comparator<T> comparator) {
         if (comparator == null) {
             while (k <= parent(limit)) {
                 @SuppressWarnings("unchecked")
@@ -202,21 +202,21 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
                 int rightChild = leftChild + 1;
                 if (parent.compareTo(heap[leftChild]) < 0) {
                     if (rightChild > limit) {
-                        exch(k, leftChild);
+                        Util.exch(heap, k, leftChild);
                         k = leftChild;
                         continue;
                     }
                     @SuppressWarnings("unchecked")
                     Comparable<? super T> right = (Comparable<? super T>) heap[rightChild];
                     if (right.compareTo(heap[leftChild]) > 0) {
-                        exch(k, rightChild);
+                        Util.exch(heap, k, rightChild);
                         k = rightChild;
                         continue;
                     }
-                    exch(k, leftChild);
+                    Util.exch(heap, k, leftChild);
                     k = leftChild;
                 } else if (rightChild <= limit && parent.compareTo(heap[rightChild]) < 0) {
-                    exch(k, rightChild);
+                    Util.exch(heap, k, rightChild);
                     k = rightChild;
                 } else {
                     break;
@@ -229,20 +229,20 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
                 int rightChild = leftChild + 1;
                 if (comparator.compare(parent, heap[leftChild]) < 0) {
                     if (rightChild > limit) {
-                        exch(k, leftChild);
+                        Util.exch(heap, k, leftChild);
                         k = leftChild;
                         continue;
                     }
                     T right = heap[rightChild];
                     if (comparator.compare(right, heap[leftChild]) > 0) {
-                        exch(k, rightChild);
+                        Util.exch(heap, k, rightChild);
                         k = rightChild;
                         continue;
                     }
-                    exch(k, leftChild);
+                    Util.exch(heap, k, leftChild);
                     k = leftChild;
                 } else if (rightChild <= limit && comparator.compare(parent, heap[rightChild]) < 0) {
-                    exch(k, rightChild);
+                    Util.exch(heap, k, rightChild);
                     k = rightChild;
                 } else {
                     break;
@@ -258,7 +258,8 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         return copy;
     }
 
-    private static final int parent(int k) {
+    // package private static
+    static final int parent(int k) {
         return ((k + 1) >>> 1) - 1;
     }
 
@@ -326,12 +327,5 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     public void shuffle() {
         throw new UnsupportedOperationException("cannot shuffle PriorityQueue");
-    }
-
-    // package private
-    void exch(int i, int j) {
-        assert i >= 0 && i < size;
-        assert j >= 0 && j < size;
-        Util.exch(heap, i, j);
     }
 }
