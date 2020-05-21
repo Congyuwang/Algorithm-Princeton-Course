@@ -3,6 +3,7 @@ package tests;
 import princeton.algo.queue.*;
 import princeton.algo.sort.Shuffle;
 import princeton.algo.stack.*;
+import princeton.algo.binaryHeap.*;
 import java.util.Scanner;
 
 class IteratorTest {
@@ -14,6 +15,7 @@ class IteratorTest {
         Queue<Integer> randomizedQueue = new RandomizedQueue<>();
         LinkedStack<Integer> linkedStack = new LinkedStack<>();
         Stack<Integer> arrayStack = new ArrayStack<>();
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
@@ -55,6 +57,12 @@ class IteratorTest {
                     } catch (Exception e) {
                         System.out.printf("arrayStack Error: %s\n", e.getMessage());
                     }
+                    try {
+                        System.out.printf("priorityQueue: %s\n", priorityQueue.dequeue());
+                    } catch (Exception e) {
+                        System.out.printf("priorityQueue Error: %s\n", e.getMessage());
+                        e.printStackTrace();
+                    }
                     break;
                 case ">>":
                     System.out.println();
@@ -93,6 +101,11 @@ class IteratorTest {
                         System.out.print(i + " ");
                     }
                     System.out.println();
+                    System.out.println("priorityQueue:");
+                    for (int i : priorityQueue) {
+                        System.out.print(i + " ");
+                    }
+                    System.out.println();
                     break;
                 case "-s":
                     Shuffle.shuffle(arrayQueue);
@@ -113,6 +126,7 @@ class IteratorTest {
                         randomizedQueue.enqueue(intItem);
                         arrayStack.push(intItem);
                         linkedStack.push(intItem);
+                        priorityQueue.enqueue(intItem);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
