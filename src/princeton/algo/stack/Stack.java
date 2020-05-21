@@ -36,4 +36,10 @@ public interface Stack<Item> extends Iterable<Item> {
      * takes log(n) time, and requires no extra memory.
      */
     void shuffle();
+
+    /**
+     * peek the first item to be popped, but do not remove.
+     * @return {@code null} is empty
+     */
+    Item peek();
 }

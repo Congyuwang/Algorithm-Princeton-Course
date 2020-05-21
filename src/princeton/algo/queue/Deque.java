@@ -226,4 +226,22 @@ public class Deque<Item> implements Queue<Item> {
         }
         return deque;
     }
+
+    public Item peekFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        return first.item;
+    }
+
+    public Item peekLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        return last.item;
+    }
+
+    public Item peek() {
+        return peekFirst();
+    }
 }

@@ -63,13 +63,20 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
             throw new NoSuchElementException("underflow!");
         }
         T temp = heap[0];
-        heap[0] = heap[size - 1];
-        heap[--size] = null;
+        heap[0] = heap[--size];
+        heap[size] = null;
         moveDown(0);
         if (size == heap.length >>> 2) {
             resize(heap.length >> 1);
         }
         return temp;
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return heap[0];
     }
 
     private void moveUp(int k) {

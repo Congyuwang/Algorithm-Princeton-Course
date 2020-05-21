@@ -58,6 +58,13 @@ public class ArrayQueue<Item> implements Queue<Item> {
         return item;
     }
 
+    public Item peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return s[head];
+    }
+
     public void shuffle() {
         if (count <= 1) {
             return;

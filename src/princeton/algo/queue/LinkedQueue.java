@@ -34,6 +34,13 @@ public class LinkedQueue<Item> implements Queue<Item> {
         return item;
     }
 
+    public Item peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return first.item;
+    }
+
     // insert after the last item
     @Override
     public void enqueue(Item item) {

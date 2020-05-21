@@ -95,4 +95,8 @@ public class TwoStackQueue<Item> implements Queue<Item> {
         pour();
         Shuffle.shuffle(storeStack);
     }
+
+    public Item peek() {
+        return storeStack.peek();
+    }
 }

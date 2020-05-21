@@ -1,9 +1,9 @@
 package princeton.algo.queue;
 
 import princeton.algo.sort.Shuffle;
-import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 /**
  * The RandomizedQueue class implements an Iterable data structure that provides
@@ -15,6 +15,8 @@ import java.util.NoSuchElementException;
  * @param <Item>
  */
 public class RandomizedQueue<Item> implements Queue<Item> {
+
+    Random random = new Random();
 
     @SuppressWarnings("unchecked")
     private Item[] s = (Item[]) new Object[1];
@@ -55,11 +57,18 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (size == (s.length >>> 2)) {
             grow(s.length >>> 1);
         }
-        int i = StdRandom.uniform(size);
+        int i = random.nextInt(size);
         Item item = s[i];
         s[i] = s[--size];
         s[size] = null;
         return item;
+    }
+
+    public Item peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return s[random.nextInt(size)];
     }
 
     /**
@@ -72,7 +81,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException("QueueUnderFlow!");
         }
-        return s[StdRandom.uniform(size)];
+        return s[random.nextInt(size)];
     }
 
     private void grow(int capacity) {

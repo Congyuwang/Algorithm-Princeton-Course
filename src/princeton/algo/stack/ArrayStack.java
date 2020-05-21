@@ -53,6 +53,13 @@ public class ArrayStack<Item> implements Stack<Item> {
         return item;
     }
 
+    public Item peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return s[N - 1];
+    }
+
     public void shuffle() {
         Shuffle.shuffle(s, 0, size);
     }

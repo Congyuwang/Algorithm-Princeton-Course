@@ -39,6 +39,12 @@ public interface Queue<Item> extends Iterable<Item> {
      */
     void shuffle();
 
+    /**
+     * peek the first item to dequeue, but do not remove.
+     * @return {@code null} if empty
+     */
+    Item peek();
+
     int size();
 
 }

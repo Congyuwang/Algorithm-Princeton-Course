@@ -47,6 +47,13 @@ public class LinkedStack<Item> implements Stack<Item> {
         return item;
     }
 
+    public Item peek() {
+        if (isEmpty()) {
+            return null;
+        }
+        return first.item;
+    }
+
     /**
      * insert an item into the stack.
      *
