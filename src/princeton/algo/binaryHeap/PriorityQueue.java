@@ -60,7 +60,7 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     public T remove() {
         if (size == 0) {
-            throw new NoSuchElementException("the Queue is empty");
+            throw new NoSuchElementException("underflow!");
         }
         T temp = heap[0];
         heap[0] = heap[size - 1];
@@ -183,11 +183,14 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     @Override
     public void push(T item) throws IllegalArgumentException {
         add(item);
-
     }
 
     @Override
     public T pop() {
         return remove();
+    }
+
+    public void shuffle() {
+        throw new UnsupportedOperationException("cannot shuffle PriorityQueue");
     }
 }

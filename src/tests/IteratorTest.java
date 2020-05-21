@@ -1,19 +1,18 @@
 package tests;
 
 import princeton.algo.queue.*;
-import princeton.algo.sort.Shuffle;
 import princeton.algo.stack.*;
 import princeton.algo.binaryHeap.*;
 import java.util.Scanner;
 
 class IteratorTest {
     public static void main(String[] args) {
-        LinkedQueue<Integer> linkedQueue = new LinkedQueue<>();
+        Queue<Integer> linkedQueue = new LinkedQueue<>();
         Queue<Integer> arrayQueue = new ArrayQueue<>();
         Queue<Integer> twoStackQueue = new TwoStackQueue<>();
         Deque<Integer> deque = new Deque<>();
         Queue<Integer> randomizedQueue = new RandomizedQueue<>();
-        LinkedStack<Integer> linkedStack = new LinkedStack<>();
+        Stack<Integer> linkedStack = new LinkedStack<>();
         Stack<Integer> arrayStack = new ArrayStack<>();
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
 
@@ -61,7 +60,6 @@ class IteratorTest {
                         System.out.printf("priorityQueue: %s\n", priorityQueue.dequeue());
                     } catch (Exception e) {
                         System.out.printf("priorityQueue Error: %s\n", e.getMessage());
-                        e.printStackTrace();
                     }
                     break;
                 case ">>":
@@ -108,12 +106,13 @@ class IteratorTest {
                     System.out.println();
                     break;
                 case "-s":
-                    Shuffle.shuffle(arrayQueue);
-                    Shuffle.shuffle(arrayStack);
-                    Shuffle.shuffle(linkedQueue);
-                    Shuffle.shuffle(linkedStack);
-                    Shuffle.shuffle(deque);
-                    Shuffle.shuffle(twoStackQueue);
+                    linkedQueue.shuffle();
+                    arrayQueue.shuffle();
+                    twoStackQueue.shuffle();
+                    deque.shuffle();
+                    randomizedQueue.shuffle();
+                    arrayStack.shuffle();
+                    linkedStack.shuffle();
                     System.out.println("Shuffled!");
                     break;
                 default:

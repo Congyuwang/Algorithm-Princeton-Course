@@ -18,10 +18,21 @@ public class Shuffle {
      * @param a the input array
      */
     public static void shuffle(Object[] a) {
+        shuffle(a, 0, a.length);
+    }
+
+    /**
+     * Uniformly shuffle sub-array a[start, end) in linear time.
+     *
+     * @param a the input array
+     */
+    public static void shuffle(Object[] a, int start, int end) {
+        if (start < 0 || end > a.length) {
+            throw new IllegalArgumentException("index out of bounds");
+        }
         Random random = new Random();
-        int size = a.length;
-        for (int i = 1; i < size; i++) {
-            int j = random.nextInt(i + 1);
+        for (int i = start + 1; i < end; i++) {
+            int j = start + random.nextInt(i - start + 1);
             Util.exch(a, i, j);
         }
     }

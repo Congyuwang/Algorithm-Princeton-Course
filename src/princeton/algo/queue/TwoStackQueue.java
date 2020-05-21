@@ -2,7 +2,7 @@ package princeton.algo.queue;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
+import princeton.algo.sort.Shuffle;
 import princeton.algo.stack.LinkedStack;
 
 /**
@@ -23,7 +23,7 @@ import princeton.algo.stack.LinkedStack;
  */
 public class TwoStackQueue<Item> implements Queue<Item> {
 
-    private LinkedStack<Item> inStack = new LinkedStack<>();
+    private LinkedStack<Item> receiveStack = new LinkedStack<>();
     private LinkedStack<Item> storeStack = new LinkedStack<>();
     private int size = 0;
 
@@ -32,7 +32,7 @@ public class TwoStackQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             throw new NoSuchElementException("QueueUnderFlow!");
         }
-        if (inStack.size() == storeStack.size()) {
+        if (receiveStack.size() == storeStack.size()) {
             pour();
         }
         size--;
@@ -47,9 +47,9 @@ public class TwoStackQueue<Item> implements Queue<Item> {
         if (isEmpty()) {
             storeStack.push(item);
         } else {
-            inStack.push(item);
+            receiveStack.push(item);
         }
-        if (inStack.size() == storeStack.size()) {
+        if (receiveStack.size() == storeStack.size()) {
             pour();
         }
         size++;
@@ -58,21 +58,19 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     /**
      * Each pour takes (2 * size of storeStack + size of tempStack) push operations.
      * In {@code dequeue} and {@code enqueue}, {@code pour} is invoked only when
-     * the size of inStack equals to that of storeStack, which happens as frequently
-     * as the size of the Queue doubles.
+     * the size of receiveStack equals to that of storeStack, which happens as frequently
+     * as the size of the Queue doubles. The operation use constant extra memory.
      */
     private void pour() {
         LinkedStack<Item> tempStack = new LinkedStack<>();
-        for (Item item : storeStack) {
-            tempStack.push(item);
+        while (!storeStack.isEmpty()) {
+            tempStack.push(storeStack.pop());
         }
-        storeStack = new LinkedStack<>();
-        for (Item item : inStack) {
-            storeStack.push(item);
+        while (!receiveStack.isEmpty()) {
+            storeStack.push(receiveStack.pop());
         }
-        inStack = new LinkedStack<>();
-        for (Item item : tempStack) {
-            storeStack.push(item);
+        while (!tempStack.isEmpty()) {
+            storeStack.push(tempStack.pop());
         }
     }
 
@@ -90,5 +88,11 @@ public class TwoStackQueue<Item> implements Queue<Item> {
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public void shuffle() {
+        pour();
+        Shuffle.shuffle(storeStack);
     }
 }

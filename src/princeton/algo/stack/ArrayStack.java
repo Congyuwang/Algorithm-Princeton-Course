@@ -2,6 +2,7 @@ package princeton.algo.stack;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import princeton.algo.sort.Shuffle;
 
 /**
  * The ArrayStack class implements an iterable LIFO stack data structure using Array
@@ -50,6 +51,10 @@ public class ArrayStack<Item> implements Stack<Item> {
         }
         size--;
         return item;
+    }
+
+    public void shuffle() {
+        Shuffle.shuffle(s, 0, size);
     }
 
     private void resize(int capacity) {

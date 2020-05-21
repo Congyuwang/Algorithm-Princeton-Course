@@ -29,4 +29,11 @@ public interface Stack<Item> extends Iterable<Item> {
      * @exception NoSuchElementException if there is no more element.
      */
     Item pop();
+
+    /**
+     * shuffle the stack. For array implementation, the operation takes linear time
+     * and requires no extra memory. For linked-list implementation, the operation
+     * takes log(n) time, and requires no extra memory.
+     */
+    void shuffle();
 }

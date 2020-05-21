@@ -1,9 +1,13 @@
 package tests;
 
+import java.util.Random;
+
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import princeton.algo.queue.LinkedQueue;
+import princeton.algo.stack.ArrayStack;
 import princeton.algo.stack.LinkedStack;
 import princeton.algo.queue.RandomizedQueue;
+import princeton.algo.queue.ArrayQueue;
 import princeton.algo.queue.Deque;
 import princeton.algo.sort.Shuffle;
 
@@ -18,12 +22,29 @@ class RandomizedQueueTest {
         test("linkedStack", RANGE, ROUND);
         test("shuffleQueue", RANGE, ROUND);
         test("shuffleStack", RANGE, ROUND);
+        test("shuffleArrayStack", RANGE, ROUND);
+        test("shuffleArrayQueue", RANGE, ROUND);
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            int randomRange = 5000 + random.nextInt(5000);
+            System.out.println(">>>>>>>>>> random range = " + randomRange);
+            test("randomizedQueue", randomRange, 200, false);
+            test("deque", randomRange, 200, false);
+            test("linkedQueue", randomRange, 200, false);
+            test("linkedStack", randomRange, 200, false);
+            test("shuffleQueue", randomRange, 200, false);
+            test("shuffleStack", randomRange, 200, false);
+            test("shuffleArrayStack", randomRange, 200, false);
+            test("shuffleArrayQueue", randomRange, 200, false);
+        }
         test("randomizedQueue", LARGE_RANGE, ROUND, false);
         test("deque", LARGE_RANGE, ROUND, false);
         test("linkedQueue", LARGE_RANGE, ROUND, false);
         test("linkedStack", LARGE_RANGE, ROUND, false);
         test("shuffleQueue", LARGE_RANGE, ROUND, false);
         test("shuffleStack", LARGE_RANGE, ROUND, false);
+        test("shuffleArrayStack", LARGE_RANGE, ROUND, false);
+        test("shuffleArrayQueue", LARGE_RANGE, ROUND, false);
     }
 
     public static void test(String algorithm, int range, int round) {
@@ -113,6 +134,40 @@ class RandomizedQueueTest {
                     Shuffle.shuffle(linkedStack);
                     int pos = 0;
                     for (int s : linkedStack) {
+                        uniformChecker[pos++][s]++;
+                    }
+                }
+                break;
+            case "shuffleArrayQueue":
+                for (int r = 0; r < round; r++) {
+                    ArrayQueue<Integer> arrayQueue = new ArrayQueue<>();
+                    // add integers
+                    for (int i = range / 3 - range; i < range / 3; i++) {
+                        arrayQueue.enqueue(i);
+                    }
+                    for (int i = range / 3 - range; i < 0; i++) {
+                        arrayQueue.dequeue();
+                    }
+                    for (int i = range / 3; i < range; i++) {
+                        arrayQueue.enqueue(i);
+                    }
+                    arrayQueue.shuffle();
+                    int pos = 0;
+                    for (int s : arrayQueue) {
+                        uniformChecker[pos++][s]++;
+                    }
+                }
+                break;
+            case "shuffleArrayStack":
+                for (int r = 0; r < round; r++) {
+                    ArrayStack<Integer> arrayStack = new ArrayStack<>();
+                    // add integers
+                    for (int i = 0; i < range; i++) {
+                        arrayStack.push(i);
+                    }
+                    arrayStack.shuffle();
+                    int pos = 0;
+                    for (int s : arrayStack) {
                         uniformChecker[pos++][s]++;
                     }
                 }

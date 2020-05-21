@@ -107,6 +107,10 @@ public class RandomizedQueue<Item> implements Queue<Item> {
         }
     }
 
+    public void shuffle() {
+        Shuffle.shuffle(s, 0, size);
+    };
+
     private Item[] randomizeCondense() {
         @SuppressWarnings("unchecked")
         Item[] copy = (Item[]) new Object[size];

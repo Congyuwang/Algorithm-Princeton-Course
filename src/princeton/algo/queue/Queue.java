@@ -31,6 +31,14 @@ public interface Queue<Item> extends Iterable<Item> {
 
     boolean isEmpty();
 
+    /**
+     * shuffle the queue. For array implementation, the operation takes linear time
+     * and requires no extra memory. For linked-list implementation, the operation
+     * takes log(n) time, and requires no extra memory.
+     * @throws UnsupportedOperationException if shuffling is not supported.
+     */
+    void shuffle();
+
     int size();
 
 }
