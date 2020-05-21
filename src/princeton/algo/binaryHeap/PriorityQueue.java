@@ -1,5 +1,6 @@
 package princeton.algo.binaryHeap;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import princeton.algo.queue.Queue;
@@ -10,14 +11,33 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     private T[] heap;
     private int size;
+    private final Comparator<T> comparator;
 
+    /**
+     * build a priority queue with natural ordering
+     */
     @SuppressWarnings("unchecked")
     public PriorityQueue() {
+        comparator = null;
         heap = (T[]) new Object[1];
         size = 0;
     }
 
+    /**
+     * build a priority queue with a comparator
+     */
+    @SuppressWarnings("unchecked")
+    public PriorityQueue(Comparator<T> c) {
+        comparator = c;
+        heap = (T[]) new Object[1];
+        size = 0;
+    }
+
+    /**
+     * build a priority queue from an array with natural ordering
+     */
     public PriorityQueue(T[] array) {
+        comparator = null;
         heap = array.clone();
         size = array.length;
         for (int j = parent(size - 1); j >= 0; j--) {
@@ -25,8 +45,24 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         }
     }
 
+    /**
+     * build a priority queue from an array with a comparator
+     */
+    public PriorityQueue(T[] array, Comparator<T> c) {
+        comparator = c;
+        heap = array.clone();
+        size = array.length;
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
+        }
+    }
+
+    /**
+     * build a priority queue from a queue with natural ordering
+     */
     @SuppressWarnings("unchecked")
     public PriorityQueue(Queue<T> q) {
+        comparator = null;
         heap = (T[]) new Object[q.size()];
         size = q.size();
         int pos = 0;
@@ -39,8 +75,48 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         }
     }
 
+    /**
+     * build a priority queue from a queue with a comparator
+     */
+    @SuppressWarnings("unchecked")
+    public PriorityQueue(Queue<T> q, Comparator<T> c) {
+        comparator = c;
+        heap = (T[]) new Object[q.size()];
+        size = q.size();
+        int pos = 0;
+        for (T t : q) {
+            assert t != null;
+            heap[pos++] = t;
+        }
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
+        }
+    }
+
+    /**
+     * build a priority queue from a stack with natural ordering
+     */
     @SuppressWarnings("unchecked")
     public PriorityQueue(Stack<T> s) {
+        comparator = null;
+        heap = (T[]) new Object[s.size()];
+        size = s.size();
+        int pos = 0;
+        for (T t : s) {
+            assert t != null;
+            heap[pos++] = t;
+        }
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
+        }
+    }
+
+    /**
+     * build a priority queue from a stack with a comparator
+     */
+    @SuppressWarnings("unchecked")
+    public PriorityQueue(Stack<T> s, Comparator<T> c) {
+        comparator = c;
         heap = (T[]) new Object[s.size()];
         size = s.size();
         int pos = 0;
@@ -86,15 +162,28 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     }
 
     private void moveUp(int k) {
-        while (k > 0) {
-            @SuppressWarnings("unchecked")
-            Comparable<? super T> child = (Comparable<? super T>) heap[k];
-            int parent = parent(k);
-            if (child.compareTo(heap[parent]) > 0) {
-                exch(k, parent);
-                k = parent;
-            } else {
-                break;
+        if (comparator == null) {
+            while (k > 0) {
+                @SuppressWarnings("unchecked")
+                Comparable<? super T> child = (Comparable<? super T>) heap[k];
+                int parent = parent(k);
+                if (child.compareTo(heap[parent]) > 0) {
+                    exch(k, parent);
+                    k = parent;
+                } else {
+                    break;
+                }
+            }
+        } else {
+            while (k > 0) {
+                T child = heap[k];
+                int parent = parent(k);
+                if (comparator.compare(child, heap[parent]) > 0) {
+                    exch(k, parent);
+                    k = parent;
+                } else {
+                    break;
+                }
             }
         }
     }
@@ -105,31 +194,59 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     // package private
     void moveDown(int k, int limit) {
-        while (k <= parent(limit)) {
-            @SuppressWarnings("unchecked")
-            Comparable<? super T> parent = (Comparable<? super T>) heap[k];
-            int leftChild = leftChild(k);
-            int rightChild = leftChild + 1;
-            if (parent.compareTo(heap[leftChild]) < 0) {
-                if (rightChild > limit) {
+        if (comparator == null) {
+            while (k <= parent(limit)) {
+                @SuppressWarnings("unchecked")
+                Comparable<? super T> parent = (Comparable<? super T>) heap[k];
+                int leftChild = leftChild(k);
+                int rightChild = leftChild + 1;
+                if (parent.compareTo(heap[leftChild]) < 0) {
+                    if (rightChild > limit) {
+                        exch(k, leftChild);
+                        k = leftChild;
+                        continue;
+                    }
+                    @SuppressWarnings("unchecked")
+                    Comparable<? super T> right = (Comparable<? super T>) heap[rightChild];
+                    if (right.compareTo(heap[leftChild]) > 0) {
+                        exch(k, rightChild);
+                        k = rightChild;
+                        continue;
+                    }
                     exch(k, leftChild);
                     k = leftChild;
-                    continue;
-                }
-                @SuppressWarnings("unchecked")
-                Comparable<? super T> right = (Comparable<? super T>) heap[rightChild];
-                if (right.compareTo(heap[leftChild]) > 0) {
+                } else if (rightChild <= limit && parent.compareTo(heap[rightChild]) < 0) {
                     exch(k, rightChild);
                     k = rightChild;
-                    continue;
+                } else {
+                    break;
                 }
-                exch(k, leftChild);
-                k = leftChild;
-            } else if (rightChild <= limit && parent.compareTo(heap[rightChild]) < 0) {
-                exch(k, rightChild);
-                k = rightChild;
-            } else {
-                break;
+            }
+        } else {
+            while (k <= parent(limit)) {
+                T parent = heap[k];
+                int leftChild = leftChild(k);
+                int rightChild = leftChild + 1;
+                if (comparator.compare(parent, heap[leftChild]) < 0) {
+                    if (rightChild > limit) {
+                        exch(k, leftChild);
+                        k = leftChild;
+                        continue;
+                    }
+                    T right = heap[rightChild];
+                    if (comparator.compare(right, heap[leftChild]) > 0) {
+                        exch(k, rightChild);
+                        k = rightChild;
+                        continue;
+                    }
+                    exch(k, leftChild);
+                    k = leftChild;
+                } else if (rightChild <= limit && comparator.compare(parent, heap[rightChild]) < 0) {
+                    exch(k, rightChild);
+                    k = rightChild;
+                } else {
+                    break;
+                }
             }
         }
     }
