@@ -23,8 +23,8 @@ import princeton.algo.stack.LinkedStack;
  */
 public class TwoStackQueue<Item> implements Queue<Item> {
 
-    private LinkedStack<Item> receiveStack = new LinkedStack<>();
-    private LinkedStack<Item> storeStack = new LinkedStack<>();
+    private final LinkedStack<Item> receiveStack = new LinkedStack<>();
+    private final LinkedStack<Item> storeStack = new LinkedStack<>();
     private int size = 0;
 
     @Override

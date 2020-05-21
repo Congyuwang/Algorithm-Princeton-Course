@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class RandomizedQueue<Item> implements Queue<Item> {
 
-    Random random = new Random();
+    final Random random = new Random();
 
     @SuppressWarnings("unchecked")
     private Item[] s = (Item[]) new Object[1];

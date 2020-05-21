@@ -8,7 +8,7 @@ import princeton.algo.sort.Shuffle;
 
 class TestShuffleArray implements RuntimeTest {
 
-    int testLength;
+    final int testLength;
 
     TestShuffleArray(int l) {
         testLength = l;
