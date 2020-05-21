@@ -6,11 +6,16 @@ import java.util.Comparator;
  * A two-pivot quick sort implementation. Always shuffle before sorting. The
  * shuffling cost guarantees quick sort performance. Use insertion for length
  * shorter than {@code CUTOFF = 10}. This gives better adaptivity and reduces
- * overhead. When sorting primitive types, use three-mean key.
+ * overhead. The quick sort uses median of 3 as key.
  * <p>
  * The Quick class also include the quick select algorithm, which find the nth
  * (start from {@code 0} and ends at {@code length - 1}) smallest element of an
  * array in linear time.
+ * </p>
+ * <p>
+ * It also includes a select algorithm which finds the nth (start from {@code 0}
+ * and ends at {@code length - 1}) smallest element from two
+ * <em><b>sorted</b></em> arrays in linear time.
  * </p>
  */
 public class Quick {
@@ -99,9 +104,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from {@code 0} and end at
      *          {@code a.length - 1})
      */
@@ -115,9 +120,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -131,9 +136,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -147,9 +152,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -163,9 +168,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -179,9 +184,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -195,9 +200,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -211,9 +216,9 @@ public class Quick {
 
     /**
      * Find the nth (start from {@code 0} and ends at {@code length - 1}) smallest
-     * element of an array in linear time.
+     * element of an array in linear time on average.
      *
-     * @param a the input array in linear time.
+     * @param a the input array.
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
@@ -779,5 +784,550 @@ public class Quick {
         sort(a, hi, hiMem, c);
         assert Util.isSorted(a, loMem, lo, c);
         assert Util.isSorted(a, hi, hiMem, c);
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static double select(double[] a, double[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static float select(float[] a, float[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static int select(int[] a, int[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static short select(short[] a, short[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return (short) Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return (short) Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return (short) Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return (short) Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return (short) Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static long select(long[] a, long[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static char select(char[] a, char[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && a[0] > b[n])) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && b[0] > a[n])) {
+            return a[n];
+        }
+        if (n == 0) {
+            return (char) Math.min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return (char) Math.max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (b[iB + 1] >= a[iA]) {
+                        return (char) Math.max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (a[iA + 1] >= b[iB]) {
+                    return (char) Math.max(a[iA], b[iB]);
+                }
+            } else if (a[iA + 1] >= b[iB] && b[iB + 1] >= a[iA]) {
+                return (char) Math.max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && a[iA + 1] < b[iB]) {
+                hi = i;
+            }
+            if (iB != bLimit && b[iB + 1] < a[iA]) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @return the nth smallest element
+     */
+    public static <T extends Comparable<? super T>> T select(T[] a, T[] b, int n) {
+        assert Util.isSorted(a);
+        assert Util.isSorted(b);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && Util.less(b[n], a[0]))) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && Util.less(a[n], b[0]))) {
+            return a[n];
+        }
+        if (n == 0) {
+            return min(a[0], b[0]);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return max(a[a.length - 1], b[b.length - 1]);
+                } else {
+                    if (!Util.less(b[iB + 1], a[iA])) {
+                        return max(a[iA], b[iB]);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (!Util.less(a[iA + 1], b[iB])) {
+                    return max(a[iA], b[iB]);
+                }
+            } else if (!Util.less(a[iA + 1], b[iB]) && !Util.less(b[iB + 1], a[iA])) {
+                return max(a[iA], b[iB]);
+            }
+            if (iA != aLimit && Util.less(a[iA + 1], b[iB])) {
+                hi = i;
+            }
+            if (iB != bLimit && Util.less(b[iB + 1], a[iA])) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    /**
+     * select from two <b>sorted</b> arrays (in ascending orders) the nth smallest element
+     * of the two arrays in logarithmic time.
+     *
+     * @param a the first sorted array
+     * @param b the second sorted array
+     * @param n the nth smallest (<em>starting from 0</em>)
+     * @param c the comparator of type T
+     * @return the nth smallest element
+     */
+    public static <T> T select(T[] a, T[] b, int n, Comparator<? super T> c) {
+        assert Util.isSorted(a, c);
+        assert Util.isSorted(b, c);
+        if (n < 0 || n > a.length + b.length - 1) {
+            throw new IllegalArgumentException("Out of range");
+        }
+        if (a.length == 0 && b.length == 0) {
+            throw new IllegalArgumentException("empty array");
+        }
+        if (a.length == 0 || (b.length > n && Util.less(b[n], a[0], c))) {
+            return b[n];
+        }
+        if (b.length == 0 || (a.length > n && Util.less(a[n], b[0], c))) {
+            return a[n];
+        }
+        if (n == 0) {
+            return min(a[0], b[0], c);
+        }
+        final int aLimit = Math.min(a.length - 1, n - 1);
+        final int bLimit = Math.min(b.length - 1, n - 1);
+        final int range = aLimit + bLimit - (n - 1);
+        int i = range >>> 1;
+        int iA = aLimit - i;
+        int iB = n - 1 - iA;
+        int lo = 0;
+        int hi = range;
+        while (true) {
+            if (iA == aLimit) {
+                if (iB == bLimit) {
+                    return max(a[a.length - 1], b[b.length - 1], c);
+                } else {
+                    if (!Util.less(b[iB + 1], a[iA], c)) {
+                        return max(a[iA], b[iB], c);
+                    }
+                }
+            } else if (iB == bLimit) {
+                if (!Util.less(a[iA + 1], b[iB], c)) {
+                    return max(a[iA], b[iB], c);
+                }
+            } else if (!Util.less(a[iA + 1], b[iB], c) && !Util.less(b[iB + 1], a[iA], c)) {
+                return max(a[iA], b[iB], c);
+            }
+            if (iA != aLimit && Util.less(a[iA + 1], b[iB], c)) {
+                hi = i;
+            }
+            if (iB != bLimit && Util.less(b[iB + 1], a[iA], c)) {
+                lo = i;
+                if (lo == hi - 1) {
+                    lo++;
+                }
+            }
+            i = (lo + hi) >>> 1;
+            iA = aLimit - i;
+            iB = n - 1 - iA;
+        }
+    }
+
+    private static <T extends Comparable<? super T>> T min(T v, T w) {
+        return v.compareTo(w) <= 0 ? v : w;
+    }
+
+    private static <T extends Comparable<? super T>> T max(T v, T w) {
+        return v.compareTo(w) >= 0 ? v : w;
+    }
+
+    private static <T> T min(T v, T w, Comparator<? super T> c) {
+        return c.compare(v, w) <= 0 ? v : w;
+    }
+
+    private static <T> T max(T v, T w, Comparator<? super T> c) {
+        return c.compare(v, w) >= 0 ? v : w;
     }
 }
