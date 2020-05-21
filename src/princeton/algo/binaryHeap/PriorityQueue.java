@@ -263,7 +263,8 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         return ((k + 1) >>> 1) - 1;
     }
 
-    private static final int leftChild(int k) {
+    // package private static
+    static final int leftChild(int k) {
         return ((k + 1) << 1) - 1;
     }
 

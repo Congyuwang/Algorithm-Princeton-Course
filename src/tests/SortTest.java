@@ -78,6 +78,7 @@ class SortTest {
         test("shell", test1_1, 100);
         test("merge", test1_1, 100);
         test("mergeBU", test1_1, 100);
+        test("heapSort", test1_1, 100);
         test("quickSort", test1_1, 100);
         test("reference_quickSort", test1_1, 100);
         System.out.println("The reference Quick Sort is very fast as it requires no shuffling!");
@@ -86,6 +87,7 @@ class SortTest {
         test("shell", test1_2, 100);
         test("merge", test1_2, 100);
         test("mergeBU", test1_2, 100);
+        test("heapSort", test1_2, 100);
         test("quickSort", test1_2, 100);
         test("reference_quickSort", test1_2, 100);
         System.out.println("The reference Quick Sort is very fast as it requires no shuffling!");
@@ -271,6 +273,9 @@ class SortTest {
                 break;
             case "reference_quickSort":
                 Arrays.sort(testCopy);
+                break;
+            case "heapSort":
+                Heap.sort(testCopy);
                 break;
             default:
                 break;
