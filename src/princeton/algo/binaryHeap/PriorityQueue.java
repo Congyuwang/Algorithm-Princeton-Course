@@ -20,10 +20,8 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     public PriorityQueue(T[] array) {
         heap = array.clone();
         size = array.length;
-        for (T t : array) {
-            if (t != null) {
-                throw new IllegalArgumentException("null element in array");
-            }
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
         }
     }
 
@@ -31,9 +29,13 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     public PriorityQueue(Queue<T> q) {
         heap = (T[]) new Object[q.size()];
         size = q.size();
+        int pos = 0;
         for (T t : q) {
             assert t != null;
-            add(t);
+            heap[pos++] = t;
+        }
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
         }
     }
 
@@ -41,9 +43,13 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     public PriorityQueue(Stack<T> s) {
         heap = (T[]) new Object[s.size()];
         size = s.size();
+        int pos = 0;
         for (T t : s) {
             assert t != null;
-            add(t);
+            heap[pos++] = t;
+        }
+        for (int j = parent(size - 1); j >= 0; j--) {
+            moveDown(j);
         }
     }
 
