@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.StdIn;
+import princeton.algo.queue.StreamChooseK;
 
 public class Permutation {
 

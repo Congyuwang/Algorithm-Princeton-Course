@@ -1,5 +1,6 @@
-import princeton.algo.queue.RandomizedQueue;
-import edu.princeton.cs.algs4.StdRandom;
+package princeton.algo.queue;
+
+import java.util.Random;
 
 /**
  * A memory efficient way to choose k items from a stream of inputs, which
@@ -15,6 +16,7 @@ public class StreamChooseK<Item> {
     private int count;
     private double p = 1.0;
     private final RandomizedQueue<Item> collection;
+    private final Random random = new Random();
 
     public StreamChooseK(int k) {
         this.k = k;
@@ -34,7 +36,7 @@ public class StreamChooseK<Item> {
             collection.enqueue(item);
         } else {
             p = k * p / (p + k);
-            if (StdRandom.uniform() < p) {
+            if (random.nextDouble() < p) {
                 collection.dequeue();
                 collection.enqueue(item);
             }
