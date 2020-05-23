@@ -7,6 +7,18 @@ import princeton.algo.queue.Queue;
 import princeton.algo.sort.Util;
 import princeton.algo.stack.Stack;
 
+/**
+ * The priorityQueue class implements a priority Queue
+ * using binary heap data structure. Each {@code add()} operation
+ * takes log n time, and remove takes constant time.
+ * The priorityQueue always remove and return the largest
+ * element of currently stored elements.
+ * <p>
+ * It also implements the Stack and Queue interfaces, but
+ * it follows neither LIFO nor FIFO, nor supports shuffle method.
+ * The shuffle method throws {@code UnsupportedOperationException} if called.
+ * </p>
+ */
 public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     private T[] heap;
