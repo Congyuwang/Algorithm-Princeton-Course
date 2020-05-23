@@ -12,18 +12,22 @@ Some of their properties:
 | Merge Sort                  |     stable | linear extra (in-place for Queue/Stack) | O(N log N)         |
 | Bottom Up Merge Sort        |     stable | linear extra | O(N log N)         |
 | Quick Sort                  | not stable | in-place     | N log N on average |
+| Heap Sort                   | not stable | in-place     | O(N log N)         |
 | Grail Sort                  |     stable | in-place     | O(N log N)         |
 | Wiki Sort                   |     stable | in-place     | O(N log N)         |
 
 The implementation of them support different types of data structure:
 
-| sorting algorithm           | Supported Data Type
-| --------------------------- | ---------- |
+| sorting algorithm           | Supported Data Type                           |
+| --------------------------- | --------------------------------------------- |
 | Selection Sort              | Comparable array, Comparator, Primitive array |
 | Insertion Sort              | Comparable array, Comparator, Primitive array |
 | Shell Sort (Sedgewick 1985) | Comparable array, Comparator, Primitive array |
 | Merge Sort                  | Comparable array, Comparator, Primitive array, Queue (comparable / comparator), Stack (comparable / comparator) |
 | Bottom Up Merge Sort        | Comparable array, Comparator, Primitive array |
 | Quick Sort                  | Comparable array, Comparator, Primitive array |
-| Grail Sort                  | Comparable array, Comparator |
-| Wiki Sort                   | Comparable array, Comparator |
+| Heap Sort                   | Comparable array, Comparator, Primitive array |
+| Grail Sort                  | Comparable array, Comparator                  |
+| Wiki Sort                   | Comparable array, Comparator                  |
+
+Note: because _heap sort_ uses _binary heap_ data structure, it is placed in **binaryHeap** package.

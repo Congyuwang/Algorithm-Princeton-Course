@@ -3,6 +3,12 @@ package princeton.algo.binaryHeap;
 import java.util.Comparator;
 import princeton.algo.sort.Util;
 
+/**
+ * The {@code Heap} class implements heap sort utilizing a binary heap data
+ * structure. This is an unstable, in-place, n log n sorting algorithm.
+ * It has one static method {@code sort()} which accepts Comparable arrays,
+ * or arrays and a Comparator or primitive-type arrays as well.
+ */
 public class Heap {
     private Heap() {}
 
