@@ -37,5 +37,5 @@ The project is structured according to the topics of the lectures.
                                |      |-hybrid:      two hybrid sorting from git (made static methods)
                                |                     grailSort and wikiSort
                                |
-                               |-binaryHeap:   Heap sort and priorityQueue
+                               |-binaryHeap:   Heap sort and PriorityQueue
 ```
