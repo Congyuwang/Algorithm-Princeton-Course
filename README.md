@@ -24,7 +24,7 @@ The project is structured according to the topics of the lectures.
             |
             |-princeton/algo/:--      algorithms (have more optimization and varieties than algs4.jar)
                                |
-                               |-unionfind/:   unionFind algorithems
+                               |-unionfind/:   unionFind algorithms
                                |
                                |-queue/:       Queue interface and various implementations
                                |
