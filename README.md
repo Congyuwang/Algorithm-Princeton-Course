@@ -74,7 +74,7 @@ The implementation of them support different types of data structure:
 
 Note: because _heap sort_ uses _binary heap_ data structure, it is placed in **binaryHeap** package.
 
-# Queue package
+## Queue package
 
 The Queue package includes Queue interface and its implementations, and a StreamChooseK algorithm.
 
