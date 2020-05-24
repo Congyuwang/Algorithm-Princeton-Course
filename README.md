@@ -31,9 +31,11 @@ The project is structured according to the topics of the lectures.
                                |-stack/:       Stack interface and various implementations
                                |
                                |-sort:--       sorting algorithms
-                                      |
-                                      |-/:           sorting and shuffling
-                                      |
-                                      |-hybrid:      two hybrid sorting from git (made static methods)
-                                                     grailSort and wikiSort
+                               |      |
+                               |      |-/:           sorting and shuffling
+                               |      |
+                               |      |-hybrid:      two hybrid sorting from git (made static methods)
+                               |                     grailSort and wikiSort
+                               |
+                               |-binaryHeap:   Heap sort and priorityQueue
 ```
