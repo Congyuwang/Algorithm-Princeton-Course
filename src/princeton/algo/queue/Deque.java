@@ -3,12 +3,13 @@ package princeton.algo.queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import princeton.algo.stack.Stack;
 
 /**
  * The Deque class is an iterable linked list data structure that
  * allows addFirst, addLast, removeFirst, and removeLast methods.
  */
-public class Deque<Item> implements Queue<Item> {
+public class Deque<Item> implements Queue<Item>, Stack<Item> {
 
     private Node first = null;
     private Node last = null;
@@ -243,5 +244,15 @@ public class Deque<Item> implements Queue<Item> {
 
     public Item peek() {
         return peekFirst();
+    }
+
+    @Override
+    public void push(Item item) throws IllegalArgumentException {
+        addFirst(item);
+    }
+
+    @Override
+    public Item pop() {
+        return removeFirst();
     }
 }
