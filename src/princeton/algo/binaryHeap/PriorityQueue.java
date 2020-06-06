@@ -23,6 +23,7 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     private T[] heap;
     private int size;
+    private int minSize = 1;
     private final Comparator<T> comparator;
 
     /**
@@ -36,12 +37,49 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     }
 
     /**
+     * build a priority queue with n as initial capacity
+     *
+     * @param n the initial size
+     * @throws IllegalArgumentException if n is negative or zero
+     */
+    @SuppressWarnings("unchecked")
+    public PriorityQueue(int n) {
+        if (n < 1) {
+            throw new IllegalArgumentException("initial capacity must be positive");
+        }
+        comparator = null;
+        minSize = n;
+        heap = (T[]) new Object[n];
+        size = 0;
+    }
+
+    /**
      * build a priority queue with a comparator
+     *
+     * @param c the comparator for building the PQ
      */
     @SuppressWarnings("unchecked")
     public PriorityQueue(Comparator<T> c) {
         comparator = c;
         heap = (T[]) new Object[1];
+        size = 0;
+    }
+
+    /**
+     * build a priority queue with n as initial capacity
+     *
+     * @param c the comparator
+     * @param n the initial size
+     * @throws IllegalArgumentException if n is negative or zero
+     */
+    @SuppressWarnings("unchecked")
+    public PriorityQueue(int n, Comparator<T> c) {
+        if (n < 1) {
+            throw new IllegalArgumentException("initial capacity must be positive");
+        }
+        minSize = n;
+        comparator = c;
+        heap = (T[]) new Object[n];
         size = 0;
     }
 
@@ -161,7 +199,10 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         heap[size] = null;
         moveDown(0);
         if (size == heap.length >>> 2) {
-            resize(heap.length >> 1);
+            int newSize = heap.length >>> 1;
+            if (newSize >= minSize) {
+                resize(heap.length >>> 1);
+            }
         }
         return temp;
     }
