@@ -1,3 +1,5 @@
+package assignments.collinearPoints;
+
 /*
    Compilation:  javac Point.java
    Execution:    java Point

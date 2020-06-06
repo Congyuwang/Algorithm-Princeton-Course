@@ -1,3 +1,5 @@
+package assignments.permutation;
+
 import edu.princeton.cs.algs4.StdIn;
 import princeton.algo.queue.StreamChooseK;
 

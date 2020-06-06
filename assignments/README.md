@@ -1,4 +1,5 @@
 # What's here
 
-Assignments folder includes shell scripts that zip the java scripts
-for assignment submission, and the assessment output of the submissions.
+These are some shell scripts for assignment submissions.
+They are used when I submit my assignments for more convenient resubmission.
+However, they may not be usable now, as the project structure has changed over time.

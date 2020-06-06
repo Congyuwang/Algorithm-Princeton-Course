@@ -1,12 +1,12 @@
+package assignments.collinearPoints;
+
 /**
- *  Compilation:  javac LineSegment.java
- *  Execution:    none
- *  Dependencies: Point.java
+ * Compilation: javac LineSegment.java Execution: none Dependencies: Point.java
  *
- *  An immutable data type for Line segments in the plane.
- *  For use on Coursera, Algorithms Part I programming assignment.
+ * An immutable data type for Line segments in the plane. For use on Coursera,
+ * Algorithms Part I programming assignment.
  *
- *  DO NOT MODIFY THIS CODE.
+ * DO NOT MODIFY THIS CODE.
  *
  */
 

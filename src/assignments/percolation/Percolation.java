@@ -1,3 +1,5 @@
+package assignments.percolation;
+
 import princeton.algo.unionfind.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdIn;
 

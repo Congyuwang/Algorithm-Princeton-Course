@@ -1,3 +1,4 @@
+package assignments.collinearPoints;
 
 public class BruteCollinearPoints {
 
