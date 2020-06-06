@@ -1,5 +1,6 @@
 package princeton.algo.queue;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -102,7 +103,7 @@ public class ArrayQueue<Item> implements Queue<Item> {
     private void resize(int capacity) {
         // cannot implement generic array. Use cast.
         @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) new Object[capacity];
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), capacity);
         if (head >= tail) {
             System.arraycopy(s, head, copy, 0, s.length - head);
             System.arraycopy(s, 0, copy, s.length - head, tail);
@@ -146,5 +147,24 @@ public class ArrayQueue<Item> implements Queue<Item> {
     @Override
     public int size() {
         return count;
+    }
+
+    /**
+     * the {@code toArray()} method overrides the default method in Queue, using
+     * System.arraycopy which is faster than the iterator.
+     *
+     * @return a shallow copy of the items
+     */
+    @Override
+    public Object[] toArray() {
+        @SuppressWarnings("unchecked")
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), count);
+        if (count > 0 && head >= tail) {
+            System.arraycopy(s, head, copy, 0, s.length - head);
+            System.arraycopy(s, 0, copy, s.length - head, tail);
+        } else {
+            System.arraycopy(s, head, copy, 0, count);
+        }
+        return copy;
     }
 }

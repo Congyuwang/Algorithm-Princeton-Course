@@ -161,4 +161,19 @@ public class LinkedStack<Item> implements Stack<Item> {
         }
         return stack;
     }
+
+    /**
+     * the {@code toArray()} method is a default method that utilizes the iterator
+     * of Stack to build a shallow array copy of the stack.
+     *
+     * @return an array containing the shallow copy of the elements of Stack
+     */
+    public Object[] toArray() {
+        Object[] copy = new Object[size()];
+        int pos = 0;
+        for (Item item : this) {
+            copy[pos++] = item;
+        }
+        return copy;
+    }
 }

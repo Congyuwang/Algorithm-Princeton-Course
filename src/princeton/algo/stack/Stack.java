@@ -42,4 +42,5 @@ public interface Stack<Item> extends Iterable<Item> {
      * @return {@code null} is empty
      */
     Item peek();
+
 }

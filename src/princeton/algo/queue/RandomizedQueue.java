@@ -1,6 +1,7 @@
 package princeton.algo.queue;
 
 import princeton.algo.sort.Shuffle;
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -86,7 +87,7 @@ public class RandomizedQueue<Item> implements Queue<Item> {
 
     private void grow(int capacity) {
         @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) new Object[capacity];
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), capacity);
         System.arraycopy(s, 0, copy, 0, size);
         s = copy;
     }
@@ -122,9 +123,23 @@ public class RandomizedQueue<Item> implements Queue<Item> {
 
     private Item[] randomizeCondense() {
         @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) new Object[size];
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), size);
         System.arraycopy(s, 0, copy, 0, size);
         Shuffle.shuffle(copy);
+        return copy;
+    }
+
+    /**
+     * the {@code toArray()} method overrides the default method in Queue, using
+     * System.arraycopy which is faster than the iterator.
+     *
+     * @return a shallow copy of the items
+     */
+    @Override
+    public Item[] toArray() {
+        @SuppressWarnings("unchecked")
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), size);
+        System.arraycopy(s, 0, copy, 0, size);
         return copy;
     }
 

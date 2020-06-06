@@ -1,5 +1,6 @@
 package princeton.algo.binaryHeap;
 
+import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -304,9 +305,16 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
         }
     }
 
-    public T[] toArray() {
+    /**
+     * the {@code toArray()} method overrides the default method in Queue, using
+     * System.arraycopy which is faster than the iterator.
+     *
+     * @return a shallow copy of the items
+     */
+    @Override
+    public Object[] toArray() {
         @SuppressWarnings("unchecked")
-        T[] copy = (T[]) new Object[size];
+        T[] copy = (T[]) Array.newInstance(heap.getClass().getComponentType(), size);
         System.arraycopy(heap, 0, copy, 0, size);
         return copy;
     }
@@ -323,7 +331,7 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
 
     private void resize(int capacity) {
         @SuppressWarnings("unchecked")
-        T[] copy = (T[]) new Object[capacity];
+        T[] copy = (T[]) Array.newInstance(heap.getClass().getComponentType(), capacity);
         System.arraycopy(heap, 0, copy, 0, size);
         heap = copy;
     }

@@ -47,4 +47,19 @@ public interface Queue<Item> extends Iterable<Item> {
 
     int size();
 
+    /**
+     * the {@code toArray()} method is a default method that utilizes the iterator
+     * of Queue to build a shallow array copy of the queue.
+     *
+     * @return an array containing a shallow copy of the elements of this Queue
+     */
+    default public Object[] toArray() {
+        Object[] copy = new Object[size()];
+        int pos = 0;
+        for (Item item : this) {
+            copy[pos++] = item;
+        }
+        return copy;
+    }
+
 }

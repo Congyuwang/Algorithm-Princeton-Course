@@ -1,5 +1,6 @@
 package princeton.algo.stack;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import princeton.algo.sort.Shuffle;
@@ -66,7 +67,7 @@ public class ArrayStack<Item> implements Stack<Item> {
 
     private void resize(int capacity) {
         @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) new Object[capacity];
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), this.size());
         System.arraycopy(s, 0, copy, 0, N);
         s = copy;
     }
@@ -98,5 +99,18 @@ public class ArrayStack<Item> implements Stack<Item> {
     @Override
     public int size() {
         return size;
+    }
+
+    /**
+     * the {@code toArray()} method overrides the default method in Stack, using
+     * System.arraycopy which is faster than the iterator.
+     *
+     * @return a shallow copy of the items
+     */
+    public Object[] toArray() {
+        @SuppressWarnings("unchecked")
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), this.size());
+        System.arraycopy(s, 0, copy, 0, size);
+        return copy;
     }
 }
