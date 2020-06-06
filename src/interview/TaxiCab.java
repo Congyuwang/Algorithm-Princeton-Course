@@ -7,6 +7,10 @@ import princeton.algo.sort.Quick;
 import princeton.algo.binaryHeap.PriorityQueue;
 import princeton.algo.queue.ArrayQueue;
 
+/**
+ * Finds ramanujan's taxiCab numbers in O(n^2 log(n)) time and O(n) space with a
+ * priorityQueue.
+ */
 public class TaxiCab {
 
     private static class TwoInts implements Comparable<TwoInts> {
