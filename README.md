@@ -22,7 +22,18 @@ The project is structured according to the topics of the lectures.
             |
             |-tests/:                 test sorting, shuffling and others
             |
-            |-assignments/:           assignments in this course
+            |-assignments/:--         assignments in this course
+            |               |
+            |               |-percolation/:           use union-find algorithm to simulate percolation.
+            |               |
+            |               |-collinearPoints/:       use sorting algorithm to find collinear points with
+            |               |                         more than four points in a line in n^2 log(n) time.
+            |               |
+            |               |-permutation/:           implemented randomized Queue and an algorithm to
+            |               |                         uniformly choose N items from a stream using N space.
+            |               |
+            |               |-eventDrivenSimulation/: simulate N particles using PriorityQueue.
+                                                      implemented a GUI for testing using Swing.
             |
             |-princeton/algo/:--      algorithms (have more optimization and varieties than algs4.jar)
                                |
