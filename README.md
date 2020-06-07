@@ -33,7 +33,7 @@ The project is structured according to the topics of the lectures.
             |               |                         uniformly choose N items from a stream using N space.
             |               |
             |               |-eventDrivenSimulation/: simulate N particles using PriorityQueue.
-                                                      implemented a GUI for testing using Swing.
+            |                                         implemented a GUI for testing using Swing.
             |
             |-princeton/algo/:--      algorithms (have more optimization and varieties than algs4.jar)
                                |
