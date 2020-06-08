@@ -13,7 +13,7 @@ public class CollisionSystem {
     private final Particle[] particles;
     private double clock;
     private long lastDrawTime;
-    private static final short FRAME_RATE = 27;
+    private static final short FRAME_RATE = 30;
     private static final double timeStep = 1.0 / FRAME_RATE;
     private static final short REDRAW = 0;
     private static final short COLLIDE = 1;

@@ -101,7 +101,6 @@ public class CollisionSystemTest {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    textArea.append("Press <ENTER> to view the next test (press <q> to Quit):\n");
                     if (progressCount < TESTS.length) {
                         revalidate();
                         repaint();
@@ -109,6 +108,7 @@ public class CollisionSystemTest {
                             testThread.stop();
                         }
                         textArea.append("This test is : " + TESTS[progressCount] + ":\n");
+                        textArea.append("Press <ENTER> to view the next test (press <q> to Quit):\n");
                         revalidate();
                         repaint();
                         testThread = new Test(TESTS[progressCount]);
