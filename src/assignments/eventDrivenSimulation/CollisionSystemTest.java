@@ -24,15 +24,15 @@ public class CollisionSystemTest {
             + "billiards4.txt    diagonal1.txt     p10.txt           p1000-2K.txt      wallbouncing.txt\n"
             + "billiards5.txt    diagonal2.txt     p100-.125K.txt    p2000.txt         wallbouncing2.txt\n"
             + "brownian.txt      diffusion.txt     p100-.5K.txt      pendulum.txt      wallbouncing3.txt\n"
-            + "brownian2.txt     diffusion2.txt    p100-2K.txt       squeeze.txt\n"
+            + "brownian2.txt     diffusion2.txt    p100-2K.txt       squeeze.txt       crash.txt\n"
             + "=========================================================================================\n"
             + "press <ENTER> to continue, <q> to quit:\n");
 
-    private static final String[] TESTS = { "billiards2.txt", "diagonal.txt", "diffusion3.txt", "p1000-.5K.txt",
+    private static final String[] TESTS = {"billiards2.txt", "diagonal.txt", "diffusion3.txt", "p1000-.5K.txt",
             "squeeze2.txt", "billiards4.txt", "diagonal1.txt", "p10.txt", "p1000-2K.txt", "wallbouncing.txt",
             "billiards5.txt", "diagonal2.txt", "p100-.125K.txt", "p2000.txt", "wallbouncing2.txt", "brownian.txt",
             "diffusion.txt", "p100-.5K.txt", "pendulum.txt", "wallbouncing3.txt", "brownian2.txt", "diffusion2.txt",
-            "p100-2K.txt", "squeeze.txt" };
+            "p100-2K.txt", "squeeze.txt", "crash.txt"};
 
     private static final class Test {
 
