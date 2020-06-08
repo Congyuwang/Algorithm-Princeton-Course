@@ -99,7 +99,7 @@ public class CollisionSystem {
      *
      * @param limit the maximum simulation time in seconds.
      */
-    public void simulate(double limit, AtomicBoolean running) {
+    public final void simulate(double limit, AtomicBoolean running) {
         while (!events.isEmpty() && running.get()) {
 
             // get the latest event
@@ -119,6 +119,7 @@ public class CollisionSystem {
             // update the clock and add new events
             clock = eventTime;
 
+            // execute the events
             switch (event.eventType) {
                 case 1:
                     event.p1.BounceOffBall(event.p2);
@@ -144,7 +145,7 @@ public class CollisionSystem {
     }
 
     /**
-     * test client, try 10 random points
+     * test client, try 30 random points
      */
     public static void main(String[] args) {
 
@@ -156,7 +157,7 @@ public class CollisionSystem {
         // the array of particles
         Particle[] particles;
 
-        // create 10 random particles
+        // create 30 random particles
         int n = 30;
         particles = new Particle[n];
         for (int i = 0; i < n; i++) {
