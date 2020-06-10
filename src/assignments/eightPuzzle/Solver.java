@@ -2,46 +2,53 @@ package assignments.eightPuzzle;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * Solve eightPuzzle problem using the A* search algorithm!
+ * Solve eightPuzzle problem using the A* search algorithm! The boards are
+ * usually small. So the operation time of Boards class is not of a big concern,
+ * <em>unless it is used by the priority Queue for comparison</em>. However, the
+ * critical values are already cached for faster comparison. The biggest
+ * performance bottleneck of A* search algorithm is the memory it uses. It has
+ * to store all the search nodes it generated.
  */
 public class Solver {
+
+    private static final Comparator<Node> MANHATTAN_PRIORITY = new Comparator<Node>() {
+        @Override
+        public int compare(Node o1, Node o2) {
+            return o1.steps + o1.manhattan - o2.steps - o2.manhattan;
+        }
+    };
 
     private final boolean isSolvable;
     private final int moves;
     private Node lastNode;
-    private static final Comparator<Node> manhattanPriority = new Comparator<Node>() {
-        @Override
-        public int compare(Node o1, Node o2) {
-            return o1.steps + o1.b.manhattan() - o2.steps - o2.b.manhattan();
-        }
-    };
 
     /**
      * Solve eightPuzzle problem using the A* search algorithm! the main algorithm
-     * is in the constructor.
+     * is in the constructor. Solve in turn the twin board and this board. Exactly
+     * one of them will be solvable.
      */
     public Solver(Board initial) {
         if (initial == null) {
             throw new IllegalArgumentException("initial board cannot be null");
         }
         Board twin = initial.twin();
-        MinPQ<Node> searchQueue = new MinPQ<>(manhattanPriority);
-        MinPQ<Node> searchQueueTwin = new MinPQ<>(manhattanPriority);
-        searchQueue.insert(new Node(initial, null, 0));
-        searchQueueTwin.insert(new Node(twin, null, 0));
+        MinPQ<Node> searchQueue = new MinPQ<>(MANHATTAN_PRIORITY);
+        MinPQ<Node> searchQueueTwin = new MinPQ<>(MANHATTAN_PRIORITY);
+        searchQueue.insert(new Node(initial, null, initial.manhattan(), 0));
+        searchQueueTwin.insert(new Node(twin, null, twin.manhattan(), 0));
         Node thisNode;
         Node thisNodeTwin;
         while (true) {
 
             // dequeue the smallest node
             thisNode = searchQueue.delMin();
-            thisNodeTwin = searchQueueTwin.delMin();
 
             // check if thisNode is the goal
             if (thisNode.b.isGoal()) {
@@ -53,6 +60,22 @@ public class Solver {
                 return;
             }
 
+            // add neighbors to the priorityQueue
+            if (thisNode.previousNode == null) {
+                for (Board b : thisNode.b.neighbors()) {
+                    searchQueue.insert(new Node(b, thisNode, b.manhattan(), thisNode.steps + 1));
+                }
+            } else {
+                for (Board b : thisNode.b.neighbors()) {
+                    if (!thisNode.previousNode.b.equals(b)) {
+                        searchQueue.insert(new Node(b, thisNode, b.manhattan(), thisNode.steps + 1));
+                    }
+                }
+            }
+
+            // dequeue the smallest node
+            thisNodeTwin = searchQueueTwin.delMin();
+
             // if twin is solvable, then this board is unsolvable
             if (thisNodeTwin.b.isGoal()) {
                 this.lastNode = null;
@@ -61,12 +84,16 @@ public class Solver {
                 return;
             }
 
-            // add neighbors to the priorityQueue
-            for (Board b : thisNode.b.neighbors()) {
-                searchQueue.insert(new Node(b, thisNode, thisNode.steps + 1));
-            }
-            for (Board b : thisNodeTwin.b.neighbors()) {
-                searchQueueTwin.insert(new Node(b, thisNodeTwin, thisNode.steps + 1));
+            if (thisNodeTwin.previousNode == null) {
+                for (Board b : thisNodeTwin.b.neighbors()) {
+                    searchQueueTwin.insert(new Node(b, thisNodeTwin, b.manhattan(), thisNodeTwin.steps + 1));
+                }
+            } else {
+                for (Board b : thisNodeTwin.b.neighbors()) {
+                    if (!thisNodeTwin.previousNode.b.equals(b)) {
+                        searchQueueTwin.insert(new Node(b, thisNodeTwin, b.manhattan(), thisNodeTwin.steps + 1));
+                    }
+                }
             }
         }
     }
@@ -98,20 +125,19 @@ public class Solver {
                 @Override
                 public Iterator<Board> iterator() {
                     return new Iterator<Board>() {
-
-                        Node current = new Node(null, lastNode, 0);
-
+                        Node current = new Node(null, lastNode, 0, 0);
                         @Override
                         public boolean hasNext() {
                             return current.previousNode != null;
                         }
-
                         @Override
                         public Board next() {
                             current = current.previousNode;
+                            if (current == null) {
+                                throw new NoSuchElementException("iterator overrun");
+                            }
                             return current.b;
                         }
-
                     };
                 }
             };
@@ -126,7 +152,7 @@ public class Solver {
      * @param lastNode
      * @return return the root node.
      */
-    private static final Node reverse(Node lastNode) {
+    private static Node reverse(Node lastNode) {
         assert lastNode != null;
         Node progress = lastNode;
         Node memory = lastNode.previousNode;
@@ -142,15 +168,17 @@ public class Solver {
     }
 
     private static final class Node {
-        Node(Board b, Node previousNode, int steps) {
+        public final Board b;
+        public final int manhattan;
+        public final int steps;
+        public Node previousNode;
+
+        Node(Board b, Node previousNode, int manhattan, int steps) {
             this.b = b;
             this.previousNode = previousNode;
+            this.manhattan = manhattan;
             this.steps = steps;
         }
-
-        Board b;
-        Node previousNode;
-        int steps;
     }
 
     /**
@@ -159,7 +187,7 @@ public class Solver {
     public static void main(String[] args) {
 
         // create initial board from file
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "utf-8");
         In in = new In(scanner.next());
         scanner.close();
         int n = in.readInt();

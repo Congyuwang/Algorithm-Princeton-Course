@@ -1,17 +1,13 @@
 package assignments.eightPuzzle;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Board {
 
     private final short[][] tiles;
     private final short n;
-    private final short[] zero;
-    private final short hammingDistance;
-    private final int manhattanDistance;
-    private final short[] fromMove;
 
     /**
      * Create a board, calculate its hammingDistance, manhattanDistance, find the
@@ -24,45 +20,25 @@ public class Board {
         }
         this.n = (short) tiles.length;
         this.tiles = new short[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (short i = 0; i < n; i++) {
+            for (short j = 0; j < n; j++) {
                 this.tiles[i][j] = (short) tiles[i][j];
             }
         }
-        short hamming = -1;
-        int pos = 1;
-        int manhattan = 0;
-        short[] zero = null;
-        for (short i = 0; i < n; i++) {
-            for (short j = 0; j < n; j++) {
-                if (this.tiles[i][j] != pos++) {
-                    hamming++;
-                    manhattan += internalManhattan(i, j, this.tiles[i][j], n);
-                }
-                if (zero == null && this.tiles[i][j] == 0) {
-                    zero = new short[] { i, j };
-                }
-            }
-        }
-        this.zero = zero;
-        this.hammingDistance = hamming;
-        this.manhattanDistance = manhattan;
-        this.fromMove = null;
     }
 
     /**
-     * Note that the private constructor does NOT make a clone of tiles
+     * Note that the private constructor does not make a deeper copy of tiles
      */
-    private Board(short[][] tiles, short hamming, int manhattan, short[] zero, short[] move) {
+    private Board(short[][] tiles) {
         this.n = (short) tiles.length;
-        this.tiles = tiles;
-        this.zero = zero;
-        this.hammingDistance = hamming;
-        this.manhattanDistance = manhattan;
-        this.fromMove = move;
+        this.tiles = tiles.clone();
     }
 
-    // string representation of this board
+    /**
+     * return a string representation of the Board
+     */
+    @Override
     public String toString() {
         final int padding = 2 + (int) Math.max(Math.floor(Math.log10(n * n - 1)), 0);
         final String digitFormat = "%" + padding + "d";
@@ -95,7 +71,17 @@ public class Board {
      * @return the hamming distance
      */
     public int hamming() {
-        return hammingDistance;
+        short hamming = -1;
+        int pos = 1;
+        for (short[] row : tiles) {
+            for (short s : row) {
+                if (s != pos) {
+                    hamming++;
+                }
+                pos++;
+            }
+        }
+        return hamming;
     }
 
     /**
@@ -106,14 +92,20 @@ public class Board {
      * @return the manhattan distance
      */
     public int manhattan() {
-        return manhattanDistance;
+        int manhattan = 0;
+        for (short i = 0; i < n; i++) {
+            for (short j = 0; j < n; j++) {
+                manhattan += internalManhattan(i, j, this.tiles[i][j], n);
+            }
+        }
+        return manhattan;
     }
 
     /**
      * check whether this board is the goal board. Constant run time.
      */
     public boolean isGoal() {
-        return manhattanDistance == 0;
+        return hamming() == 0;
     }
 
     /**
@@ -121,10 +113,14 @@ public class Board {
      */
     @Override
     public boolean equals(Object y) {
-        if (!(y instanceof Board)) {
+        if (y == null || !(this.getClass() == y.getClass())) {
             return false;
         }
         Board b = (Board) y;
+        int height = b.tiles.length;
+        if (height != n || height == 0 || b.tiles[0].length != n) {
+            return false;
+        }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (tiles[i][j] != b.tiles[i][j]) {
@@ -140,51 +136,32 @@ public class Board {
      * the board.
      */
     public Iterable<Board> neighbors() {
-
+        final short[] zero = findZero(tiles, n);
+        final ArrayDeque<short[]> neighbors = new ArrayDeque<>(4);
+        if (zero[0] > 0)
+            neighbors.add(new short[] { -1, 0 });
+        if (zero[1] > 0)
+            neighbors.add(new short[] { 0, -1 });
+        if (zero[0] < n - 1)
+            neighbors.add(new short[] { 1, 0 });
+        if (zero[1] < n - 1)
+            neighbors.add(new short[] { 0, 1 });
         return new Iterable<Board>() {
-
             @Override
             public Iterator<Board> iterator() {
-
-                final ArrayDeque<short[]> neighbors = new ArrayDeque<>(4);
-
-                if (zero[0] > 0 && !Arrays.equals(new short[] { 1, 0 }, fromMove)) {
-                    neighbors.add(new short[] { -1, 0 });
-                }
-                if (zero[1] > 0 && !Arrays.equals(new short[] { 0, 1 }, fromMove)) {
-                    neighbors.add(new short[] { 0, -1 });
-                }
-                if (zero[0] < n - 1 && !Arrays.equals(new short[] { -1, 0 }, fromMove)) {
-                    neighbors.add(new short[] { 1, 0 });
-                }
-                if (zero[1] < n - 1 && !Arrays.equals(new short[] { 0, -1 }, fromMove)) {
-                    neighbors.add(new short[] { 0, 1 });
-                }
-
                 return new Iterator<Board>() {
-
                     @Override
                     public boolean hasNext() {
                         return !neighbors.isEmpty();
                     }
-
                     @Override
                     public Board next() {
+                        if (neighbors.isEmpty()) throw new NoSuchElementException("iterator overrun");
                         short[] move = neighbors.poll();
                         short[][] tilesCopy = makeClone(tiles, n);
-                        short oldVal = tilesCopy[move[0] + zero[0]][move[1] + zero[1]];
-
-                        // exchange zero with another position
-                        tilesCopy[zero[0]][zero[1]] = oldVal;
+                        tilesCopy[zero[0]][zero[1]] = tilesCopy[move[0] + zero[0]][move[1] + zero[1]];
                         tilesCopy[move[0] + zero[0]][move[1] + zero[1]] = 0;
-
-                        // update information
-                        int oldManhattan = internalManhattan(move[0] + zero[0], move[1] + zero[1], oldVal, n);
-                        int newManhattan = internalManhattan(zero[0], zero[1], oldVal, n);
-                        short newHamming = (short) (Math.signum(newManhattan) - Math.signum(oldManhattan));
-                        newHamming += hammingDistance;
-                        return new Board(tilesCopy, newHamming, newManhattan - oldManhattan + manhattanDistance,
-                                new short[] { (short) (move[0] + zero[0]), (short) (move[1] + zero[1]) }, move);
+                        return new Board(tilesCopy);
                     }
                 };
             }
@@ -196,6 +173,7 @@ public class Board {
      */
     public Board twin() {
         short[][] twoTiles = new short[2][2];
+        short[] zero = findZero(tiles, n);
         int pos = 0;
         short[][] tilesCopy = makeClone(tiles, n);
         loop1: for (short i = 0; i < n; i++) {
@@ -209,26 +187,15 @@ public class Board {
             }
         }
 
-        short val0 = tiles[twoTiles[0][0]][twoTiles[0][1]];
-        short val1 = tiles[twoTiles[1][0]][twoTiles[1][1]];
-
         // exchange values
-        tilesCopy[twoTiles[0][0]][twoTiles[0][1]] = val1;
+        short val0 = tiles[twoTiles[0][0]][twoTiles[0][1]];
+        tilesCopy[twoTiles[0][0]][twoTiles[0][1]] = tilesCopy[twoTiles[1][0]][twoTiles[1][1]];
         tilesCopy[twoTiles[1][0]][twoTiles[1][1]] = val0;
 
-        // update information
-        int oldManhattan0 = internalManhattan(twoTiles[0][0], twoTiles[0][1], val0, n);
-        int oldManhattan1 = internalManhattan(twoTiles[1][0], twoTiles[1][1], val1, n);
-        int newManhattan0 = internalManhattan(twoTiles[0][0], twoTiles[0][1], val1, n);
-        int newManhattan1 = internalManhattan(twoTiles[1][0], twoTiles[1][1], val0, n);
-        short newHamming = (short) (Math.signum(newManhattan0) + Math.signum(newManhattan1) - Math.signum(oldManhattan0)
-                - Math.signum(newManhattan1));
-        newHamming += hammingDistance;
-        return new Board(tilesCopy, newHamming,
-                newManhattan0 + newManhattan1 - oldManhattan0 - oldManhattan1 + manhattanDistance, zero, null);
+        return new Board(tilesCopy);
     }
 
-    private static final int internalManhattan(int row, int col, int val, int n) {
+    private static int internalManhattan(int row, int col, int val, int n) {
         if (val == 0) {
             // skip 0
             return 0;
@@ -236,11 +203,24 @@ public class Board {
         return Math.abs((val - 1) / n - row) + Math.abs((val - 1) % n - col);
     }
 
-    private static final short[][] makeClone(short[][] tiles, short n) {
+    private static short[][] makeClone(short[][] tiles, short n) {
         short[][] copy = new short[n][n];
         for (int i = 0; i < n; i++) {
             System.arraycopy(tiles[i], 0, copy[i], 0, n);
         }
         return copy;
+    }
+
+    private static short[] findZero(short[][] tiles, short n) {
+        short[] temp = null;
+        loop: for (short i = 0; i < n; i++) {
+            for (short j = 0; j < n; j++) {
+                if (tiles[i][j] == 0) {
+                    temp = new short[] { i, j };
+                    break loop;
+                }
+            }
+        }
+        return temp;
     }
 }
