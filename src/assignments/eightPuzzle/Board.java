@@ -7,16 +7,15 @@ import java.util.NoSuchElementException;
 public class Board {
 
     private final short[][] tiles;
-    private final short n;
 
     /**
      * Create a board, compress integer to short. The constructor takes O(n^2) time.
      */
     public Board(int[][] tiles) {
-        if (tiles.length < 2 || tiles.length != tiles[0].length) {
+        final int n = tiles.length;
+        if (n < 2 || n != tiles[0].length) {
             throw new IllegalArgumentException("illegal board shape");
         }
-        this.n = (short) tiles.length;
         this.tiles = new short[n][n];
         for (short i = 0; i < n; i++) {
             for (short j = 0; j < n; j++) {
@@ -29,28 +28,7 @@ public class Board {
      * Note that the private constructor does not make a deeper copy of tiles
      */
     private Board(short[][] tiles) {
-        this.n = (short) tiles.length;
         this.tiles = tiles.clone();
-    }
-
-    /**
-     * return a string representation of the Board
-     */
-    @Override
-    public String toString() {
-        final int padding = 2 + (int) Math.max(Math.floor(Math.log10(n * n - 1)), 0);
-        final String digitFormat = "%" + padding + "d";
-        final StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append(String.valueOf(n));
-        stringBuilder.append('\n');
-        for (short[] row : tiles) {
-            for (short i : row) {
-                stringBuilder.append(String.format(digitFormat, i));
-            }
-            stringBuilder.append('\n');
-        }
-        return stringBuilder.toString();
     }
 
     /**
@@ -59,7 +37,7 @@ public class Board {
      * @return the height of the square board
      */
     public int dimension() {
-        return n;
+        return tiles.length;
     }
 
     /**
@@ -90,6 +68,7 @@ public class Board {
      */
     public int manhattan() {
         int manhattan = 0;
+        final int n = tiles.length;
         for (short i = 0; i < n; i++) {
             for (short j = 0; j < n; j++) {
                 manhattan += internalManhattan(i, j, this.tiles[i][j], n);
@@ -102,7 +81,18 @@ public class Board {
      * check whether this board is the goal board. O(n^2) time.
      */
     public boolean isGoal() {
-        return hamming() == 0;
+        int pos = 1;
+        for (short[] row : tiles) {
+            for (short s : row) {
+                if (s != pos) {
+                    if (s != 0) {
+                        return false;
+                    }
+                }
+                pos++;
+            }
+        }
+        return true;
     }
 
     /**
@@ -113,9 +103,10 @@ public class Board {
         if (y == null || !(this.getClass() == y.getClass())) {
             return false;
         }
-        Board b = (Board) y;
-        int height = b.tiles.length;
-        if (height != n || height == 0 || b.tiles[0].length != n) {
+        final int n = tiles.length;
+        final Board b = (Board) y;
+        final int height = b.tiles.length;
+        if (height != n || b.tiles[0].length != n) {
             return false;
         }
         for (int i = 0; i < n; i++) {
@@ -132,6 +123,7 @@ public class Board {
      * return a iterator giving all neighbors of a board. O(n^2) time.
      */
     public Iterable<Board> neighbors() {
+        final int n = tiles.length;
         final short[] zero = findZero(tiles, n);
         final ArrayDeque<short[]> neighbors = new ArrayDeque<>(4);
         if (zero[0] > 0)
@@ -168,8 +160,9 @@ public class Board {
      * return the twin board from the twin equivalent class.
      */
     public Board twin() {
-        short[][] twoTiles = new short[2][2];
-        short[] zero = findZero(tiles, n);
+        final int n = tiles.length;
+        final short[][] twoTiles = new short[2][2];
+        final short[] zero = findZero(tiles, n);
         int pos = 0;
         short[][] tilesCopy = makeClone(tiles, n);
         loop1: for (short i = 0; i < n; i++) {
@@ -191,6 +184,27 @@ public class Board {
         return new Board(tilesCopy);
     }
 
+    /**
+     * return a string representation of the Board
+     */
+    @Override
+    public String toString() {
+        final int n = tiles.length;
+        final int padding = 2 + (int) Math.max(Math.floor(Math.log10(n * n - 1)), 0);
+        final String digitFormat = "%" + padding + "d";
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(String.valueOf(n));
+        stringBuilder.append('\n');
+        for (short[] row : tiles) {
+            for (short i : row) {
+                stringBuilder.append(String.format(digitFormat, i));
+            }
+            stringBuilder.append('\n');
+        }
+        return stringBuilder.toString();
+    }
+
     private static int internalManhattan(int row, int col, int val, int n) {
         if (val == 0) {
             // skip 0
@@ -199,7 +213,7 @@ public class Board {
         return Math.abs((val - 1) / n - row) + Math.abs((val - 1) % n - col);
     }
 
-    private static short[][] makeClone(short[][] tiles, short n) {
+    private static short[][] makeClone(short[][] tiles, int n) {
         short[][] copy = new short[n][n];
         for (int i = 0; i < n; i++) {
             System.arraycopy(tiles[i], 0, copy[i], 0, n);
@@ -207,7 +221,7 @@ public class Board {
         return copy;
     }
 
-    private static short[] findZero(short[][] tiles, short n) {
+    private static short[] findZero(short[][] tiles, int n) {
         short[] temp = null;
         loop: for (short i = 0; i < n; i++) {
             for (short j = 0; j < n; j++) {
