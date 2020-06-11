@@ -10,9 +10,7 @@ public class Board {
     private final short n;
 
     /**
-     * Create a board, calculate its hammingDistance, manhattanDistance, find the
-     * zero position. Finish all these constructions to prevent recalculation. The
-     * constructor takes O(n^2) time.
+     * Create a board, compress integer to short. The constructor takes O(n^2) time.
      */
     public Board(int[][] tiles) {
         if (tiles.length < 2 || tiles.length != tiles[0].length) {
@@ -56,7 +54,7 @@ public class Board {
     }
 
     /**
-     * return the size (height) of the board. Constant run time.
+     * return the size (height) of the board.
      *
      * @return the height of the square board
      */
@@ -66,7 +64,7 @@ public class Board {
 
     /**
      * calculate the hamming distance (the number of tiles out of place) between
-     * this board and the goal board. Constant run time.
+     * this board and the goal board. O(n^2) time.
      *
      * @return the hamming distance
      */
@@ -86,8 +84,7 @@ public class Board {
 
     /**
      * calculate the manhattan distance (the sum of manhattan distances of each tile
-     * to its goal position) between this board and the goal board. Constant run
-     * time.
+     * to its goal position) between this board and the goal board. O(n^2) time.
      *
      * @return the manhattan distance
      */
@@ -102,7 +99,7 @@ public class Board {
     }
 
     /**
-     * check whether this board is the goal board. Constant run time.
+     * check whether this board is the goal board. O(n^2) time.
      */
     public boolean isGoal() {
         return hamming() == 0;
@@ -132,8 +129,7 @@ public class Board {
     }
 
     /**
-     * return a iterator giving all neighbors of a board. O(n^2) time for cloning
-     * the board.
+     * return a iterator giving all neighbors of a board. O(n^2) time.
      */
     public Iterable<Board> neighbors() {
         final short[] zero = findZero(tiles, n);

@@ -41,14 +41,14 @@ public class Solver {
         Board twin = initial.twin();
         MinPQ<Node> searchQueue = new MinPQ<>(MANHATTAN_PRIORITY);
         MinPQ<Node> searchQueueTwin = new MinPQ<>(MANHATTAN_PRIORITY);
+
+        // A* algorithm main loop
         searchQueue.insert(new Node(initial, null, initial.manhattan(), 0));
         searchQueueTwin.insert(new Node(twin, null, twin.manhattan(), 0));
-        Node thisNode;
-        Node thisNodeTwin;
         while (true) {
 
             // dequeue the smallest node
-            thisNode = searchQueue.delMin();
+            Node thisNode = searchQueue.delMin();
 
             // check if thisNode is the goal
             if (thisNode.b.isGoal()) {
@@ -74,7 +74,7 @@ public class Solver {
             }
 
             // dequeue the smallest node
-            thisNodeTwin = searchQueueTwin.delMin();
+            Node thisNodeTwin = searchQueueTwin.delMin();
 
             // if twin is solvable, then this board is unsolvable
             if (thisNodeTwin.b.isGoal()) {
