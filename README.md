@@ -33,7 +33,10 @@ The project is structured according to the topics of the lectures.
             |               |                         uniformly choose N items from a stream using N space.
             |               |
             |               |-eventDrivenSimulation/: simulate N particles using PriorityQueue.
-            |                                         implemented a GUI for testing using Swing.
+            |               |                         implemented a GUI for testing using Swing.
+            |               |
+            |               |-8puzzle/:               solve 8puzzle using A* searching algorithm with a
+            |                                         priority Queue.
             |
             |-princeton/algo/:--      algorithms (have more optimization and varieties than algs4.jar)
                                |
@@ -44,10 +47,10 @@ The project is structured according to the topics of the lectures.
                                |-stack/:       Stack interface and various implementations
                                |
                                |-sort:--       sorting algorithms
-                               |      |
-                               |      |-/:           sorting and shuffling
-                               |      |
-                               |      |-hybrid:      two hybrid sorting from git (made static methods)
+                               |       |
+                               |       |-/:          sorting and shuffling
+                               |       |
+                               |       |-hybrid:     two hybrid sorting from git (made static methods)
                                |                     grailSort and wikiSort
                                |
                                |-binaryHeap:   Heap sort and PriorityQueue
