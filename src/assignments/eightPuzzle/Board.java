@@ -84,10 +84,8 @@ public class Board {
         int pos = 1;
         for (short[] row : tiles) {
             for (short s : row) {
-                if (s != pos) {
-                    if (s != 0) {
-                        return false;
-                    }
+                if (s != pos && s != 0) {
+                    return false;
                 }
                 pos++;
             }
