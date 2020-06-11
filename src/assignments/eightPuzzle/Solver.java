@@ -50,7 +50,7 @@ public class Solver {
             // dequeue the smallest node
             Node thisNode = searchQueue.delMin();
 
-            // check if thisNode is the goal
+            // if thisNode reaches the goal, the puzzle is solved
             if (thisNode.b.isGoal()) {
                 this.lastNode = thisNode;
                 this.moves = thisNode.steps;
@@ -84,6 +84,7 @@ public class Solver {
                 return;
             }
 
+            // add neighbors to the priorityQueue of Twin
             if (thisNodeTwin.previousNode == null) {
                 for (Board b : thisNodeTwin.b.neighbors()) {
                     searchQueueTwin.insert(new Node(b, thisNodeTwin, b.manhattan(), thisNodeTwin.steps + 1));
@@ -158,8 +159,11 @@ public class Solver {
         Node memory = lastNode.previousNode;
         lastNode.previousNode = null;
         while (memory != null) {
+            // save the next next node
             Node temp = memory.previousNode;
+            // reverse the reference
             memory.previousNode = progress;
+            // move on to the next step
             progress = memory;
             memory = temp;
         }
