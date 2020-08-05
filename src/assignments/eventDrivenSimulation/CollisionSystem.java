@@ -1,6 +1,5 @@
 package assignments.eventDrivenSimulation;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import edu.princeton.cs.algs4.StdDraw;
 import princeton.algo.binaryHeap.PriorityQueue;
 
@@ -20,6 +19,7 @@ public class CollisionSystem {
     private static final short HIT_X = 2;
     private static final short HIT_Y = 3;
     private static final double INFINITY = Double.POSITIVE_INFINITY;
+    private volatile boolean running = true;
 
     /**
      * Initialize the CollisionSystem, which takes N^2 log(N) time.
@@ -99,8 +99,8 @@ public class CollisionSystem {
      *
      * @param limit the maximum simulation time in seconds.
      */
-    public final void simulate(double limit, AtomicBoolean running) {
-        while (!events.isEmpty() && running.get()) {
+    public final void simulate(double limit) {
+        while (!events.isEmpty() && running) {
 
             // get the latest event
             Event event = events.remove();
@@ -144,6 +144,10 @@ public class CollisionSystem {
         }
     }
 
+    public final void stop() {
+        running = false;
+    }
+
     /**
      * test client, try 30 random points
      */
@@ -167,6 +171,6 @@ public class CollisionSystem {
 
         // create collision system and simulate
         CollisionSystem system = new CollisionSystem(particles);
-        system.simulate(10000, new AtomicBoolean(true));
+        system.simulate(10000);
     }
 }

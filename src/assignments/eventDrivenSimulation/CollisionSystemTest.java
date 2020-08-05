@@ -1,8 +1,5 @@
 package assignments.eventDrivenSimulation;
 
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -11,8 +8,6 @@ import javax.swing.SpringLayout;
 
 import java.awt.*;
 import java.awt.event.*;
-
-import edu.princeton.cs.algs4.StdDraw;
 
 /**
  * This class provides a GUI for testing Collision System.
@@ -34,62 +29,14 @@ public class CollisionSystemTest {
             "diffusion.txt", "p100-.5K.txt", "pendulum.txt", "wallbouncing3.txt", "brownian2.txt", "diffusion2.txt",
             "p100-2K.txt", "squeeze.txt", "crash.txt"};
 
-    private static final class Test {
 
-        private final Thread animation;
-        private final AtomicBoolean running = new AtomicBoolean(true);
-
-        Test(String fileName) {
-            animation = new Thread() {
-                public void run() {
-
-                    Scanner scanner = new Scanner(getClass().getResourceAsStream("data/CollisionSystems/" + fileName));
-                    StdDraw.setCanvasSize(600, 600);
-
-                    // enable double buffering
-                    StdDraw.enableDoubleBuffering();
-
-                    // the array of particles
-                    Particle[] particles;
-
-                    int n = scanner.nextInt();
-                    particles = new Particle[n];
-                    for (int i = 0; i < n; i++) {
-                        Coordinate position = new Coordinate(scanner.nextDouble(), scanner.nextDouble());
-                        Coordinate velocity = new Coordinate(25 * scanner.nextDouble(), 25 * scanner.nextDouble());
-                        double radius = scanner.nextDouble();
-                        double mass = scanner.nextDouble();
-                        int r = scanner.nextInt();
-                        int g = scanner.nextInt();
-                        int b = scanner.nextInt();
-                        Color color = new Color(r, g, b);
-                        particles[i] = new Particle(position, velocity, radius, mass, color);
-                    }
-
-                    scanner.close();
-
-                    // create collision system and simulate
-                    CollisionSystem system = new CollisionSystem(particles);
-                    system.simulate(10000, running);
-                }
-            };
-        }
-
-        public void start() {
-            animation.start();
-        }
-
-        public void stop() {
-            running.set(false);
-        }
-    }
 
     private final static class Terminal extends JFrame {
 
         private static final long serialVersionUID = 1783931876524892226L;
         private final JTextArea textArea;
         private final JScrollPane scrollPane;
-        private Test testThread = null;
+        private CollisionTest testThread = null;
         private int progressCount = 0;
 
         final KeyListener listenEnter = new KeyListener() {
@@ -111,7 +58,7 @@ public class CollisionSystemTest {
                         textArea.append("Press <ENTER> to view the next test (press <q> to Quit):\n");
                         revalidate();
                         repaint();
-                        testThread = new Test(TESTS[progressCount]);
+                        testThread = new CollisionTest(TESTS[progressCount]);
                         testThread.start();
                         progressCount++;
                     } else {
