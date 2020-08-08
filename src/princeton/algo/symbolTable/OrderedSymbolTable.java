@@ -56,18 +56,18 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
     }
 
     /**
-     * The largest key smaller than the given key
+     * The largest key smaller than or equal to the given key
      *
      * @param key the given key
-     * @return the key found
+     * @return the floor key found, null if no such key
      */
     K floor(K key);
 
     /**
-     * The smallest key larger than the given key
+     * The smallest key greater than or equal to the given key
      *
      * @param key the given key
-     * @return the key found
+     * @return the key found, null if no such key
      */
     K ceiling(K key);
 
@@ -84,8 +84,9 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      *
      * @param key the given key
      * @return the number of keys less than {@code key}
+     * @throws NullPointerException if key is null
      */
-    int rank(K key);
+    int rank(K key) throws NullPointerException;
 
     /**
      * Return an iterable from lo to hi
@@ -93,6 +94,7 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      * @param lo the lower bound, inclusive
      * @param hi the upper bound, exclusive
      * @return the iterator iterating from lo to hi
+     * @throws NullPointerException if any key is null
      */
-    Iterable<K> keys(K lo, K hi);
+    Iterable<K> keys(K lo, K hi) throws NullPointerException;
 }
