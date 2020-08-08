@@ -20,14 +20,11 @@ public class SymbolTableTest {
                     System.out.println(test.size());
                     break;
                 case "put":
-                    System.out.println("enter key:");
                     String key = scanner.next();
-                    System.out.println("enter value:");
                     Integer value = scanner.nextInt();
                     test.put(key, value);
                     break;
                 case "delete":
-                    System.out.println("enter key:");
                     String deleteKey = scanner.next();
                     test.delete(deleteKey);
                     break;

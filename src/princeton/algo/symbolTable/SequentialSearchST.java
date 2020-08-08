@@ -7,6 +7,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     private Node first;
     private int size = 0;
+    private int memorySize = 0;
 
     private final class Node {
         K key;
@@ -31,22 +32,6 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
         privatePut(key, value);
     }
 
-    private void privatePut(K key, V value) {
-        for (Node i = first; i != null; i = i.next) {
-            if (key.equals(i.key)) {
-                if (i.value == null && value != null) {
-                    size++;
-                }
-                i.value = value;
-                return;
-            }
-        }
-        if (value != null) {
-            first = new Node(key, value, first);
-            size++;
-        }
-    }
-
     @Override
     public V get(K key) {
         for (Node i = first; i != null; i = i.next) {
@@ -61,6 +46,9 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     public void delete(K key) {
         privatePut(key, null);
         size--;
+        if (size > 0 && memorySize / size >= 2) {
+            shrink();
+        }
     }
 
     @Override
@@ -100,5 +88,31 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
             counter--;
             return temp.key;
         }
+    }
+
+    private void privatePut(K key, V value) {
+        for (Node i = first; i != null; i = i.next) {
+            if (key.equals(i.key)) {
+                if (i.value == null && value != null) {
+                    size++;
+                }
+                i.value = value;
+                return;
+            }
+        }
+        if (value != null) {
+            first = new Node(key, value, first);
+            memorySize++;
+            size++;
+        }
+    }
+
+    private void shrink() {
+        SequentialSearchST<K, V> tempTable = new SequentialSearchST<K, V>();
+        for (K key : keys()) {
+            tempTable.put(key, get(key));
+        }
+        this.first = tempTable.first;
+        this.memorySize = size;
     }
 }
