@@ -10,7 +10,7 @@ import princeton.algo.sort.Util;
 /**
  * The ArrayQueue class implements an iterable FIFO queue data structure
  * using Array data structure, which features constant amortized time
- * for each operation.
+ * for each operation. This class allows null item to be enqueued.
  *
  * @param <Item> The type of objects in the queue
  */
@@ -21,17 +21,43 @@ public class ArrayQueue<Item> implements Queue<Item> {
     private int count = 0;
     private int head = 0;
     private int tail = 0;
+    private static final int INIT_SIZE = 2;
+    private Item[] s;
 
-    // cannot implement generic array. Use cast.
+    /**
+     * Create a mew ArrayQueue with initial capacity
+     */
+    public ArrayQueue() {
+        this(INIT_SIZE);
+    }
+
+    /**
+     * Create a new ArrayQueue with a given initial capacity
+     *
+     * @param capacity the initial capacity specified
+     */
     @SuppressWarnings("unchecked")
-    private Item[] s = (Item[]) new Object[1];
+    public ArrayQueue(int capacity) {
+        s = (Item[]) new Object[capacity];
+    }
+
+    /**
+     * Create a new ArrayQueue using the given array.
+     * The constructor makes a shallow copy of the given array.
+     *
+     * @param array the array provided
+     */
+    @SuppressWarnings("unchecked")
+    public ArrayQueue(Item[] array) {
+        s = (Item[]) Array.newInstance(array.getClass().getComponentType(), array.length + 1);
+        System.arraycopy(array, 0, s, 0, array.length);
+        count = array.length;
+        head = 0;
+        tail = array.length;
+    }
 
     @Override
     public void enqueue(Item item) {
-        if (item == null) {
-            throw new IllegalArgumentException("null item not allowed!");
-        }
-        // reset tail pointer if tail exceeds index limit
         if (tail == s.length) {
             tail = 0;
         }
@@ -122,7 +148,6 @@ public class ArrayQueue<Item> implements Queue<Item> {
 
     private class ArrayStackIterator implements Iterator<Item> {
 
-        // i point to
         private int i = head;
         private int j = count;
 
