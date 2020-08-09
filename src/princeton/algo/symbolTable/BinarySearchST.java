@@ -44,7 +44,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         }
         int lo = 0;
         int hi = size - 1;
-        int mid = hi;
+        int mid;
         while (lo <= hi) {
             mid = (lo + hi) >>> 1;
             if (key.compareTo(keys[mid]) > 0) {

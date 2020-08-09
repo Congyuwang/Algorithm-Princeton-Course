@@ -53,7 +53,7 @@ public interface Queue<Item> extends Iterable<Item> {
      *
      * @return an array containing a shallow copy of the elements of this Queue
      */
-    default public Object[] toArray() {
+    default Object[] toArray() {
         Object[] copy = new Object[size()];
         int pos = 0;
         for (Item item : this) {

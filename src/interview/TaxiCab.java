@@ -1,7 +1,6 @@
 package interview;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Scanner;
 import princeton.algo.sort.Quick;
 import princeton.algo.binaryHeap.PriorityQueue;
@@ -14,9 +13,9 @@ import princeton.algo.queue.ArrayQueue;
 public class TaxiCab {
 
     private static class TwoInts implements Comparable<TwoInts> {
-        int a;
-        int b;
-        int quadSum;
+        final int a;
+        final int b;
+        final int quadSum;
         TwoInts(int a, int b) {
             this.a = a;
             this.b = b;
@@ -83,12 +82,7 @@ public class TaxiCab {
     public static Object[] taxiCabCompact(int n) {
         if (n < 12) System.exit(0);
         ArrayQueue<TaxiCabNumber> result = new ArrayQueue<>();
-        PriorityQueue<TwoInts> intHeap = new PriorityQueue<>(n - 1, new Comparator<TwoInts>() {
-            @Override
-            public int compare(TwoInts o1, TwoInts o2) {
-                return o2.quadSum - o1.quadSum;
-            }
-        });
+        PriorityQueue<TwoInts> intHeap = new PriorityQueue<>(n - 1, (o1, o2) -> o2.quadSum - o1.quadSum);
         for (int b = 2; b <= n; b++) {
             intHeap.add(new TwoInts(1, b));
         }

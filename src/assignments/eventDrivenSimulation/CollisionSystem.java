@@ -37,9 +37,9 @@ public class CollisionSystem {
         }
 
         // add all hit-wall events
-        for (int i = 0; i < particles.length; i++) {
-            addToEvents(particles[i].timeToHitXWall(), particles[i], null, HIT_X);
-            addToEvents(particles[i].timeToHitYWall(), particles[i], null, HIT_Y);
+        for (Particle particle : particles) {
+            addToEvents(particle.timeToHitXWall(), particle, null, HIT_X);
+            addToEvents(particle.timeToHitYWall(), particle, null, HIT_Y);
         }
 
         // add the first redraw command
@@ -52,12 +52,12 @@ public class CollisionSystem {
      *
      * @param p the particle associated with this update
      */
-    private final void predict(Particle p) {
+    private void predict(Particle p) {
         assert p != null;
 
         // update all collision events related to particle p
-        for (int i = 0; i < particles.length; i++) {
-            addToEvents(p.timeToHit(particles[i]), p, particles[i], COLLIDE);
+        for (Particle particle : particles) {
+            addToEvents(p.timeToHit(particle), p, particle, COLLIDE);
         }
         addToEvents(p.timeToHitXWall(), p, null, HIT_X);
         addToEvents(p.timeToHitYWall(), p, null, HIT_Y);
@@ -67,7 +67,7 @@ public class CollisionSystem {
      * repaint all particles, and add a new redraw event, pause so that the redraw
      * event happens with specified frameRate
      */
-    private final void redraw() {
+    private void redraw() {
         StdDraw.clear();
         for (Particle p : particles) {
             p.draw();
@@ -86,9 +86,13 @@ public class CollisionSystem {
      * utility method to add new events only if the event will happen (i.e. time not
      * INFINITY), which reduces the size of events Queue
      *
-     * @param e the event to be added
+     * @param time the time of the event to be added
+     * @param p1 the first particle in the event, null if this is a redraw event
+     * @param p2 the second particle in the event, null if this is a redraw event
+     *           or if p1 hits the wall
+     * @param eventType see {@code Event} javadoc
      */
-    private final void addToEvents(double time, Particle p1, Particle p2, short eventType) {
+    private void addToEvents(double time, Particle p1, Particle p2, short eventType) {
         if (time != INFINITY) {
             events.add(new Event(clock + time, p1, p2, eventType));
         }

@@ -126,7 +126,7 @@ public class Particle extends Ball {
     /**
      * the resolution of the hitting another ball.
      *
-     * @param b the other ball to hit
+     * @param p the other ball to hit
      */
     public final void BounceOffBall(Particle p) {
         Coordinate dP = p.position.subtract(position);
@@ -166,7 +166,7 @@ public class Particle extends Ball {
         StdDraw.filledCircle(position.x, position.y, radius);
     }
 
-    private static final double squared(double d) {
+    private static double squared(double d) {
         return d * d;
     }
 

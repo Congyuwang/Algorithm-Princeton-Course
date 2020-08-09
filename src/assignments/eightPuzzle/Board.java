@@ -132,24 +132,20 @@ public class Board {
             neighbors.add(new short[] { 1, 0 });
         if (zero[1] < n - 1)
             neighbors.add(new short[] { 0, 1 });
-        return new Iterable<Board>() {
+        return () -> new Iterator<>() {
             @Override
-            public Iterator<Board> iterator() {
-                return new Iterator<Board>() {
-                    @Override
-                    public boolean hasNext() {
-                        return !neighbors.isEmpty();
-                    }
-                    @Override
-                    public Board next() {
-                        if (neighbors.isEmpty()) throw new NoSuchElementException("iterator overrun");
-                        short[] move = neighbors.poll();
-                        short[][] tilesCopy = makeClone(tiles, n);
-                        tilesCopy[zero[0]][zero[1]] = tilesCopy[move[0] + zero[0]][move[1] + zero[1]];
-                        tilesCopy[move[0] + zero[0]][move[1] + zero[1]] = 0;
-                        return new Board(tilesCopy);
-                    }
-                };
+            public boolean hasNext() {
+                return !neighbors.isEmpty();
+            }
+
+            @Override
+            public Board next() {
+                if (neighbors.isEmpty()) throw new NoSuchElementException("iterator overrun");
+                short[] move = neighbors.poll();
+                short[][] tilesCopy = makeClone(tiles, n);
+                tilesCopy[zero[0]][zero[1]] = tilesCopy[move[0] + zero[0]][move[1] + zero[1]];
+                tilesCopy[move[0] + zero[0]][move[1] + zero[1]] = 0;
+                return new Board(tilesCopy);
             }
         };
     }
@@ -192,7 +188,7 @@ public class Board {
         final String digitFormat = "%" + padding + "d";
         final StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(String.valueOf(n));
+        stringBuilder.append(n);
         stringBuilder.append('\n');
         for (short[] row : tiles) {
             for (short i : row) {

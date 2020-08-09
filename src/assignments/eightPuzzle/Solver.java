@@ -1,5 +1,6 @@
 package assignments.eightPuzzle;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -18,12 +19,7 @@ import edu.princeton.cs.algs4.StdOut;
  */
 public class Solver {
 
-    private static final Comparator<Node> MANHATTAN_PRIORITY = new Comparator<Node>() {
-        @Override
-        public int compare(Node o1, Node o2) {
-            return o1.steps + o1.manhattan - o2.steps - o2.manhattan;
-        }
-    };
+    private static final Comparator<Node> MANHATTAN_PRIORITY = (o1, o2) -> o1.steps + o1.manhattan - o2.steps - o2.manhattan;
 
     private final boolean isSolvable;
     private final int moves;
@@ -122,24 +118,21 @@ public class Solver {
      */
     public Iterable<Board> solution() {
         if (isSolvable) {
-            return new Iterable<Board>() {
+            return () -> new Iterator<>() {
+                Node current = new Node(null, lastNode, 0, 0);
+
                 @Override
-                public Iterator<Board> iterator() {
-                    return new Iterator<Board>() {
-                        Node current = new Node(null, lastNode, 0, 0);
-                        @Override
-                        public boolean hasNext() {
-                            return current.previousNode != null;
-                        }
-                        @Override
-                        public Board next() {
-                            current = current.previousNode;
-                            if (current == null) {
-                                throw new NoSuchElementException("iterator overrun");
-                            }
-                            return current.b;
-                        }
-                    };
+                public boolean hasNext() {
+                    return current.previousNode != null;
+                }
+
+                @Override
+                public Board next() {
+                    current = current.previousNode;
+                    if (current == null) {
+                        throw new NoSuchElementException("iterator overrun");
+                    }
+                    return current.b;
                 }
             };
         }
@@ -150,7 +143,7 @@ public class Solver {
      * Reverse the order of the solution from (last -> root) to (root -> last).
      * Called <em>only if the solution is found</em>.
      *
-     * @param lastNode
+     * @param lastNode provide the lastNode pointer
      * @return return the root node.
      */
     private static Node reverse(Node lastNode) {
@@ -191,7 +184,7 @@ public class Solver {
     public static void main(String[] args) {
 
         // create initial board from file
-        Scanner scanner = new Scanner(System.in, "utf-8");
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
         In in = new In(scanner.next());
         scanner.close();
         int n = in.readInt();

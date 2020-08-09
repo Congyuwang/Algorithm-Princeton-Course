@@ -320,12 +320,12 @@ public class PriorityQueue<T> implements Queue<T>, Stack<T> {
     }
 
     // package private static
-    static final int parent(int k) {
+    static int parent(int k) {
         return ((k + 1) >>> 1) - 1;
     }
 
     // package private static
-    static final int leftChild(int k) {
+    static int leftChild(int k) {
         return ((k + 1) << 1) - 1;
     }
 
