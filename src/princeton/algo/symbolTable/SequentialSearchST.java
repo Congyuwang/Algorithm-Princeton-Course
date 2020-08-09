@@ -10,9 +10,9 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     private int memorySize = 0;
 
     private final class Node {
-        K key;
+        final K key;
         V value;
-        Node next;
+        final Node next;
 
         Node(K key, V value, Node next) {
             this.key = key;
@@ -58,12 +58,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     @Override
     public Iterable<K> keys() {
-        return new Iterable<K>() {
-            @Override
-            public Iterator<K> iterator() {
-                return new PrivateIterator();
-            }
-        };
+        return () -> new PrivateIterator();
     }
 
     private final class PrivateIterator implements Iterator<K> {
@@ -108,7 +103,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     }
 
     private void shrink() {
-        SequentialSearchST<K, V> tempTable = new SequentialSearchST<K, V>();
+        SequentialSearchST<K, V> tempTable = new SequentialSearchST<>();
         for (K key : keys()) {
             tempTable.put(key, get(key));
         }

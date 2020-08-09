@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import princeton.algo.symbolTable.BinarySearchST;
 import princeton.algo.symbolTable.SequentialSearchST;
 import princeton.algo.symbolTable.SymbolTable;
 
@@ -25,7 +26,7 @@ public class FrequencyCounter {
      *
      * @param inputFile enter an input file containing many english words
      * @param name      the name of the symbol table implementation to be tested
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the file path is incorrect
      */
     public FrequencyCounter(String inputFile, String name) throws FileNotFoundException {
         counter = countWords(inputFile, name, DEFAULT_MIN_LENGTH);
@@ -37,14 +38,14 @@ public class FrequencyCounter {
      *
      * @param inputFile enter an input file containing many english words
      * @param name      the name of the symbol table implementation to be tested
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if the file path is incorrect
      */
     public FrequencyCounter(String inputFile, String name, int min_length) throws FileNotFoundException {
         counter = countWords(inputFile, name, min_length);
     }
 
     /**
-     * Print the word with most occurences and the number of occurrences
+     * Print the word with most occurrences and the number of occurrences
      */
     public void printMostFrequent() {
         String maxWord = null;
@@ -86,7 +87,7 @@ public class FrequencyCounter {
     }
 
     /**
-     * Count the number of occurences for each words
+     * Count the number of occurrences for each words
      *
      * @param inputFile enter an input file containing many english words
      * @param name      the name of the symbol table implementation to be tested
@@ -103,6 +104,7 @@ public class FrequencyCounter {
             if (!englishWords.matcher(word).matches() || word.length() < min_length) {
                 continue;
             }
+            assert wordCounter != null;
             if (wordCounter.contains(word)) {
                 wordCounter.put(word, wordCounter.get(word) + 1);
             } else {
@@ -119,10 +121,12 @@ public class FrequencyCounter {
      * @param name the name of the symbol table implementation to be tested
      * @return     a new and empty symbolTable with the named implementation
      */
-    private static SymbolTable<String, Integer> tableChooser(String name) {
+    public static SymbolTable<String, Integer> tableChooser(String name) {
         switch (name) {
-            case "sequential":
-                return new SequentialSearchST<String, Integer>();
+            case "ss":
+                return new SequentialSearchST<>();
+            case "bs":
+                return new BinarySearchST<>();
             default:
                 return null;
         }
@@ -130,11 +134,25 @@ public class FrequencyCounter {
 
     public static void main(String[] args) {
         FrequencyCounter fc;
+        System.out.println("Sequential Symbol Table");
         try {
-            fc = new FrequencyCounter("data/shorterShakespeare.txt", "sequential");
+            fc = new FrequencyCounter("data/shorterShakespeare.txt", "ss");
             fc.printMostFrequent();
+            System.out.println(fc.counter.size());
             fc.deleteWordsShorterThan(10);
-            fc.printAllWords();
+            System.out.println(fc.counter.size());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        FrequencyCounter fc1;
+        System.out.println("Binary Search Symbol Table");
+        try {
+            fc1 = new FrequencyCounter("data/shorterShakespeare.txt", "bs");
+            fc1.printMostFrequent();
+            System.out.println(fc1.counter.size());
+            fc1.deleteWordsShorterThan(10);
+            System.out.println(fc1.counter.size());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
