@@ -67,7 +67,7 @@ public class ArrayStack<Item> implements Stack<Item> {
 
     private void resize(int capacity) {
         @SuppressWarnings("unchecked")
-        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), this.size());
+        Item[] copy = (Item[]) Array.newInstance(s.getClass().getComponentType(), capacity);
         System.arraycopy(s, 0, copy, 0, N);
         s = copy;
     }
