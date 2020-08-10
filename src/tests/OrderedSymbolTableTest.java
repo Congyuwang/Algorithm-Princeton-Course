@@ -1,0 +1,94 @@
+package tests;
+
+import princeton.algo.symbolTable.OrderedSymbolTable;
+import static tests.FrequencyCounter.*;
+
+public class OrderedSymbolTableTest {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        OrderedSymbolTable<String, Integer> test = null;
+
+        while (test == null) {
+            try {
+                System.out.println("choose test type: (read/input)");
+                String type = scanner.next();
+                System.out.println("enter table type:");
+                String tableType = scanner.next();
+                if (type.equals("read")) {
+                    test = countWordsOrdered("data/shorterShakespeare.txt", tableType, 5);
+                } else if (type.equals("input")) {
+                    test = tableChooserOrdered(tableType);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        loop: while (true) {
+            System.out.println("enter command:");
+            String command = scanner.next();
+            try {
+                switch (command) {
+                    case "show":
+                        for (String word : test.keys()) {
+                            System.out.println(word + " " + test.get(word));
+                        }
+                        break;
+                    case "range":
+                        String lower = scanner.next();
+                        String upper = scanner.next();
+                        for (String word : test.keys(lower, upper)) {
+                            System.out.println(word + " " + test.get(word));
+                        }
+                        break;
+                    case "min":
+                        String minKey = test.min();
+                        System.out.println(minKey + " " + test.get(minKey));
+                        break;
+                    case "max":
+                        String maxKey = test.max();
+                        System.out.println(maxKey + " " + test.get(maxKey));
+                        break;
+                    case "floor":
+                        String k1 = scanner.next();
+                        String floorKey = test.floor(k1);
+                        System.out.println(floorKey + " " + test.get(floorKey));
+                        break;
+                    case "ceiling":
+                        String k2 = scanner.next();
+                        String ceilKey = test.ceiling(k2);
+                        System.out.println(ceilKey + " " + test.get(ceilKey));
+                        break;
+                    case "delMin":
+                        test.deleteMin();
+                        break;
+                    case "delMax":
+                        test.deleteMax();
+                        break;
+                    case "size":
+                        System.out.println(test.size());
+                        break;
+                    case "sizeOf":
+                        String lo = scanner.next();
+                        String hi = scanner.next();
+                        System.out.println(test.size(lo, hi));
+                        break;
+                    case "put":
+                        String key = scanner.next();
+                        Integer value = scanner.nextInt();
+                        test.put(key, value);
+                        break;
+                    case "delete":
+                        String deleteKey = scanner.next();
+                        test.delete(deleteKey);
+                        break;
+                    case "quit":
+                        break loop;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        scanner.close();
+    }
+}
