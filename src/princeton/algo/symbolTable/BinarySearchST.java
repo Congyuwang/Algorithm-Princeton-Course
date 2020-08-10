@@ -142,7 +142,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (i > 0) {
             return keys[i - 1];
         }
-        return null;
+        throw new NoSuchElementException("no element smaller than key");
     }
 
     @Override
@@ -155,7 +155,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         }
         int i = rank(key);
         if (i == size) {
-            return null;
+            throw new NoSuchElementException("no element greater than key");
         }
         return keys[i];
     }

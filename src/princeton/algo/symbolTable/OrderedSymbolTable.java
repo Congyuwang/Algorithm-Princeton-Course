@@ -83,7 +83,7 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      * @param key the given key
      * @return the floor key found
      * @throws NullPointerException if the key is null
-     * @throws NoSuchElementException if there is no such key
+     * @throws NoSuchElementException if there is no such key, or the table is empty
      */
     K floor(K key) throws NullPointerException, NoSuchElementException;
 
@@ -91,9 +91,9 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      * The smallest key greater than or equal to the given key
      *
      * @param key the given key
-     * @return the key found, null if no such key
+     * @return the key found
      * @throws NullPointerException   if the key is null
-     * @throws NoSuchElementException if there is no such key
+     * @throws NoSuchElementException if there is no such key, or the table is empty
      */
     K ceiling(K key) throws NullPointerException, NoSuchElementException;
 
@@ -101,7 +101,7 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      * Select the key ranking the number rank.
      *
      * @param rank the number of rank
-     * @return the key of that rank, return null if no such key
+     * @return the key of that rank
      * @throws IllegalArgumentException if the rank is out bound
      * @throws NoSuchElementException if the table is empty
      */
