@@ -168,7 +168,9 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             }
             throw new IllegalArgumentException("rank out of bound");
         }
-        return keys[rank];
+        cacheKey = keys[rank];
+        cacheRank = rank;
+        return cacheKey;
     }
 
     @Override
@@ -207,7 +209,9 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (isEmpty()) {
             throw new NoSuchElementException("empty table");
         }
-        return keys[0];
+        cacheKey = keys[0];
+        cacheRank = 0;
+        return cacheKey;
     }
 
     @Override
@@ -215,7 +219,9 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (isEmpty()) {
             throw new NoSuchElementException("empty table");
         }
-        return keys[size - 1];
+        cacheKey = keys[size - 1];
+        cacheRank = size - 1;
+        return cacheKey;
     }
 
     private void resize(int newSize) {
