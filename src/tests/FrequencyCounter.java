@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import princeton.algo.symbolTable.BinarySearchST;
 import princeton.algo.symbolTable.SequentialSearchST;
 import princeton.algo.symbolTable.SymbolTable;
+import princeton.algo.symbolTable.OrderedSymbolTable;
 
 /**
  * The {@code FrequencyCounter} class tests various symbol table implementation
@@ -116,6 +117,35 @@ public class FrequencyCounter {
     }
 
     /**
+     * Count the number of occurrences for each words, returning OrderedSymbolTable
+     *
+     * @param inputFile enter an input file containing many english words
+     * @param name      the name of the symbol table implementation to be tested
+     * @throws FileNotFoundException if the file path is incorrect
+     */
+    public static OrderedSymbolTable<String, Integer> countWordsOrdered(String inputFile, String name, int min_length)
+            throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(inputFile));
+        OrderedSymbolTable<String, Integer> wordCounter = tableChooserOrdered(name);
+        while (scanner.hasNext()) {
+            String word = scanner.next().toLowerCase();
+            // only check english words with no punctuation, etc.
+            // this is a lazy solution
+            if (!englishWords.matcher(word).matches() || word.length() < min_length) {
+                continue;
+            }
+            assert wordCounter != null;
+            if (wordCounter.contains(word)) {
+                wordCounter.put(word, wordCounter.get(word) + 1);
+            } else {
+                wordCounter.put(word, 1);
+            }
+        }
+        scanner.close();
+        return wordCounter;
+    }
+
+    /**
      * return a new table using required implementation
      *
      * @param name the name of the symbol table implementation to be tested
@@ -125,6 +155,21 @@ public class FrequencyCounter {
         switch (name) {
             case "ss":
                 return new SequentialSearchST<>();
+            case "bs":
+                return new BinarySearchST<>();
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * return a new table using required implementation
+     *
+     * @param name the name of the symbol table implementation to be tested
+     * @return a new and empty symbolTable with the named implementation
+     */
+    public static OrderedSymbolTable<String, Integer> tableChooserOrdered(String name) {
+        switch (name) {
             case "bs":
                 return new BinarySearchST<>();
             default:
