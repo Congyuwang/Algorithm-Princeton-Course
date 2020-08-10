@@ -184,7 +184,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             throw new NullPointerException("key lo is null");
         }
         if (hi == null) {
-            throw new NoSuchElementException("key hi is null");
+            throw new NullPointerException("key hi is null");
         }
         if (lo.compareTo(hi) > 0) {
             return new EmptyKeyIterator<>();
