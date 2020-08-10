@@ -44,7 +44,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (isEmpty()) {
             return 0;
         }
-        if (cacheKey != null && key.equals(cacheKey)) {
+        if (key.equals(cacheKey)) {
             return cacheRank;
         }
         cacheKey = key;

@@ -64,15 +64,11 @@ public class Event implements Comparable<Event> {
      * check whether any collision occurred for p1 or p2 before this event
      */
     final boolean isValid() {
-        switch (eventType) {
-            case 1:
-                return p1.getCollisionCount() == collisionCount1 && p2.getCollisionCount() == collisionCount2;
-            case 2:
-            case 3:
-                return p1.getCollisionCount() == collisionCount1;
-            default:
-                return true;
-        }
+        return switch (eventType) {
+            case 1 -> p1.getCollisionCount() == collisionCount1 && p2.getCollisionCount() == collisionCount2;
+            case 2, 3 -> p1.getCollisionCount() == collisionCount1;
+            default -> true;
+        };
     }
 
     /**

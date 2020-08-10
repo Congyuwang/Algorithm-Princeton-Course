@@ -125,21 +125,20 @@ public class CollisionSystem {
 
             // execute the events
             switch (event.eventType) {
-                case 1:
+                case 1 -> {
                     event.p1.BounceOffBall(event.p2);
                     predict(event.p1);
                     predict(event.p2);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     event.p1.BounceOffXWall();
                     predict(event.p1);
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     event.p1.BounceOffYWall();
                     predict(event.p1);
-                    break;
-                default:
-                    redraw();
+                }
+                default -> redraw();
             }
 
             if (clock > limit) {

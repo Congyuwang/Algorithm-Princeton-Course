@@ -152,14 +152,11 @@ public class FrequencyCounter {
      * @return     a new and empty symbolTable with the named implementation
      */
     public static SymbolTable<String, Integer> tableChooser(String name) {
-        switch (name) {
-            case "ss":
-                return new SequentialSearchST<>();
-            case "bs":
-                return new BinarySearchST<>();
-            default:
-                return null;
-        }
+        return switch (name) {
+            case "ss" -> new SequentialSearchST<>();
+            case "bs" -> new BinarySearchST<>();
+            default -> null;
+        };
     }
 
     /**
@@ -169,12 +166,10 @@ public class FrequencyCounter {
      * @return a new and empty symbolTable with the named implementation
      */
     public static OrderedSymbolTable<String, Integer> tableChooserOrdered(String name) {
-        switch (name) {
-            case "bs":
-                return new BinarySearchST<>();
-            default:
-                return null;
-        }
+        return switch (name) {
+            case "bs" -> new BinarySearchST<>();
+            default -> null;
+        };
     }
 
     public static void main(String[] args) {

@@ -68,7 +68,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     @Override
     public Iterable<K> keys() {
-        return () -> new PrivateIterator();
+        return PrivateIterator::new;
     }
 
     private final class PrivateIterator implements Iterator<K> {
