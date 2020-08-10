@@ -49,6 +49,10 @@ public class OrderedSymbolTableTest {
                         String maxKey = test.max();
                         System.out.println(maxKey + " " + test.get(maxKey));
                         break;
+                    case "select":
+                        String select = test.select(scanner.nextInt());
+                        System.out.println(select + " " + test.get(select));
+                        break;
                     case "floor":
                         String k1 = scanner.next();
                         String floorKey = test.floor(k1);
