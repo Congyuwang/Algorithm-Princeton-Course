@@ -27,26 +27,30 @@ public class SymbolTableTest {
         loop: while (true) {
             System.out.println("enter command:");
             String command = scanner.next();
-            switch (command) {
-                case "show":
-                    for (String word : test.keys()) {
-                        System.out.println(word + " " + test.get(word));
-                    }
-                    break;
-                case "size":
-                    System.out.println(test.size());
-                    break;
-                case "put":
-                    String key = scanner.next();
-                    Integer value = scanner.nextInt();
-                    test.put(key, value);
-                    break;
-                case "delete":
-                    String deleteKey = scanner.next();
-                    test.delete(deleteKey);
-                    break;
-                case "quit":
-                    break loop;
+            try {
+                switch (command) {
+                    case "show":
+                        for (String word : test.keys()) {
+                            System.out.println(word + " " + test.get(word));
+                        }
+                        break;
+                    case "size":
+                        System.out.println(test.size());
+                        break;
+                    case "put":
+                        String key = scanner.next();
+                        Integer value = scanner.nextInt();
+                        test.put(key, value);
+                        break;
+                    case "delete":
+                        String deleteKey = scanner.next();
+                        test.delete(deleteKey);
+                        break;
+                    case "quit":
+                        break loop;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         scanner.close();
