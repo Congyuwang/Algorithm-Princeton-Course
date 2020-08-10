@@ -14,6 +14,8 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
     private static final int INIT_SIZE = 2;
     private K[] keys;
     private V[] values;
+    private K cacheKey;
+    private int cacheRank;
     private int size;
 
     /**
@@ -42,6 +44,10 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (isEmpty()) {
             return 0;
         }
+        if (cacheKey != null && key.equals(cacheKey)) {
+            return cacheRank;
+        }
+        cacheKey = key;
         int lo = 0;
         int hi = size - 1;
         int mid;
@@ -52,6 +58,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             } else if (key.compareTo(keys[mid]) < 0) {
                 hi = mid - 1;
             } else {
+                cacheRank = mid;
                 return mid;
             }
         }
@@ -61,6 +68,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
          * then ultimately hi = lo - 1. In both cases, keys[hi] < key < keys[lo] (or lo
          * = keys.length). We always have lo = number of keys less than key.
          */
+        cacheRank = lo;
         return lo;
     }
 
@@ -83,6 +91,8 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             System.arraycopy(values, i, values, i + 1, size - i);
             keys[i] = key;
             values[i] = value;
+            cacheKey = key;
+            cacheRank = i;
             size++;
         }
     }
@@ -113,6 +123,8 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         if (size < (keys.length >>> 2)) {
             resize(keys.length >>> 1);
         }
+        cacheKey = null;
+        cacheRank = -1;
     }
 
     @Override
@@ -124,9 +136,6 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             throw new NoSuchElementException("empty table");
         }
         int i = rank(key);
-        if (i == size) {
-            return keys[size - 1];
-        }
         if (key.equals(keys[i])) {
             return keys[i];
         }

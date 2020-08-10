@@ -8,6 +8,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     private Node first;
     private int size = 0;
     private int memorySize = 0;
+    private Node cacheNode;
 
     private final class Node {
         final K key;
@@ -24,7 +25,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     @Override
     public void put(K key, V value) {
         if (key == null) {
-            throw new NullPointerException("null key unacceptable");
+            throw new NullPointerException("null key");
         }
         if (value == null) {
             throw new NullPointerException("null value unsupported");
@@ -34,6 +35,12 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     @Override
     public V get(K key) {
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+        if (cacheNode != null && key.equals(cacheNode.key)) {
+            return cacheNode.value;
+        }
         for (Node i = first; i != null; i = i.next) {
             if (key.equals(i.key)) {
                 return i.value;
@@ -44,6 +51,9 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     @Override
     public void delete(K key) {
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
         privatePut(key, null);
         size--;
         if (size > 0 && memorySize / size >= 2) {
@@ -86,17 +96,24 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     }
 
     private void privatePut(K key, V value) {
+        // use cache Node
+        if (cacheNode != null && key.equals(cacheNode.key)) {
+            cacheNode.value = value;
+            return;
+        }
         for (Node i = first; i != null; i = i.next) {
             if (key.equals(i.key)) {
                 if (i.value == null && value != null) {
                     size++;
                 }
                 i.value = value;
+                cacheNode = i;
                 return;
             }
         }
         if (value != null) {
             first = new Node(key, value, first);
+            cacheNode = first;
             memorySize++;
             size++;
         }
@@ -107,6 +124,7 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
         for (K key : keys()) {
             tempTable.put(key, get(key));
         }
+        this.cacheNode = null;
         this.first = tempTable.first;
         this.memorySize = size;
     }
