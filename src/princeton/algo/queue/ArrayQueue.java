@@ -58,14 +58,15 @@ public class ArrayQueue<Item> implements Queue<Item> {
 
     @Override
     public void enqueue(Item item) {
+        if (count == s.length) {
+            resize(s.length << 1);
+        }
         if (tail == s.length) {
             tail = 0;
         }
         s[tail++] = item;
         // resize array if the size limit is met
-        if (++count == s.length) {
-            resize(s.length << 1);
-        }
+        count++;
     }
 
     @Override
