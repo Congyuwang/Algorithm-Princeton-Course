@@ -2,6 +2,7 @@ package princeton.algo.symbolTable;
 
 import princeton.algo.queue.ArrayQueue;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -353,6 +354,83 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         inorder(node.left, queue);
         queue.enqueue(node.key);
         inorder(node.right, queue);
+    }
+
+    /**
+     * {@code inPlaceKeys()} uses Morris Traversal, which
+     * is generally half the speed of the recursive method
+     * used by {@code keys()}. However, {@code inPlaceKeys()}
+     * uses zero extra memory. Another drawback of this method
+     * is that, the user <em>should not modify the tree during
+     * iteration</em>; otherwise the iterator
+     * <em>WILL CRASH</em>.
+     * <p>
+     *     Morris Traversal:
+     * </p>
+     * this is an alternative for the inorder() recursive way.
+     * <p>
+     *     In short, create links from the rightmost end of
+     *     every left subtree to each mother. Use these links
+     *     to return to mother node, when the left subtree is
+     *     all read. Once returned, the previous return link
+     *     indicates the pointer to read the mother node, and
+     *     move to the right subtree, and after this, remove
+     *     the link from the rightmost end to mother node.
+     *     The same then continues for the right subtree.
+     *     The whole process ends when the pointer arrives at
+     *     a node which belongs to nobody's left subtree
+     *     (i.e. the max node), which as no return, and moves
+     *     right to null.
+     * </p>
+     *
+     * @return an iterable of keys
+     */
+    public Iterable<K> inPlaceKeys() {
+        return MorrisTraversal::new;
+    }
+
+    private class MorrisTraversal implements Iterator<K> {
+        Node current = root;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public K next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("called next() but no more element");
+            }
+            while (true) {
+                if (current.left == null) {
+                    K toReturn = current.key;
+                    current = current.right;
+                    return toReturn;
+                } else {
+                    // whenever there is left subtree, check whether
+                    // return links has been created using while loop
+                    Node temp = current.left;
+                    while (temp.right != null && temp.right != current) {
+                        temp = temp.right;
+                    }
+                    if (temp.right == null) {
+                        // if the return link is not created, create link to return
+                        // and moves left until the smallest element of this subtree
+                        // (i.e. current.left == null), and then starts to move right
+                        temp.right = current;
+                        current = current.left;
+                    } else {
+                        // if the return link has been created
+                        // remove the link, and continue to read right up
+                        temp.right = null;
+                        K toReturn = current.key;
+                        current = current.right;
+                        return current.key;
+                    }
+                }
+            }
+        }
     }
 
     @Override
