@@ -65,7 +65,6 @@ public class ArrayQueue<Item> implements Queue<Item> {
             tail = 0;
         }
         s[tail++] = item;
-        // resize array if the size limit is met
         count++;
     }
 

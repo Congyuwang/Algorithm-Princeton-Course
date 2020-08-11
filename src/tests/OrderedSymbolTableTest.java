@@ -11,14 +11,15 @@ public class OrderedSymbolTableTest {
 
         while (test == null) {
             try {
-                System.out.println("choose test type: (read/input)");
+                System.out.println("choose test type: (read/readAll/input)");
                 String type = scanner.next();
                 System.out.println("enter table type:");
                 String tableType = scanner.next();
-                if (type.equals("read")) {
-                    test = countWordsOrdered("data/shorterShakespeare.txt", tableType, 5);
-                } else if (type.equals("input")) {
-                    test = tableChooserOrdered(tableType);
+                switch (type) {
+                    case "read" -> test = countWordsOrdered("data/shorterShakespeare.txt", tableType, 4);
+                    case "readAll" -> test = countWordsOrdered("data/shakespeare.txt", tableType, 4);
+                    case "input" -> test = tableChooserOrdered(tableType);
+                    default -> throw new IllegalStateException("Unexpected value: " + type);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -52,6 +53,10 @@ public class OrderedSymbolTableTest {
                     case "select":
                         String select = test.select(scanner.nextInt());
                         System.out.println(select + " " + test.get(select));
+                        break;
+                    case "rank":
+                        int rank = test.rank(scanner.next());
+                        System.out.println(rank + " " + test.select(rank));
                         break;
                     case "floor":
                         String k1 = scanner.next();

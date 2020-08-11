@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import princeton.algo.symbolTable.BinarySearchST;
-import princeton.algo.symbolTable.SequentialSearchST;
-import princeton.algo.symbolTable.SymbolTable;
-import princeton.algo.symbolTable.OrderedSymbolTable;
+import princeton.algo.symbolTable.*;
 
 /**
  * The {@code FrequencyCounter} class tests various symbol table implementation
@@ -155,6 +152,7 @@ public class FrequencyCounter {
         return switch (name) {
             case "ss" -> new SequentialSearchST<>();
             case "bs" -> new BinarySearchST<>();
+            case "bst" -> new BinarySearchTree<>();
             default -> null;
         };
     }
@@ -168,6 +166,7 @@ public class FrequencyCounter {
     public static OrderedSymbolTable<String, Integer> tableChooserOrdered(String name) {
         return switch (name) {
             case "bs" -> new BinarySearchST<>();
+            case "bst" -> new BinarySearchTree<>();
             default -> null;
         };
     }

@@ -15,10 +15,11 @@ public class SymbolTableTest {
                 String type = scanner.next();
                 System.out.println("enter table type:");
                 String tableType = scanner.next();
-                if (type.equals("read")) {
-                    test = countWords("data/shorterShakespeare.txt", tableType, 5);
-                } else if (type.equals("input")) {
-                    test = tableChooser(tableType);
+                switch (type) {
+                    case "read" -> test = countWords("data/shorterShakespeare.txt", tableType, 4);
+                    case "readAll" -> test = countWords("data/shakespeare.txt", tableType, 4);
+                    case "input" -> test = tableChooser(tableType);
+                    default -> throw new IllegalStateException("Unexpected value: " + type);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -29,25 +30,25 @@ public class SymbolTableTest {
             String command = scanner.next();
             try {
                 switch (command) {
-                    case "show":
+                    case "show" -> {
                         for (String word : test.keys()) {
                             System.out.println(word + " " + test.get(word));
                         }
-                        break;
-                    case "size":
-                        System.out.println(test.size());
-                        break;
-                    case "put":
+                    }
+                    case "size" -> System.out.println(test.size());
+                    case "put" -> {
                         String key = scanner.next();
                         Integer value = scanner.nextInt();
                         test.put(key, value);
-                        break;
-                    case "delete":
+                    }
+                    case "delete" -> {
                         String deleteKey = scanner.next();
                         test.delete(deleteKey);
-                        break;
-                    case "quit":
+                    }
+                    case "quit" -> {
                         break loop;
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + command);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
