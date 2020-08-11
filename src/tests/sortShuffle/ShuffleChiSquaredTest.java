@@ -1,4 +1,4 @@
-package tests;
+package tests.sortShuffle;
 
 import java.util.Random;
 
@@ -11,7 +11,13 @@ import princeton.algo.queue.ArrayQueue;
 import princeton.algo.queue.Deque;
 import princeton.algo.sort.Shuffle;
 
-class RandomizedQueueTest {
+/**
+ * This class {@code ShuffleChiSquaredTest} tests whether each shuffle
+ * or random algorithms are evenly distributed after shuffling.
+ * It generates ordered integers from 1 to {@code range - 1}, and shuffles them.
+ * This process is repeated for {@code round} rounds.
+ */
+class ShuffleChiSquaredTest {
     public static void main(String[] args) {
         int RANGE = 10;
         int LARGE_RANGE = 1000;
@@ -47,10 +53,39 @@ class RandomizedQueueTest {
         test("shuffleArrayQueue", LARGE_RANGE, ROUND, false);
     }
 
+    /**
+     * It generates ordered integers from 1 to {@code range - 1}, and shuffles them.
+     * This process is repeated for {@code round} rounds.
+     * The test will print the chi-squared statistics and p-value.
+     *
+     * @param algorithm name of the algorithms to be tested, include randomizedQueue,
+     *                  deque, linkedQueue, linkedStack, shuffleQueue, shuffleStack,
+     *                  shuffleArrayStack, shuffleArrayQueue
+     * @param range     generate integers from {@code 0} to {@code range - 1}
+     * @param round     the number of rounds to run for statistics
+     */
     public static void test(String algorithm, int range, int round) {
         test(algorithm, range, round, true);
     }
 
+    /**
+     * It generates ordered integers from 1 to {@code range - 1}, and shuffles them.
+     * This process is repeated for {@code round} rounds.
+     * The test will print the chi-squared statistics and p-value.
+     * <p>
+     *     If {@code ifPrint} is set to {@code true}, this test will print the
+     *     statistic table for calculating the the chi-squared statistics.
+     *     This is not recommended if {@code range} is large.
+     * </p>
+     *
+     * @param algorithm name of the algorithms to be tested, include randomizedQueue,
+     *                  deque, linkedQueue, linkedStack, shuffleQueue, shuffleStack,
+     *                  shuffleArrayStack, shuffleArrayQueue
+     * @param range     generate integers from {@code 0} to {@code range - 1}
+     * @param round     the number of rounds to run for statistics
+     * @param ifPrint   whether to print the detailed distribution table, if {@code range}
+     *                  is big, do not set {@code ifPrint} to {@code true}
+     */
     public static void test(String algorithm, int range, int round, boolean ifPrint) {
         final int[][] uniformChecker = new int[range][range];
         // count the appearance of number s at position pos

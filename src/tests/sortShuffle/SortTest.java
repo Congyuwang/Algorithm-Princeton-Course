@@ -1,4 +1,4 @@
-package tests;
+package tests.sortShuffle;
 
 import princeton.algo.queue.LinkedQueue;
 import princeton.algo.queue.Queue;
@@ -12,6 +12,21 @@ import java.util.Stack;
 import org.apache.commons.math3.distribution.TDistribution;
 import edu.princeton.cs.algs4.Stopwatch;
 
+/**
+ * The {@code SortTest} class test various kinds of sorting algorithms
+ * for different kinds of input data (reversed, random, partially sorted, etc.)
+ * <p>
+ *     It returns the average time and a 95% confidence interval for runtimes
+ *     taken by each algorithm.
+ * </p>
+ * Below is an example output
+ * <P>
+ *     Test1 (random order):<br>
+ *                 selection sort: mean elapsed time = 0.11896, 95% CI = [0.11024, 0.12768]<br>
+ *       reference_selection sort: mean elapsed time = 0.13174, 95% CI = [0.12454, 0.13894]<br>
+ *                 insertion sort: mean elapsed time = 0.30259, 95% CI = [0.28142, 0.32376]<br>
+ * </P>
+ */
 class SortTest {
     public static void main(String[] args) {
         int LENGTH = 10_000;

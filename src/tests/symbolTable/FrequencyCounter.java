@@ -1,4 +1,4 @@
-package tests;
+package tests.symbolTable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -184,14 +184,24 @@ public class FrequencyCounter {
             e.printStackTrace();
         }
 
-        FrequencyCounter fc1;
         System.out.println("Binary Search Symbol Table");
         try {
-            fc1 = new FrequencyCounter("data/shorterShakespeare.txt", "bs");
-            fc1.printMostFrequent();
-            System.out.println(fc1.counter.size());
-            fc1.deleteWordsShorterThan(10);
-            System.out.println(fc1.counter.size());
+            fc = new FrequencyCounter("data/shorterShakespeare.txt", "bs");
+            fc.printMostFrequent();
+            System.out.println(fc.counter.size());
+            fc.deleteWordsShorterThan(10);
+            System.out.println(fc.counter.size());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Binary Search Tree");
+        try {
+            fc = new FrequencyCounter("data/shorterShakespeare.txt", "bst");
+            fc.printMostFrequent();
+            System.out.println(fc.counter.size());
+            fc.deleteWordsShorterThan(10);
+            System.out.println(fc.counter.size());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

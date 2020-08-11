@@ -1,10 +1,13 @@
-package tests;
+package tests.sortShuffle;
 
 import java.util.Random;
 
 import edu.princeton.cs.algs4.Stopwatch;
 import princeton.algo.sort.Quick;
 
+/**
+ * Test QuickSelect algorithm runtime
+ */
 class QuickSelectTest implements RuntimeTest {
 
     private final int testLength;

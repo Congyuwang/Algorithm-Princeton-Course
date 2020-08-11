@@ -1,4 +1,4 @@
-package tests;
+package tests.sortShuffle;
 
 import java.util.Arrays;
 
@@ -6,6 +6,10 @@ import edu.princeton.cs.algs4.Stopwatch;
 import princeton.algo.queue.LinkedQueue;
 import princeton.algo.sort.Shuffle;
 
+/**
+ * Test the run time of different shuffling algorithms (shuffling
+ * for different data structure) at different length.
+ */
 class TestShuffleArray implements RuntimeTest {
 
     final int testLength;

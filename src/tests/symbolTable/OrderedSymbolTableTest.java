@@ -1,8 +1,12 @@
-package tests;
+package tests.symbolTable;
 
 import princeton.algo.symbolTable.OrderedSymbolTable;
-import static tests.FrequencyCounter.*;
+import static tests.symbolTable.FrequencyCounter.*;
 
+/**
+ * The class {@code OrderedSymbolTableTest} provides test for all public
+ * methods for an {@code OrderedSymbolTable}.
+ */
 public class OrderedSymbolTableTest {
     public static void main(String[] args) {
         java.util.Scanner scanner = new java.util.Scanner(System.in);

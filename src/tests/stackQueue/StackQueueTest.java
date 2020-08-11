@@ -1,26 +1,41 @@
-package tests;
+package tests.stackQueue;
 
 import princeton.algo.queue.*;
 import princeton.algo.stack.*;
 import princeton.algo.binaryHeap.*;
 import java.util.Scanner;
 
-class IteratorTest {
+/**
+ * The {@code StackQueueTest} class tests all implementations of {@code Stack} and
+ * {@code Queue}.
+ * <p>
+ *     Commands:
+ *     <ul>
+ *         <li>quit: exit the test</li>
+ *         <li>-: dequeue or pop</li>
+ *         <li>>>: print using forEach loop</li>
+ *         <li>-s: shuffle</li>
+ *         <li>others: enqueue the input string</li>
+ *     </ul>
+ * </p>
+ */
+class StackQueueTest {
     public static void main(String[] args) {
-        Queue<Integer> linkedQueue = new LinkedQueue<>();
-        Queue<Integer> arrayQueue = new ArrayQueue<>();
-        Queue<Integer> twoStackQueue = new TwoStackQueue<>();
-        Deque<Integer> deque = new Deque<>();
-        Queue<Integer> randomizedQueue = new RandomizedQueue<>();
-        Stack<Integer> linkedStack = new LinkedStack<>();
-        Stack<Integer> arrayStack = new ArrayStack<>();
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        Queue<String> linkedQueue = new LinkedQueue<>();
+        Queue<String> arrayQueue = new ArrayQueue<>();
+        Queue<String> twoStackQueue = new TwoStackQueue<>();
+        Deque<String> deque = new Deque<>();
+        Queue<String> randomizedQueue = new RandomizedQueue<>();
+        Stack<String> linkedStack = new LinkedStack<>();
+        Stack<String> arrayStack = new ArrayStack<>();
+        PriorityQueue<String> priorityQueue = new PriorityQueue<>();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
-            String item = scanner.next();
+            String item = scanner.nextLine();
             switch (item) {
-                case "-":
+                case "quit" -> System.exit(0);
+                case "-" -> {
                     try {
                         System.out.printf("linkedQueue: %s\n", linkedQueue.dequeue());
                     } catch (Exception e) {
@@ -47,12 +62,12 @@ class IteratorTest {
                         System.out.printf("randomizedQueue Error: %s\n", e.getMessage());
                     }
                     try {
-                        System.out.printf("linkedStack: %d\n", linkedStack.pop());
+                        System.out.printf("linkedStack: %s\n", linkedStack.pop());
                     } catch (Exception e) {
                         System.out.printf("linkedStack Error: %s\n", e.getMessage());
                     }
                     try {
-                        System.out.printf("arrayStack: %d\n", arrayStack.pop());
+                        System.out.printf("arrayStack: %s\n", arrayStack.pop());
                     } catch (Exception e) {
                         System.out.printf("arrayStack Error: %s\n", e.getMessage());
                     }
@@ -61,51 +76,51 @@ class IteratorTest {
                     } catch (Exception e) {
                         System.out.printf("priorityQueue Error: %s\n", e.getMessage());
                     }
-                    break;
-                case ">>":
+                }
+                case ">>" -> {
                     System.out.println();
                     System.out.println("arrayQueue (FIFO):");
-                    for (int i : arrayQueue) {
-                        System.out.print(i + " ");
+                    for (String i : arrayQueue) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("twoStackQueue (FIFO):");
-                    for (int i : twoStackQueue) {
-                        System.out.print(i + " ");
+                    for (String i : twoStackQueue) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("linkedQueue (FIFO):");
-                    for (int i : linkedQueue) {
-                        System.out.print(i + " ");
+                    for (String i : linkedQueue) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("deque (FIFO):");
-                    for (int i : deque) {
-                        System.out.print(i + " ");
+                    for (String i : deque) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("randomizedQueue:");
-                    for (int i : randomizedQueue) {
-                        System.out.print(i + " ");
+                    for (String i : randomizedQueue) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("linkedStack (LIFO):");
-                    for (int i : linkedStack) {
-                        System.out.print(i + " ");
+                    for (String i : linkedStack) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("arrayStack (LIFO):");
-                    for (int i : arrayStack) {
-                        System.out.print(i + " ");
+                    for (String i : arrayStack) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
                     System.out.println("priorityQueue:");
-                    for (int i : priorityQueue) {
-                        System.out.print(i + " ");
+                    for (String i : priorityQueue) {
+                        System.out.print(i + ", ");
                     }
                     System.out.println();
-                    break;
-                case "-s":
+                }
+                case "-s" -> {
                     linkedQueue.shuffle();
                     arrayQueue.shuffle();
                     twoStackQueue.shuffle();
@@ -114,22 +129,17 @@ class IteratorTest {
                     arrayStack.shuffle();
                     linkedStack.shuffle();
                     System.out.println("Shuffled!");
-                    break;
-                default:
-                    try {
-                        int intItem = Integer.parseInt(item);
-                        linkedQueue.enqueue(intItem);
-                        arrayQueue.enqueue(intItem);
-                        twoStackQueue.enqueue(intItem);
-                        deque.enqueue(intItem);
-                        randomizedQueue.enqueue(intItem);
-                        arrayStack.push(intItem);
-                        linkedStack.push(intItem);
-                        priorityQueue.enqueue(intItem);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+                }
+                default -> {
+                    linkedQueue.enqueue(item);
+                    arrayQueue.enqueue(item);
+                    twoStackQueue.enqueue(item);
+                    deque.enqueue(item);
+                    randomizedQueue.enqueue(item);
+                    arrayStack.push(item);
+                    linkedStack.push(item);
+                    priorityQueue.enqueue(item);
+                }
             }
         }
         scanner.close();

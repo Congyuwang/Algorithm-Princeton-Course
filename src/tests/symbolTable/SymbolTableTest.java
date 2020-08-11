@@ -1,8 +1,11 @@
-package tests;
+package tests.symbolTable;
 
 import princeton.algo.symbolTable.SymbolTable;
-import static tests.FrequencyCounter.*;
+import static tests.symbolTable.FrequencyCounter.*;
 
+/**
+ * The class {@code SymbolTableTest} tests methods of a {@code SymbolTable}
+ */
 public class SymbolTableTest {
     public static void main(String[] args) {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
@@ -11,7 +14,7 @@ public class SymbolTableTest {
 
         while (test == null) {
             try {
-                System.out.println("choose test type: (read/input)");
+                System.out.println("choose test type: (read/readAll/input)");
                 String type = scanner.next();
                 System.out.println("enter table type:");
                 String tableType = scanner.next();

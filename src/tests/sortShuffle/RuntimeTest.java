@@ -1,4 +1,4 @@
-package tests;
+package tests.sortShuffle;
 
 /**
  * An interface for testing algorithm efficiency
