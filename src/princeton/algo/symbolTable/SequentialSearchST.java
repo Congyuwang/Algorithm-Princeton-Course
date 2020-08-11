@@ -3,6 +3,13 @@ package princeton.algo.symbolTable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * The {@code SequentialSearchST} class implements a SymbolTable
+ * using sequential search. This is a very slow data structure.
+ *
+ * @param <K> key type
+ * @param <V> value type
+ */
 public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
 
     private Node first;

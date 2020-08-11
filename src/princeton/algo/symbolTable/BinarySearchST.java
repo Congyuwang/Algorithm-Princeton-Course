@@ -8,6 +8,9 @@ import java.util.NoSuchElementException;
 /**
  * The {@code BinarySearchST} class implements a symbol table using
  * binary search for {@code get()} method.
+ *
+ * @param <K> the key type, must be comparable to itself
+ * @param <V> the value type
  */
 public class BinarySearchST<K extends Comparable<? super K>, V> implements OrderedSymbolTable<K, V> {
 

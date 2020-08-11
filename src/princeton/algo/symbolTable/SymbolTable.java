@@ -2,6 +2,9 @@ package princeton.algo.symbolTable;
 
 /**
  * This is an interface containing the APIs of a symbolTable
+ *
+ * @param <K> key type
+ * @param <V> value type
  */
 public interface SymbolTable<K, V> {
 

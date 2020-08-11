@@ -13,7 +13,7 @@ import princeton.algo.symbolTable.*;
  */
 public class FrequencyCounter {
 
-    public final int DEFAULT_MIN_LENGTH = 4;
+    public static final int DEFAULT_MIN_LENGTH = 4;
 
     public final SymbolTable<String, Integer> counter;
 
@@ -27,7 +27,7 @@ public class FrequencyCounter {
      * @throws FileNotFoundException if the file path is incorrect
      */
     public FrequencyCounter(String inputFile, String name) throws FileNotFoundException {
-        counter = countWords(inputFile, name, DEFAULT_MIN_LENGTH);
+        this(inputFile, name, DEFAULT_MIN_LENGTH);
     }
 
     /**
@@ -172,8 +172,23 @@ public class FrequencyCounter {
     }
 
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        String testFile = null;
+        while(testFile == null) {
+            System.out.println("Choose: readShort/readLong?");
+            String choice = scanner.nextLine();
+            if (choice.equals("readShort")) {
+                testFile = "data/shorterShakespeare.txt";
+            }
+            if (choice.equals("readLong")) {
+                testFile = "data/shakespeare.txt";
+            }
+        }
+        scanner.close();
+
         FrequencyCounter fc;
-        System.out.println("Sequential Symbol Table");
+        System.out.println("Sequential Symbol Table (always read short file, too slow for long)");
         try {
             fc = new FrequencyCounter("data/shorterShakespeare.txt", "ss");
             fc.printMostFrequent();
@@ -186,7 +201,7 @@ public class FrequencyCounter {
 
         System.out.println("Binary Search Symbol Table");
         try {
-            fc = new FrequencyCounter("data/shorterShakespeare.txt", "bs");
+            fc = new FrequencyCounter(testFile, "bs");
             fc.printMostFrequent();
             System.out.println(fc.counter.size());
             fc.deleteWordsShorterThan(10);
@@ -197,7 +212,7 @@ public class FrequencyCounter {
 
         System.out.println("Binary Search Tree");
         try {
-            fc = new FrequencyCounter("data/shorterShakespeare.txt", "bst");
+            fc = new FrequencyCounter(testFile, "bst");
             fc.printMostFrequent();
             System.out.println(fc.counter.size());
             fc.deleteWordsShorterThan(10);
