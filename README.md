@@ -1,4 +1,4 @@
-# Algorithm-Princeton-Assignments
+# Algorithm-Princeton-Course
 
 This repository contains my solutions to princeton's algorithm open course taught by Robert Sedgewick and Kevin Wayne.
 
