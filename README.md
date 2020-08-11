@@ -16,24 +16,29 @@ The project is structured according to the topics of the lectures.
     |
     |-src:--                  source folder (package root)
             |
-            |-/:                      default package (assignments)
+            |-interview/:             interview questions (e.g., Three Sum, DutchFlag)
             |
-            |-interview/:             interview questions (e.g., Three Sum)
-            |
-            |-tests/:                 test sorting, shuffling and others
+            |-tests/:--               various test clients for princeton.algo.*
+            |         |
+            |         |- sortShuffle/:  tests for sorting and shuffling and selecting algorithms
+            |         |
+            |         |- stackQueue/:   test client for testing operations of stacks and queues
+            |         |
+            |         |- symbolTable/:  test clients for testing SymbolTable and OrderedSymbolTable
             |
             |-assignments/:--         assignments in this course
             |               |
-            |               |-percolation/:           use union-find algorithm to simulate percolation.
+            |               |-percolation/:           use union-find algorithm to simulate percolation
             |               |
             |               |-collinearPoints/:       use sorting algorithm to find collinear points with
-            |               |                         more than four points in a line in n^2 log(n) time.
+            |               |                         more than four points in a line in n^2 log(n) time
             |               |
             |               |-permutation/:           implemented randomized Queue and an algorithm to
-            |               |                         uniformly choose N items from a stream using N space.
+            |               |                         uniformly choose N items from a stream using N space
             |               |
-            |               |-eventDrivenSimulation/: simulate N particles using PriorityQueue.
-            |               |                         implemented a GUI for testing using Swing.
+            |               |-eventDrivenSimulation/: simulate N particles using PriorityQueue
+            |               |                         simulate particle system using eventDrivenSimulation
+            |               |                         implemented a GUI for testing using Swing
             |               |
             |               |-8puzzle/:               solve 8puzzle using A* searching algorithm with a
             |                                         priority Queue.
@@ -54,6 +59,8 @@ The project is structured according to the topics of the lectures.
                                |                     grailSort and wikiSort
                                |
                                |-binaryHeap:   Heap sort and PriorityQueue
+                               |
+                               |-symbolTable/: Data structures for symbol tables
 ```
 
 ## Sort package
@@ -101,3 +108,13 @@ The Queue package includes Queue interface and its implementations, and a Stream
 - **RandomizedQueue**: dequeue() and peek() returns random elements each time called (in constant time). The iterator uses ~n extra memory; each iterator is independently shuffled.
 - **TwoStackQueue**: Queue implementation using two stack as inner data structure. Methods enqueue() and dequeue() uses constant amortized time.
 - **StreamChooseK**: StreamChooseK uniformly chooses K item from an infinite input stream using constant time for each update, and a fixed K extra memory.
+
+## SymbolTable Package
+
+The package includes different implementations of SymbolTables. They are listed below:
+
+| implementation        | search(worst) | insert(worst) | search(average hit) | insert(average) | efficient ordered operations |
+| --------------------- | ------------- | ------------- | ------------------- | --------------- | ---------------------------- |
+| SequentialSearch      | N             | N             | N/2                 | N               | no                           |
+| BinarySearch          | log N         | N             | log N               | N/2             | yes                          |
+| BinarySearchTree      | N             | N             | 1.39 log N          | 1.39 log N      | yes                          |
