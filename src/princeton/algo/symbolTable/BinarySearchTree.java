@@ -9,6 +9,9 @@ import java.util.NoSuchElementException;
  * binary search tree data structure. Most of the methods are implemented using
  * recursive functions, mainly for the advantage of being able to extend to more
  * advanced tree structure.
+ *
+ * @param <K> the key type, must be comparable to itself
+ * @param <V> the value type
  */
 public class BinarySearchTree<K extends Comparable<? super K>, V> implements OrderedSymbolTable<K, V> {
 
@@ -39,7 +42,31 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         if (value == null) {
             throw new NullPointerException("null value unsupported");
         }
+        // cache is useful for operations like put(k, get(k) + 1)
+        if (cache != null && key.equals(cache.key)) {
+            cache.value = value;
+            return;
+        }
         root = put(root, key, value);
+    }
+
+    private Node put(Node node, K key, V value) {
+        if (node == null) {
+            cache = new Node(key, value, null, null, 1);
+            return cache;
+        }
+        int cmp = key.compareTo(node.key);
+        if (cmp < 0) {
+            node.left = put(node.left, key, value);
+        } else if (cmp > 0) {
+            node.right = put(node.right, key, value);
+        } else {
+            node.value = value;
+            cache = node;
+        }
+        // use recursion to calculate the size of subtrees in the path
+        node.count = size(node.left) + size(node.right) + 1;
+        return node;
     }
 
     @Override
@@ -47,7 +74,13 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         if (key == null) {
             throw new NullPointerException("null key");
         }
+        if (cache != null && key.equals(cache.key)) {
+            return cache.value;
+        }
         Node getNode = get(root, key);
+        if (getNode != null) {
+            cache = getNode;
+        }
         return getNode == null ? null : getNode.value;
     }
 
@@ -70,6 +103,10 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             throw new NullPointerException("null key");
         }
         root = delete(root, key);
+        if (cache != null && key.equals(cache.key)) {
+            // clear cache to ensure no link to deleted node
+            cache = null;
+        }
     }
 
     private Node delete(Node node, K key) {
@@ -104,6 +141,8 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             throw new NoSuchElementException("empty table");
         }
         root = deleteMin(root);
+        // clear cache to ensure no link to deleted node
+        cache = null;
     }
 
     private Node deleteMin(Node node) {
@@ -122,6 +161,8 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             throw new NoSuchElementException("empty table");
         }
         root = deleteMax(root);
+        // clear cache to ensure no link to deleted node
+        cache = null;
     }
 
     private Node deleteMax(Node node) {
@@ -156,6 +197,8 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
 
     private Node min(Node node) {
         if (node.left == null) {
+            // cache here can be useful for get(min()) or put(max(), x)
+            cache = node;
             return node;
         }
         return min(node.left);
@@ -171,6 +214,8 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
 
     private Node max(Node node) {
         if (node.right == null) {
+            // cache here can be useful for get(max()) or put(max(), x)
+            cache = node;
             return node;
         }
         return max(node.right);
@@ -185,7 +230,12 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             throw new NoSuchElementException("empty table");
         }
         Node floorNode = floor(root, key);
-        return floorNode == null ? null : floorNode.key;
+        if (floorNode == null) {
+            throw new NoSuchElementException("no floor key");
+        }
+        // cache here can be useful for get(floor()) or put(floor(), x)
+        cache = floorNode;
+        return floorNode.key;
     }
 
     private Node floor(Node node, K key) {
@@ -215,7 +265,12 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             throw new NoSuchElementException("empty table");
         }
         Node ceilingNode = ceiling(root, key);
-        return ceilingNode == null ? null : ceilingNode.key;
+        if (ceilingNode == null) {
+            throw new NoSuchElementException("no ceiling key");
+        }
+        // cache here can be useful for get(ceiling()) or put(ceiling(), x)
+        cache = ceilingNode;
+        return ceilingNode.key;
     }
 
     private Node ceiling(Node node, K key) {
@@ -244,7 +299,10 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
             }
             throw new IllegalArgumentException("rank out of bound");
         }
-        return select(root, rank).key;
+        Node selectNode = select(root, rank);
+        // cache here can be useful for get(select(n)) or put(select(n), xx)
+        cache = selectNode;
+        return selectNode.key;
     }
 
     private Node select(Node node, int rank) {
@@ -325,22 +383,5 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         if (cmpHi < 0) {
             inorder(node.right, lo, hi, queue);
         }
-    }
-
-    private Node put(Node node, K key, V value) {
-        if (node == null) {
-            return new Node(key, value, null, null, 1);
-        }
-        int cmp = key.compareTo(node.key);
-        if (cmp < 0) {
-            node.left = put(node.left, key, value);
-        } else if (cmp > 0) {
-            node.right = put(node.right, key, value);
-        } else {
-            node.value = value;
-        }
-        // use recursion to calculate the size of subtrees in the path
-        node.count = size(node.left) + size(node.right) + 1;
-        return node;
     }
 }
