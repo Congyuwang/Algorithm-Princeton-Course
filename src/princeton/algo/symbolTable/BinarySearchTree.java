@@ -426,7 +426,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
                         temp.right = null;
                         K toReturn = current.key;
                         current = current.right;
-                        return current.key;
+                        return toReturn;
                     }
                 }
             }
