@@ -203,6 +203,12 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
     }
 
     @Override
+    public Iterable<Pair<K, V>> pairs() {
+        return new PairsIterable<>(Arrays.copyOfRange(keys, 0, size),
+                Arrays.copyOfRange(values, 0, size));
+    }
+
+    @Override
     public int size() {
         return size;
     }
@@ -281,6 +287,36 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
                         throw new NoSuchElementException();
                     }
                     return keyArray[pointer++];
+                }
+            };
+        }
+    }
+
+    private static class PairsIterable<K, V> implements Iterable<Pair<K, V>> {
+        private final K[] keyArray;
+        private final V[] valueArray;
+
+        PairsIterable(K[] keyArray, V[] valueArray) {
+            this.keyArray = keyArray;
+            this.valueArray = valueArray;
+        }
+
+        @Override
+        public Iterator<Pair<K, V>> iterator() {
+            return new Iterator<>() {
+                int pointer = 0;
+
+                @Override
+                public boolean hasNext() {
+                    return pointer < keyArray.length;
+                }
+
+                @Override
+                public Pair<K, V> next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    return new Pair<>(keyArray[pointer++], valueArray[pointer++]);
                 }
             };
         }

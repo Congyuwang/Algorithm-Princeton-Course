@@ -17,14 +17,11 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
     private int memorySize = 0;
     private Node cacheNode;
 
-    private final class Node {
-        final K key;
-        V value;
+    private final class Node extends Pair<K, V> {
         final Node next;
 
         Node(K key, V value, Node next) {
-            this.key = key;
-            this.value = value;
+            super(key, value);
             this.next = next;
         }
     }
@@ -78,6 +75,11 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
         return PrivateIterator::new;
     }
 
+    @Override
+    public Iterable<Pair<K, V>> pairs() {
+        return PairIterator::new;
+    }
+
     private final class PrivateIterator implements Iterator<K> {
         int counter = size;
         Node current = first;
@@ -99,6 +101,30 @@ public class SequentialSearchST<K, V> implements SymbolTable<K, V> {
             } while (temp.value == null);
             counter--;
             return temp.key;
+        }
+    }
+
+    private final class PairIterator implements Iterator<Pair<K, V>> {
+        int counter = size;
+        Node current = first;
+
+        @Override
+        public boolean hasNext() {
+            return counter > 0;
+        }
+
+        @Override
+        public Pair<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more keys in table");
+            }
+            Node temp;
+            do {
+                temp = current;
+                current = current.next;
+            } while (temp.value == null);
+            counter--;
+            return temp;
         }
     }
 

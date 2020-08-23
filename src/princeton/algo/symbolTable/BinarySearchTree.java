@@ -19,16 +19,13 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
     private Node root;
     private Node cache;
 
-    private class Node  {
-        final K key;
-        V value;
+    private class Node extends Pair<K, V> {
         Node left;
         Node right;
         int count;
 
         public Node(K key, V value, int count) {
-            this.key = key;
-            this.value = value;
+            super(key, value);
             this.count = count;
         }
     }
@@ -355,6 +352,20 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         inorder(node.left, queue);
         queue.enqueue(node.key);
         inorder(node.right, queue);
+    }
+
+    @Override
+    public Iterable<Pair<K, V>> pairs() {
+        ArrayQueue<Pair<K, V>> queue = new ArrayQueue<>(size());
+        inorderPair(root, queue);
+        return queue;
+    }
+
+    private void inorderPair(Node node, ArrayQueue<Pair<K, V>> queue) {
+        if (node == null) return;
+        inorderPair(node.left, queue);
+        queue.enqueue(node);
+        inorderPair(node.right, queue);
     }
 
     /**

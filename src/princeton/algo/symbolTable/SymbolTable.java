@@ -65,7 +65,14 @@ public interface SymbolTable<K, V> {
     /**
      * Return an iterable object of keys
      *
-     * @return an iterator containing the keys of the SymbolTable
+     * @return an iterable containing the keys of the SymbolTable
      */
     Iterable<K> keys();
+
+    /**
+     * Return an iterable of key-value pairs ({@code Pair} object).
+     *
+     * @return an iterable of key-value {@code Pair}s.
+     */
+    Iterable<Pair<K, V>> pairs();
 }
