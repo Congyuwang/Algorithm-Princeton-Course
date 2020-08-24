@@ -391,6 +391,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     }
 
     private Node deleteMax(Node node) {
+        if (isRed(node.left)) node = rotateRight(node);
         if (node.right == null) return null;
         if (!isRed(node.right) && !isRed(node.right.left)) node = borrowFromLeftSibling(node);
         node.right = deleteMax(node.right);
