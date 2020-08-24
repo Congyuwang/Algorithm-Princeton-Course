@@ -1,6 +1,7 @@
 package tests.symbolTable;
 
 import princeton.algo.symbolTable.OrderedSymbolTable;
+
 import static tests.symbolTable.FrequencyCounter.*;
 
 /**
@@ -19,10 +20,13 @@ public class OrderedSymbolTableTest {
                 String type = scanner.next();
                 System.out.println("enter table type:");
                 String tableType = scanner.next();
+                OrderedSymbolTable<String, Integer> table = TableChooser.orderedSymbolTable(tableType);
                 switch (type) {
-                    case "read" -> test = countWordsOrdered("data/shorterShakespeare.txt", tableType, 4);
-                    case "readAll" -> test = countWordsOrdered("data/shakespeare.txt", tableType, 4);
-                    case "input" -> test = tableChooserOrdered(tableType);
+                    case "read" -> test = FrequencyCounter
+                            .countWords("data/shorterShakespeare.txt", tableType, 4, table);
+                    case "readAll" -> test = FrequencyCounter
+                            .countWords("data/shakespeare.txt", tableType, 4, table);
+                    case "input" -> test = table;
                     default -> throw new IllegalStateException("Unexpected value: " + type);
                 }
             } catch (Exception e) {
@@ -38,6 +42,24 @@ public class OrderedSymbolTableTest {
                         for (String word : test.keys()) {
                             System.out.println(word + " " + test.get(word));
                         }
+                        break;
+                    case "showK":
+                        int K = scanner.nextInt();
+                        int count = 0;
+                        for (String word : test.keys()) {
+                            if (count == K) break;
+                            System.out.println(word + " " + test.get(word));
+                            count++;
+                        }
+                        break;
+                    case "topK":
+                        printTopK(test, scanner.nextInt());
+                        break;
+                    case "bottomK":
+                        printBottomK(test, scanner.nextInt());
+                        break;
+                    case "filterLengthK":
+                        filterLength(scanner.nextInt(), test);
                         break;
                     case "range":
                         String lower = scanner.next();

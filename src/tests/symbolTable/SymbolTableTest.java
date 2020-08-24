@@ -18,10 +18,11 @@ public class SymbolTableTest {
                 String type = scanner.next();
                 System.out.println("enter table type:");
                 String tableType = scanner.next();
+                SymbolTable<String, Integer> table = TableChooser.symbolTable(tableType);
                 switch (type) {
-                    case "read" -> test = countWords("data/shorterShakespeare.txt", tableType, 4);
-                    case "readAll" -> test = countWords("data/shakespeare.txt", tableType, 4);
-                    case "input" -> test = tableChooser(tableType);
+                    case "read" -> test = countWords("data/shorterShakespeare.txt", tableType, 4, table);
+                    case "readAll" -> test = countWords("data/shakespeare.txt", tableType, 4, table);
+                    case "input" -> test = table;
                     default -> throw new IllegalStateException("Unexpected value: " + type);
                 }
             } catch (Exception e) {
@@ -38,7 +39,19 @@ public class SymbolTableTest {
                             System.out.println(word + " " + test.get(word));
                         }
                     }
+                    case "showK" -> {
+                        int K = scanner.nextInt();
+                        int count = 0;
+                        for (String word : test.keys()) {
+                            if (count > K) break;
+                            System.out.println(word + " " + test.get(word));
+                            count++;
+                        }
+                    }
                     case "size" -> System.out.println(test.size());
+                    case "topK" -> printTopK(test, scanner.nextInt());
+                    case "bottomK" -> printBottomK(test, scanner.nextInt());
+                    case "filterLengthK" -> filterLength(scanner.nextInt(), test);
                     case "put" -> {
                         String key = scanner.next();
                         Integer value = scanner.nextInt();
