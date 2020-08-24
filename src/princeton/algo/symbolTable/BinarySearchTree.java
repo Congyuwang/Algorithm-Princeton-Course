@@ -2,6 +2,7 @@ package princeton.algo.symbolTable;
 
 import princeton.algo.queue.ArrayQueue;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -18,6 +19,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
 
     private Node root;
     private Node cache;
+    private int modCount;
 
     private class Node extends Pair<K, V> {
         Node left;
@@ -53,6 +55,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
     private Node put(Node node, K key, V value) {
         if (node == null) {
             cache = new Node(key, value, 1);
+            modCount++;
             return cache;
         }
         int cmp = key.compareTo(node.key);
@@ -118,6 +121,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
         } else if (cmp < 0) {
             node.left = delete(node.left, key);
         } else {
+            modCount++;
             if (node.left == null) return node.right;
             if (node.right == null) return node.left;
             Node temp = min(node.right);
@@ -137,6 +141,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
     @Override
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("empty table");
+        modCount++;
         root = deleteMin(root);
         // clear cache to ensure no link to deleted node
         cache = null;
@@ -158,6 +163,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
     @Override
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("empty table");
+        modCount++;
         root = deleteMax(root);
         // clear cache to ensure no link to deleted node
         cache = null;
@@ -373,9 +379,9 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
      * is generally half the speed of the recursive method
      * used by {@code keys()}. However, {@code inPlaceKeys()}
      * uses zero extra memory. Another drawback of this method
-     * is that, the user <em>should not modify the tree during
-     * iteration</em>; otherwise the iterator
-     * <em>WILL CRASH</em>.
+     * is that, the user <em>should not modify the tree structure
+     * during iteration</em>; otherwise, the iterator will throw
+     * concurrentModificationException.
      * <p>
      *     Morris Traversal:
      * </p>
@@ -396,6 +402,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
      * </p>
      *
      * @return an iterable of keys
+     * @throws ConcurrentModificationException if tree structure modified
      */
     public Iterable<K> inPlaceKeys() {
         return MorrisTraversal::new;
@@ -403,6 +410,7 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
 
     private class MorrisTraversal implements Iterator<K> {
         Node current = root;
+        int expectedModCount = modCount;
 
         @Override
         public boolean hasNext() {
@@ -411,9 +419,9 @@ public class BinarySearchTree<K extends Comparable<? super K>, V> implements Ord
 
         @Override
         public K next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException("called next() but no more element");
-            }
+            if (!hasNext()) throw new NoSuchElementException("called next() but no more element");
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException("detected modification during traversal");
             while (true) {
                 if (current.left == null) {
                     K toReturn = current.key;
