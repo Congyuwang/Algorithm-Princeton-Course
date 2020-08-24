@@ -113,8 +113,9 @@ The Queue package includes Queue interface and its implementations, and a Stream
 
 The package includes different implementations of SymbolTables. They are listed below:
 
-| implementation        | search(worst) | insert(worst) | search(average hit) | insert(average) | efficient ordered operations |
-| --------------------- | ------------- | ------------- | ------------------- | --------------- | ---------------------------- |
-| SequentialSearch      | N             | N             | N/2                 | N               | no                           |
-| BinarySearch          | log N         | N             | log N               | N/2             | yes                          |
-| BinarySearchTree      | N             | N             | 1.39 log N          | 1.39 log N      | yes                          |
+| implementation           | search(worst) | insert(worst) | search(average hit) | insert(average) | efficient ordered operations |
+| ------------------------ | ------------- | ------------- | ------------------- | --------------- | ---------------------------- |
+| SequentialSearch         | N             | N             | N/2                 | N               | no                           |
+| BinarySearch             | log N         | N             | log N               | N/2             | yes                          |
+| BinarySearchTree         | N             | N             | 1.39 log N          | 1.39 log N      | yes                          |
+| RedBlackBinarySearchTree | 2 log N       | 2 log N       | log N               | log N           | yes                          |
