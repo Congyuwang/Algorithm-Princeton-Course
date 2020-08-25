@@ -391,7 +391,12 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     }
 
     private Node deleteMax(Node node) {
+
+        // This right rotation ensures that node.left is not RED.
+        // Otherwise, the colorFlips in later parts erase node.left's color.
         if (isRed(node.left)) node = rotateRight(node);
+
+        // the rest is symmetric to deleteMin
         if (node.right == null) return null;
         if (!isRed(node.right) && !isRed(node.right.left)) node = borrowFromLeftSibling(node);
         node.right = deleteMax(node.right);
