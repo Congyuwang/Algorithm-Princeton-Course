@@ -1,9 +1,6 @@
 package princeton.algo.symbolTable;
 
 import princeton.algo.queue.ArrayQueue;
-
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -21,8 +18,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
 
     private Node root;
     private Node cache;
-
-    private int modCount;
 
     private class Node extends Pair<K, V> {
         Node left;
@@ -156,7 +151,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
         cache = selectNode;
         return selectNode.key;
     }
-
     private Node select(Node node, int rank) {
         assert node != null;
         int leftSize = size(node.left);
@@ -235,7 +229,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     private Node put(Node node, K key, V value) {
         if (node == null) {
             cache = new Node(key, value, RED, 1);
-            modCount++;
             return cache;
         }
         int cmp = key.compareTo(node.key);
@@ -296,7 +289,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
      */
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("the table is empty");
-        modCount++;
         root = deleteMin(root);
     }
 
@@ -314,7 +306,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
      */
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("the table is empty");
-        modCount++;
         root = deleteMax(root);
     }
 
@@ -384,14 +375,10 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
         } else {
             // choose cheap operation when possible
             if (isRed(node.left)) node = rotateRight(node);
-            if (key.compareTo(node.key) == 0 && node.right == null) {
-                modCount++;
-                return null;
-            }
+            if (key.compareTo(node.key) == 0 && node.right == null) return null;
             if (!isRed(node.right) && !isRed(node.right.left))
                 node = borrowFromLeftSibling(node);
             if (key.compareTo(node.key) == 0) {
-                modCount++;
                 Node temp = min(node.right);
                 temp.right = deleteMin(node.right);
                 temp.left = node.left;
