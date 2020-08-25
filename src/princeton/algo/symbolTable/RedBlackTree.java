@@ -213,78 +213,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     }
 
     /**
-     * {@code inPlaceKeys()} uses Morris Traversal, which
-     * is generally half the speed of the recursive method
-     * used by {@code keys()}. However, {@code inPlaceKeys()}
-     * uses zero extra memory. Another drawback of this method
-     * is that, the user <em>should not modify the tree structure
-     * during iteration</em>; otherwise, the iterator will throw
-     * concurrentModificationException.
-     * <p>
-     *     Morris Traversal:
-     * </p>
-     * this is an alternative for the inorder() recursive way.
-     * <p>
-     *     In short, create links from the rightmost end of
-     *     every left subtree to each mother. Use these links
-     *     to return to mother node, when the left subtree is
-     *     all read. Once returned, the previous return link
-     *     indicates the pointer to read the mother node, and
-     *     move to the right subtree, and after this, remove
-     *     the link from the rightmost end to mother node.
-     *     The same then continues for the right subtree.
-     *     The whole process ends when the pointer arrives at
-     *     a node which belongs to nobody's left subtree
-     *     (i.e. the max node), which as no return, and moves
-     *     right to null.
-     * </p>
-     *
-     * @return an iterable of keys
-     * @throws ConcurrentModificationException if tree structure modified
-     */
-    public Iterable<K> inPlaceKeys() {
-        return MorrisTraversal::new;
-    }
-
-    private class MorrisTraversal implements Iterator<K> {
-        Node current = root;
-        int expectedModCount = modCount;
-
-        @Override
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        @Override
-        public K next() {
-            if (!hasNext()) throw new NoSuchElementException("called next() but no more element");
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException("detected modification during traversal");
-            while (true) {
-                if (current.left == null) {
-                    K toReturn = current.key;
-                    current = current.right;
-                    return toReturn;
-                } else {
-                    Node temp = current.left;
-                    while (temp.right != null && temp.right != current) {
-                        temp = temp.right;
-                    }
-                    if (temp.right == null) {
-                        temp.right = current;
-                        current = current.left;
-                    } else {
-                        temp.right = null;
-                        K toReturn = current.key;
-                        current = current.right;
-                        return toReturn;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Put a new key value pair into the Symbol table. This API does not allow
      * putting null as values.
      *
@@ -491,7 +419,17 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     }
 
     /**
-     * Return an iterable object of keys
+     * Return an iterable object of keys.
+     * <p>
+     * The current solution for iteration is one of the best for iterating trees.
+     * This iterator allows for (non-concurrent) modification of tree structure.
+     * It takes a 'snapshot' of the tree elements by enqueueing it into an Array.
+     * The default implementation in java uses a {@code parent} pointer in nodes
+     * for iteration, and also implements a fast-fail iterator. The memory cost
+     * of the {@code ArrayQueue} used here equals to adding a parent pointer for
+     * each node, but the extra memory cost here is temporary, and can be released
+     * after the iteration is over.
+     * </p>
      *
      * @return an iterator containing the keys of the SymbolTable
      */
