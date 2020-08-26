@@ -1,5 +1,7 @@
 package princeton.algo.symbolTable;
 
+import java.util.Objects;
+
 /**
  * This class represent key value pairs.
  * It is used for iterate through key-value pairs.
@@ -22,5 +24,14 @@ public class Pair<K, V> {
 
     public V getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair<?, ?> pair = (Pair<?, ?>) o;
+        return Objects.equals(key, pair.key) &&
+                Objects.equals(value, pair.value);
     }
 }
