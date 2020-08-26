@@ -146,10 +146,9 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
             if (isEmpty()) throw new NoSuchElementException("empty table");
             throw new IllegalArgumentException("rank out of bound");
         }
-        Node selectNode = select(root, rank);
         // cache here can be useful for get(select(n)) or put(select(n), xx)
-        cache = selectNode;
-        return selectNode.key;
+        cache = select(root, rank);
+        return cache.key;
     }
     private Node select(Node node, int rank) {
         assert node != null;
@@ -204,6 +203,32 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
         if (cmpLo > 0) inorder(node.left, lo, hi, queue);
         if (cmpLo >= 0 && cmpHi <= 0) queue.enqueue(node.key);
         if (cmpHi < 0) inorder(node.right, lo, hi, queue);
+    }
+
+    /**
+     * Return an iterable of pairs from lo to hi
+     *
+     * @param lo the lower bound, inclusive
+     * @param hi the upper bound, inclusive
+     * @return the iterator iterating key-value pairs from lo to hi
+     * @throws NullPointerException if any key is null
+     */
+    @Override
+    public Iterable<Pair<K, V>> pairs(K lo, K hi) throws NullPointerException {
+        if (lo == null) throw new NullPointerException("key lo is null");
+        if (hi == null) throw new NullPointerException("key hi is null");
+        ArrayQueue<Pair<K, V>> queue = new ArrayQueue<>();
+        inorderPairs(root, lo, hi, queue);
+        return queue;
+    }
+
+    private void inorderPairs(Node node, K lo, K hi, ArrayQueue<Pair<K, V>> queue) {
+        if (node == null) return;
+        int cmpLo = node.key.compareTo(lo);
+        int cmpHi = node.key.compareTo(hi);
+        if (cmpLo > 0) inorderPairs(node.left, lo, hi, queue);
+        if (cmpLo >= 0 && cmpHi <= 0) queue.enqueue(node);
+        if (cmpHi < 0) inorderPairs(node.right, lo, hi, queue);
     }
 
     /**
@@ -290,6 +315,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     public void deleteMin() {
         if (isEmpty()) throw new NoSuchElementException("the table is empty");
         root = deleteMin(root);
+        cache = null;
     }
 
     private Node deleteMin(Node node) {
@@ -307,6 +333,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
     public void deleteMax() {
         if (isEmpty()) throw new NoSuchElementException("the table is empty");
         root = deleteMax(root);
+        cache = null;
     }
 
     private Node deleteMax(Node node) {
@@ -364,6 +391,9 @@ public class RedBlackTree<K extends Comparable<? super K>, V> implements Ordered
         if (key == null) throw new NullPointerException("null key");
         if (!contains(key)) return;
         root = delete(root, key);
+        if (cache != null && key.equals(cache.key)) {
+            cache = null;
+        }
     }
 
     private Node delete(Node node, K key) {

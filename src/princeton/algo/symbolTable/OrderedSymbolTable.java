@@ -125,4 +125,14 @@ public interface OrderedSymbolTable<K extends Comparable<? super K>, V> extends 
      * @throws NullPointerException if any key is null
      */
     Iterable<K> keys(K lo, K hi) throws NullPointerException;
+
+    /**
+     * Return an iterable of pairs from lo to hi
+     *
+     * @param lo the lower bound, inclusive
+     * @param hi the upper bound, inclusive
+     * @return the iterator iterating key-value pairs from lo to hi
+     * @throws NullPointerException if any key is null
+     */
+    Iterable<Pair<K, V>> pairs(K lo, K hi) throws NullPointerException;
 }

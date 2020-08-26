@@ -178,7 +178,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
 
     @Override
     public Iterable<K> keys() {
-        return new KeyArrayIterable<>(Arrays.copyOfRange(keys, 0, size));
+        return new ArrayIterable<>(Arrays.copyOfRange(keys, 0, size));
     }
 
     @Override
@@ -190,7 +190,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
             throw new NullPointerException("key hi is null");
         }
         if (lo.compareTo(hi) > 0) {
-            return new EmptyKeyIterator<>();
+            return new EmptyArrayIterator<>();
         }
         final int rank_lo = rank(lo);
         final int rank_hi;
@@ -199,7 +199,37 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
         } else {
             rank_hi = rank(hi);
         }
-        return new KeyArrayIterable<>(Arrays.copyOfRange(keys, rank_lo, rank_hi));
+        return new ArrayIterable<>(Arrays.copyOfRange(keys, rank_lo, rank_hi));
+    }
+
+    /**
+     * Return an iterable of pairs from lo to hi
+     *
+     * @param lo the lower bound, inclusive
+     * @param hi the upper bound, inclusive
+     * @return the iterator iterating key-value pairs from lo to hi
+     * @throws NullPointerException if any key is null
+     */
+    @Override
+    public Iterable<Pair<K, V>> pairs(K lo, K hi) throws NullPointerException {
+        if (lo == null) {
+            throw new NullPointerException("key lo is null");
+        }
+        if (hi == null) {
+            throw new NullPointerException("key hi is null");
+        }
+        if (lo.compareTo(hi) > 0) {
+            return new EmptyArrayIterator<>();
+        }
+        final int rank_lo = rank(lo);
+        final int rank_hi;
+        if (contains(hi)) {
+            rank_hi = rank(hi) + 1;
+        } else {
+            rank_hi = rank(hi);
+        }
+        return new PairsIterable<>(Arrays.copyOfRange(keys, rank_lo, rank_hi),
+                Arrays.copyOfRange(values, rank_lo, rank_hi));
     }
 
     @Override
@@ -247,9 +277,9 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
 
     }
 
-    private static class EmptyKeyIterator<K> implements Iterable<K> {
+    private static class EmptyArrayIterator<T> implements Iterable<T> {
         @Override
-        public Iterator<K> iterator() {
+        public Iterator<T> iterator() {
             return new Iterator<>() {
                 @Override
                 public boolean hasNext() {
@@ -257,22 +287,22 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
                 }
 
                 @Override
-                public K next() {
+                public T next() {
                     throw new NoSuchElementException();
                 }
             };
         }
     }
 
-    private static class KeyArrayIterable<K> implements Iterable<K> {
-        private final K[] keyArray;
+    private static class ArrayIterable<T> implements Iterable<T> {
+        private final T[] keyArray;
 
-        KeyArrayIterable(K[] keyArray) {
+        ArrayIterable(T[] keyArray) {
             this.keyArray = keyArray;
         }
 
         @Override
-        public Iterator<K> iterator() {
+        public Iterator<T> iterator() {
             return new Iterator<>() {
                 int pointer = 0;
 
@@ -282,7 +312,7 @@ public class BinarySearchST<K extends Comparable<? super K>, V> implements Order
                 }
 
                 @Override
-                public K next() {
+                public T next() {
                     if (!hasNext()) {
                         throw new NoSuchElementException();
                     }
