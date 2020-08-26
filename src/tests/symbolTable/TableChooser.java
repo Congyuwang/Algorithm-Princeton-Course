@@ -28,6 +28,7 @@ public class TableChooser {
             case "bs" -> new BinarySearchST<>();
             case "bst" -> new BinarySearchTree<>();
             case "rbt" -> new RedBlackTree<>();
+            case "avl" -> new AVLTree<>();
             default -> null;
         };
     }

@@ -119,3 +119,4 @@ The package includes different implementations of SymbolTables. They are listed 
 | BinarySearch             | log N         | N             | log N               | N/2             | yes                          |
 | BinarySearchTree         | N             | N             | 1.39 log N          | 1.39 log N      | yes                          |
 | RedBlackBinarySearchTree | 2 log N       | 2 log N       | log N               | log N           | yes                          |
+| AVLBinarySearchTree      | 1.44 log N    | 1.44 log N    | log N               | log N           | yes                          |

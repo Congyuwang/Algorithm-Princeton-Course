@@ -60,10 +60,23 @@ public class RandomTableTester {
     }
 
     public static void main(String[] args) {
+
         OrderedSymbolTable<Integer, Integer> table1 = TableChooser.orderedSymbolTable("rbt");
         OrderedSymbolTable<Integer, Integer> table2 = TableChooser.orderedSymbolTable("bst");
-        for (int i = 0; i < 100; i++) {
-            System.out.println(tester(table1, table2, 10000));
+        for (int i = 0; i < 5; i++) {
+            System.out.println(tester(table1, table2, 1000000));
+        }
+
+        table1 = TableChooser.orderedSymbolTable("rbt");
+        OrderedSymbolTable<Integer, Integer> table3 = TableChooser.orderedSymbolTable("avl");
+        for (int i = 0; i < 5; i++) {
+            System.out.println(tester(table1, table3, 1000000));
+        }
+
+        table2 = TableChooser.orderedSymbolTable("bst");
+        table3 = TableChooser.orderedSymbolTable("avl");
+        for (int i = 0; i < 5; i++) {
+            System.out.println(tester(table2, table3, 1000000));
         }
     }
 }
