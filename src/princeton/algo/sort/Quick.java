@@ -110,12 +110,12 @@ public class Quick {
      * @param n the n th smallest to be found (starting from {@code 0} and end at
      *          {@code a.length - 1})
      */
-    public static <T extends Comparable<? super T>> void select(T[] a, int n) {
+    public static <T extends Comparable<? super T>> T select(T[] a, int n) {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
-        select(a, 0, a.length, n);
+        return select(a, 0, a.length, n);
     }
 
     /**
@@ -126,12 +126,12 @@ public class Quick {
      * @param n the n th smallest to be found (starting from 0 and end at
      *          {@code a.length - 1})
      */
-    public static <T> void select(T[] a, int n, Comparator<? super T> c) {
+    public static <T> T select(T[] a, int n, Comparator<? super T> c) {
         if (n >= a.length || n < 0) {
             throw new IllegalArgumentException("out of range");
         }
         Shuffle.shuffle(a);
-        select(a, 0, a.length, n, c);
+        return select(a, 0, a.length, n, c);
     }
 
     /**
