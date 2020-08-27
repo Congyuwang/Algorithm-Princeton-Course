@@ -1,14 +1,18 @@
 package tests.symbolTable;
+
 import princeton.algo.queue.*;
 import princeton.algo.queue.Queue;
 import princeton.algo.sort.Quick;
 import princeton.algo.sort.Shuffle;
 import princeton.algo.symbolTable.SymbolTable;
-
 import java.util.*;
+import static java.lang.System.gc;
 
 /**
- *
+ * The class provides performance tests for symbolTables.
+ * Call {@link SymbolTablePerformanceTester#testPutDelete(int)} to test put and delete methods.
+ * Call {@link SymbolTablePerformanceTester#testGet(int)} to test get methods.
+ * Print the {@code SymbolTablePerformanceTester} object to show statistics.
  */
 public class SymbolTablePerformanceTester {
 
@@ -16,35 +20,39 @@ public class SymbolTablePerformanceTester {
     private final Queue<Integer> queue;
     private final int initialSize;
     private final Random random = new Random();
+    private final Map<String, Map<String, Object>> statistics;
 
     /**
-     * Class {@code SymbolTablePerformanceTester} ...
+     * Class {@code SymbolTablePerformanceTester} tests the performance of different symbol tables.
      *
-     * @param tableType ...
-     * @param initialSize ...
-     * @throws IllegalArgumentException when ...
+     * @param tableType   type of table to be tested, see {@link TableChooser#symbolTable(String name)}
+     * @param initialSize initial size should at least 100
+     * @throws IllegalArgumentException when {@code initialSize} is smaller than 100,
+     *                                  or if the {@code tableType} parameter is invalid.
      */
     public SymbolTablePerformanceTester(String tableType, int initialSize) {
         if (initialSize < 100) throw new IllegalArgumentException("initial size too small");
         this.symbolTable = TableChooser.symbolTable(tableType);
+        if (this.symbolTable == null)
+            throw new IllegalArgumentException(String.format("%s is not a valid table type", tableType));
         this.initialSize = initialSize;
         this.queue = new LinkedQueue<>();
-        System.out.printf("Initialization time: %f ms\n", fillInRandomInts() / 1000.0);
+        this.statistics = new TreeMap<>();
+        System.out.printf("Initialization time: %f ms\n", fillInRandomInt() / 1000000.0);
     }
 
-    public TreeMap<String, Map<String, ?>> testPutDelete(int times) {
+    /**
+     * Call this to test {@code put} and {@code test} methods.
+     * The two methods are called randomly with equal probability.
+     *
+     * @param times the total times of {@code put} and {@code test} to be called.
+     */
+    public void testPutDelete(int times) {
 
-        TreeMap<String, String> statistics = new TreeMap<>();
-        TreeMap<String, ArrayList<Long>> runTimes = new TreeMap<>();
-        TreeMap<String, Map<String, ?>> result = new TreeMap<>();
-        result.put("statistics", statistics);
-        result.put("run times", runTimes);
+        if (times < 0) throw new IllegalArgumentException("negative times argument");
 
-        // store each runtime in an array
         ArrayList<Long> deleteRuntimes = new ArrayList<>();
         ArrayList<Long> putRuntimes = new ArrayList<>();
-        runTimes.put("delete", deleteRuntimes);
-        runTimes.put("put", putRuntimes);
 
         for (int i = 0; i < times; i++) {
             boolean doPut = random.nextBoolean();
@@ -54,71 +62,98 @@ public class SymbolTablePerformanceTester {
             } else {
                 if (queue.isEmpty()) continue;
                 Integer deleteKey = queue.dequeue();
+
                 long time = System.nanoTime();
                 symbolTable.delete(deleteKey);
-                time = System.nanoTime() - time;
-                deleteRuntimes.add(time);
+                deleteRuntimes.add(System.nanoTime() - time);
             }
         }
-
-        int putCount = putRuntimes.size();
-        long putTime = putRuntimes.stream().mapToLong(Long::valueOf).sum();
-        int deleteCount = deleteRuntimes.size();
-        long deleteTime = deleteRuntimes.stream().mapToLong(Long::valueOf).sum();
-
-        statistics.put("table type", symbolTable.getClass().toGenericString());
-        statistics.put("test type", "put-delete-test");
-
-        statistics.put("put count", String.valueOf(putRuntimes.size()));
-        statistics.put("put time average (ns)", String.valueOf(putTime / (double) putCount));
-        statistics.put("put total time (ms)", String.valueOf(putTime / 1000.0));
-        statistics.put("put time 25% (ns)", percentile(putRuntimes, putCount >>> 2));
-        statistics.put("put time median (ns)", percentile(putRuntimes, putCount >>> 1));
-        statistics.put("put time 75% (ns)", percentile(putRuntimes, (putCount >>> 2) * 3));
-
-        statistics.put("delete count", String.valueOf(runTimes.get("delete").size()));
-        statistics.put("delete total time (ms)", String.valueOf(deleteTime / 1000.0));
-        statistics.put("delete time average (ns)", String.valueOf(deleteTime / (double) deleteCount));
-        statistics.put("delete time 25% (ns)", percentile(deleteRuntimes, deleteCount >>> 2));
-        statistics.put("delete time median (ns)", percentile(deleteRuntimes, deleteCount >>> 1));
-        statistics.put("delete time 75% (ns)", percentile(deleteRuntimes, (deleteCount >>> 2) * 3));
-        return result;
+        writeResults("delete-test", deleteRuntimes);
+        writeResults("put-test", putRuntimes);
     }
 
-    public TreeMap<String, Map<String, ?>> testGet(int times) {
-        TreeMap<String, String> statistics = new TreeMap<>();
-        TreeMap<String, ArrayList<Long>> runTimes = new TreeMap<>();
-        TreeMap<String, Map<String, ?>> result = new TreeMap<>();
-        result.put("run times", runTimes);
-        result.put("statistics", statistics);
-        ArrayList<Long> getRuntimes = new ArrayList<>();
-        runTimes.put("get", getRuntimes);
+    /**
+     * Test get method of the table
+     *
+     * @param times the number of times for testing {@code get()}
+     */
+    public void testGet(int times) {
+
+        if (times < 0) throw new IllegalArgumentException("negative times argument");
+
+        ArrayList<Long> elapsedTimes = new ArrayList<>();
 
         Shuffle.shuffle(queue);
         Iterator<Integer> itr = queue.iterator();
         for (int i = 0; i < times; i++) {
             if (itr.hasNext()) {
                 Integer key = itr.next();
+
                 long time = System.nanoTime();
                 Integer k = symbolTable.get(key);
-                getRuntimes.add(System.nanoTime() - time);
+                elapsedTimes.add(System.nanoTime() - time);
+
                 if (!key.equals(k)) throw new RuntimeException("get wrong result");
             } else {
                 itr = queue.iterator();
                 i--;
             }
         }
+        writeResults("get-test", elapsedTimes);
+    }
 
-        int getCount = getRuntimes.size();
-        long getTime = getRuntimes.stream().mapToLong(Long::valueOf).sum();
+    /**
+     * print this result to view the statistics.
+     *
+     * @return result string
+     */
+    @Override
+    public String toString() {
+        char[] horizontalChars = new char[25 + 8];
+        Arrays.fill(horizontalChars, '-');
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Test Result Of: ")
+                .append(symbolTable.getClass().toString()).append('\n')
+                .append(horizontalChars).append('\n');
+        for (Map.Entry<String, Map<String, Object>> e : statistics.entrySet()) {
+            if (e.getValue() == null) continue;
+            stringBuilder.append(">> test type: ")
+                    .append(e.getValue().get("test type"))
+                    .append('\n')
+                    .append(printSingleResult(e.getValue()));
+        }
+        return stringBuilder.toString();
+    }
 
-        statistics.put("get count", String.valueOf(runTimes.get("delete").size()));
-        statistics.put("get total time (ms)", String.valueOf(getTime / 1000.0));
-        statistics.put("get time average (ns)", String.valueOf(getTime / (double) getCount));
-        statistics.put("get time 25% (ns)", percentile(getRuntimes, getCount >>> 2));
-        statistics.put("get time median (ns)", percentile(getRuntimes, getCount >>> 1));
-        statistics.put("get time 75% (ns)", percentile(getRuntimes, (getCount >>> 2) * 3));
-        return result;
+    private void writeResults(String testName, ArrayList<Long> elapsedTimes) {
+        int getCount = elapsedTimes.size();
+        long getTime = elapsedTimes.stream().mapToLong(Long::valueOf).sum();
+        Map<String, Object> statisticsTable = new TreeMap<>();
+        statisticsTable.put("test type", testName);
+        statisticsTable.put("count", getCount);
+        statisticsTable.put("total time (ms)", getTime / 1000000.0);
+        statisticsTable.put("time average (ns)", getTime / (double) getCount);
+        statisticsTable.put("time 25% (ns)", percentile(elapsedTimes, getCount >>> 2));
+        statisticsTable.put("time median (ns)", percentile(elapsedTimes, getCount >>> 1));
+        statisticsTable.put("time 75% (ns)", percentile(elapsedTimes, (getCount >>> 2) * 3));
+        statistics.put(testName, statisticsTable);
+    }
+
+    private String printSingleResult(Map<String, Object> singleResult) {
+        char[] horizontalChars = new char[25 + 8];
+        Arrays.fill(horizontalChars, '-');
+        return String.valueOf(horizontalChars) + '\n' +
+                toStringSingleLine(singleResult, "count") +
+                toStringSingleLine(singleResult, "total time (ms)") +
+                toStringSingleLine(singleResult, "time average (ns)") +
+                toStringSingleLine(singleResult, "time 25% (ns)") +
+                toStringSingleLine(singleResult, "time median (ns)") +
+                toStringSingleLine(singleResult, "time 75% (ns)") +
+                String.valueOf(horizontalChars) + '\n';
+    }
+
+    private String toStringSingleLine(Map<String, Object> singleResult, String key) {
+        return String.format("%20s: %.8s\n", key, singleResult.get(key));
     }
 
     /**
@@ -126,7 +161,7 @@ public class SymbolTablePerformanceTester {
      *
      * @return total nanoseconds elapsed during initialization
      */
-    private long fillInRandomInts() {
+    private long fillInRandomInt() {
         long initializeTime = 0;
         for (int i = 0; i < initialSize; i++) {
             initializeTime += insertNewInt(symbolTable, queue, random);
@@ -152,15 +187,41 @@ public class SymbolTablePerformanceTester {
         }
     }
 
-    private String percentile(ArrayList<Long> runTimes, int i) {
-        return String.valueOf(Quick.select(runTimes.toArray(new Long[0]), i));
+    /**
+     * Calculate percentile for a long array
+     *
+     * @param array the long array
+     * @param i     the ith smallest value of the array
+     * @return the ith smallest value of the array
+     */
+    private String percentile(ArrayList<Long> array, int i) {
+        return String.valueOf(Quick.select(array.toArray(new Long[0]), i));
     }
 
     public static void main(String[] args) {
-        SymbolTablePerformanceTester tester = new SymbolTablePerformanceTester("rbt", 100000);
-        Map<String, Map<String, ?>> result = tester.testPutDelete(1000);
-        for(Map.Entry<String, ?> e : result.get("statistics").entrySet()) {
-            System.out.println(e.getKey() + ": " + e.getValue().toString());
-        }
+
+        SymbolTablePerformanceTester bstTester = new SymbolTablePerformanceTester("bst", 1_000_000);
+        bstTester.testPutDelete(2_000_000);
+        bstTester.testGet(1_000_000);
+        System.out.println(bstTester);
+        gc();
+
+        SymbolTablePerformanceTester rbtTester = new SymbolTablePerformanceTester("rbt", 1_000_000);
+        rbtTester.testPutDelete(2_000_000);
+        rbtTester.testGet(1_000_000);
+        System.out.println(rbtTester);
+        gc();
+
+        SymbolTablePerformanceTester avlTester = new SymbolTablePerformanceTester("avl", 1_000_000);
+        avlTester.testPutDelete(2_000_000);
+        avlTester.testGet(1_000_000);
+        System.out.println(avlTester);
+        gc();
+
+        SymbolTablePerformanceTester javaTester = new SymbolTablePerformanceTester("java", 1_000_000);
+        javaTester.testPutDelete(2_000_000);
+        javaTester.testGet(1_000_000);
+        System.out.println(javaTester);
+        gc();
     }
 }
