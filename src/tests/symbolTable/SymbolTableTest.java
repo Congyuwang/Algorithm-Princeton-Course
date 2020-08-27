@@ -20,8 +20,8 @@ public class SymbolTableTest {
                 String tableType = scanner.next();
                 SymbolTable<String, Integer> table = TableChooser.symbolTable(tableType);
                 switch (type) {
-                    case "read" -> test = countWords("data/shorterShakespeare.txt", tableType, 4, table);
-                    case "readAll" -> test = countWords("data/shakespeare.txt", tableType, 4, table);
+                    case "read" -> test = countWords("data/shorterShakespeare.txt", 4, table);
+                    case "readAll" -> test = countWords("data/shakespeare.txt", 4, table);
                     case "input" -> test = table;
                     default -> throw new IllegalStateException("Unexpected value: " + type);
                 }

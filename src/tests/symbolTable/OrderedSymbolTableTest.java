@@ -23,9 +23,9 @@ public class OrderedSymbolTableTest {
                 OrderedSymbolTable<String, Integer> table = TableChooser.orderedSymbolTable(tableType);
                 switch (type) {
                     case "read" -> test = FrequencyCounter
-                            .countWords("data/shorterShakespeare.txt", tableType, 4, table);
+                            .countWords("data/shorterShakespeare.txt", 4, table);
                     case "readAll" -> test = FrequencyCounter
-                            .countWords("data/shakespeare.txt", tableType, 4, table);
+                            .countWords("data/shakespeare.txt", 4, table);
                     case "input" -> test = table;
                     default -> throw new IllegalStateException("Unexpected value: " + type);
                 }

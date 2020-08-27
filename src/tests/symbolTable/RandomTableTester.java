@@ -4,6 +4,9 @@ import princeton.algo.symbolTable.OrderedSymbolTable;
 
 import java.util.Random;
 
+/**
+ * Test symbolTable operations correctness.
+ */
 public class RandomTableTester {
 
     private static final Random random = new Random();

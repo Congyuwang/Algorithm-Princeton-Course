@@ -47,10 +47,9 @@ public class FrequencyCounter {
      * Count the number of occurrences for each words
      *
      * @param inputFile enter an input file containing many english words
-     * @param name      the name of the symbol table implementation to be tested
      * @throws FileNotFoundException if the file path is incorrect
      */
-    public static <T extends SymbolTable<String, Integer>> T countWords(String inputFile, String name, int min_length, T table)
+    public static <T extends SymbolTable<String, Integer>> T countWords(String inputFile, int min_length, T table)
             throws FileNotFoundException {
         if (table == null) throw new NullPointerException("null table");
         Scanner scanner = new Scanner(new File(inputFile));
