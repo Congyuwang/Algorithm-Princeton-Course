@@ -1,6 +1,8 @@
 # Algorithm-Princeton-Course
 
-This repository contains my solutions to princeton's algorithm open course taught by Robert Sedgewick and Kevin Wayne.
+This repository contains a library of algorithm and data structure in java based on Sedgewick's course on algorithms.
+
+It also contains solutions to course assignments and interview questions.
 
 The source file folder is src.
 The project is structured according to the topics of the lectures.
