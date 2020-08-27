@@ -9,10 +9,14 @@ public class TableChooser {
      * @param name the name of the symbol table implementation to be tested
      * @return a new and empty symbolTable with the named implementation
      */
-    public static <K, V> SymbolTable<K, V> symbolTable(String name) {
+    public static <K extends Comparable<? super K>, V> SymbolTable<K, V> symbolTable(String name) {
         return switch (name) {
             case "ss" -> new SequentialSearchST<>();
             case "hs" -> null; // hashTable
+            case "bs" -> new BinarySearchST<>();
+            case "bst" -> new BinarySearchTree<>();
+            case "rbt" -> new RedBlackTree<>();
+            case "avl" -> new AVLTree<>();
             default -> null;
         };
     }
