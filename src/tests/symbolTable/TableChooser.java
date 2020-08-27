@@ -17,6 +17,7 @@ public class TableChooser {
             case "bst" -> new BinarySearchTree<>();
             case "rbt" -> new RedBlackTree<>();
             case "avl" -> new AVLTree<>();
+            case "java" -> new JavaTreeMapWrapper<>();
             default -> null;
         };
     }
