@@ -26,11 +26,11 @@ public class KdTree {
         if (query == null) throw new IllegalArgumentException();
         var minDistance = new Double[] {Double.POSITIVE_INFINITY};
         var nearest = new Point2D[] {root.point};
-        nearest(query, root, minDistance, nearest, false);
+        nearest(query, root, minDistance, nearest, null);
         return nearest[0];
     }
 
-    private void nearest(Point2D query, Node subTree, Double[] minDistance, Point2D[] nearest, boolean prune) {
+    private void nearest(Point2D query, Node subTree, Double[] minDistance, Point2D[] nearest, Point2D parent) {
         if (subTree.point == null) return;
         double firstDistance = subTree.point.distanceSquaredTo(query);
         if (firstDistance < minDistance[0]) {
@@ -38,49 +38,34 @@ public class KdTree {
             minDistance[0] = firstDistance;
         }
 
-//        Debug Code:
-//        System.out.printf("p: %s\n", subTree.point);
-//        System.out.printf("p-left: %s\n", subTree.left.point);
-//        System.out.printf("p-right: %s\n", subTree.right.point);
-//        System.out.printf("p-near: %s\n", nearest[0]);
-
         if (subTree.isVertical) {
             if (isLeftTo(query, subTree.point)) {
-                nearest(query, subTree.left, minDistance, nearest, false);
+                nearest(query, subTree.left, minDistance, nearest, null);
             } else {
-                nearest(query, subTree.right, minDistance, nearest, false);
+                nearest(query, subTree.right, minDistance, nearest, null);
             }
         } else {
             if (isUpperTo(query, subTree.point)) {
-                nearest(query, subTree.left, minDistance, nearest, false);
+                nearest(query, subTree.left, minDistance, nearest, null);
             } else {
-                nearest(query, subTree.right, minDistance, nearest, false);
+                nearest(query, subTree.right, minDistance, nearest, null);
             }
         }
 
-        if (prune) return;
+        // skip searching the other half if unnecessary
+        if (cornerDistanceSquared(subTree, parent, query) >= minDistance[0]) return;
 
         if (subTree.isVertical) {
-            double verticalDistance = Math.abs(query.x() - subTree.point.x());
-            if (verticalDistance * verticalDistance < minDistance[0]) {
-                if (isLeftTo(query, subTree.point)) {
-                    double cornerDistance = subTree.right.point  == null ? Double.POSITIVE_INFINITY : dist(subTree.point.x(), subTree.right.point.y(), query.x(), query.y());
-                    nearest(query, subTree.right, minDistance, nearest, cornerDistance >= minDistance[0]);
-                } else {
-                    double cornerDistance = subTree.left.point  == null ? Double.POSITIVE_INFINITY : dist(subTree.point.x(), subTree.left.point.y(), query.x(), query.y());
-                    nearest(query, subTree.left, minDistance, nearest, cornerDistance >= minDistance[0]);
-                }
+            if (isLeftTo(query, subTree.point)) {
+                nearest(query, subTree.right, minDistance, nearest, subTree.point);
+            } else {
+                nearest(query, subTree.left, minDistance, nearest, subTree.point);
             }
         } else {
-            double horizontalDistance = Math.abs(query.y() - subTree.point.y());
-            if (horizontalDistance * horizontalDistance < minDistance[0]) {
-                if (isUpperTo(query, subTree.point)) {
-                    double cornerDistance = subTree.right.point == null ? Double.POSITIVE_INFINITY : dist(subTree.right.point.x(), subTree.point.y(), query.x(), query.y());
-                    nearest(query, subTree.right, minDistance, nearest, cornerDistance >= minDistance[0]);
-                } else {
-                    double cornerDistance = subTree.left.point  == null ? Double.POSITIVE_INFINITY : dist(subTree.left.point.x(), subTree.point.y(), query.x(), query.y());
-                    nearest(query, subTree.left, minDistance, nearest, cornerDistance >= minDistance[0]);
-                }
+            if (isUpperTo(query, subTree.point)) {
+                nearest(query, subTree.right, minDistance, nearest, subTree.point);
+            } else {
+                nearest(query, subTree.left, minDistance, nearest, subTree.point);
             }
         }
     }
@@ -195,26 +180,27 @@ public class KdTree {
         return p1.y() <= p2.y();
     }
 
-    private static double dist(double x0, double y0, double x1, double y1) {
+    private static double sqDist(double x0, double y0, double x1, double y1) {
         double vDis = y0 - y1;
         double hDis = x0 - x1;
         return hDis * hDis + vDis * vDis;
     }
 
-    public static void main(String[] args) {
-        KdTree kdTree = new KdTree();
-        kdTree.insert(new Point2D(0.372, 0.497));
-        kdTree.insert(new Point2D(0.564, 0.413));
-        kdTree.insert(new Point2D(0.226, 0.577));
-        kdTree.insert(new Point2D(0.144, 0.179));
-        kdTree.insert(new Point2D(0.083, 0.51));
-        kdTree.insert(new Point2D(0.32, 0.708));
-        kdTree.insert(new Point2D(0.417, 0.362));
-        kdTree.insert(new Point2D(0.862, 0.825));
-        kdTree.insert(new Point2D(0.785, 0.725));
-        kdTree.insert(new Point2D(0.499, 0.208));
-        System.out.println(kdTree.isEmpty());
-        System.out.println(kdTree.size());
-        System.out.println(kdTree.nearest(new Point2D(0.52, 0.76)));
+    private static double cornerDistanceSquared(Node subTree, Point2D parent, Point2D query) {
+        if (subTree.isVertical) {
+            if (parent == null) {
+                double vDistance = subTree.point.x() - query.x();
+                return vDistance * vDistance;
+            } else {
+                return sqDist(subTree.point.x(), parent.y(), query.x(), query.y());
+            }
+        } else {
+            if (parent == null) {
+                double hDistance = subTree.point.y() - query.y();
+                return hDistance * hDistance;
+            } else {
+                return sqDist(parent.x(), subTree.point.y(), query.x(), query.y());
+            }
+        }
     }
 }
